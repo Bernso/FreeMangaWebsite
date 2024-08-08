@@ -1,11 +1,57 @@
-#post-title
 import requests
 from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
 
+
 # URL of the page to scrape
-url = 'https://www.mangaread.org/manga/the-beginning-after-the-end/chapter-1-the-end-of-the-tunnel/'
+url = 'https://www.mangaread.org/manga/the-beginning-after-the-end/'  # Replace with the actual URL
+
+def print_links_in_reverse_order(url):
+    # Headers to mimic a browser request
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
+    }
+
+    # Make a request to the webpage
+    response = requests.get(url, headers=headers)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Find the div with the specific class
+        div = soup.find('div', class_='listing-chapters_wrap cols-1 show-more')
+        
+        # If the div exists, find all links within it
+        if div:
+            links = div.find_all('a', href=True)  # Find all 'a' tags with 'href' attributes
+            link_urls = [a['href'] for a in links]  # Extract the href attribute from each link
+            # post-title
+            # h1
+            
+            
+            # Reverse the order of the links
+            link_urls.reverse()
+            
+            # Print each link URL
+            for link in link_urls:
+                print(link)
+                
+                
+        div = soup.find('div', class_='post-title')
+        if div:
+            title = div.find('h1').text.strip()
+            print(title)
+            
+            return link_urls, title
+        else:
+            print("The specified div was not found in the HTML.")
+    else:
+        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+
+
 
 
 def webScrape(url):
@@ -27,7 +73,7 @@ def webScrape(url):
         
         # If the container exists, find all image tags inside it
         if container:
-            img_tags = container.find_all('h1')
+            img_tags = container.find_all('img')
             
             # Directory to save images
             os.makedirs('downloaded_images', exist_ok=True)
@@ -66,3 +112,9 @@ def webScrape(url):
             print("The specified class was not found in the HTML.")
     else:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+
+links = print_links_in_reverse_order(url)
+
+#for link in links:
+#    webScrape(link)
+
