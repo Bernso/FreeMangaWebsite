@@ -196,3 +196,60 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
 }
+
+/* Manga Cover Image */
+.manga-cover {
+    max-width: 100%;
+    height: auto;
+    max-height: 350px;
+    max-width: 350px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Chapter Links */
+.chapter-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.chapter-link {
+    display: block;
+    padding: 10px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--link-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.chapter-link:hover {
+    background-color: var(--hover-color);
+    color: var(--link-hover-color);
+}
+
+/* Recommended Manga Section */
+.recommended-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.recommended-card {
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    width: 200px; /* Adjust width as needed */
+}
+
+.recommended-cover {
+    max-width: 150px; /* Adjust image size */
+    height: auto;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+}

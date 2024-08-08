@@ -118,15 +118,36 @@ def contact():
 
 
 
-# Route for manga detail page
+def get_chapters_for_manga(manga_title):
+    chapters = []
+    chapters_path = os.path.join(MANGA_DIR, manga_title, 'Chapters')
+    
+    if os.path.isdir(chapters_path):
+        for chapter_name in os.listdir(chapters_path):
+            chapter_path = os.path.join(chapters_path, chapter_name)
+            if os.path.isdir(chapter_path):
+                chapters.append({'title': chapter_name})
+
+        # Sort chapters numerically if they follow a pattern like "Chapter 1", "Chapter 2", etc.
+        chapters.sort(key=lambda x: int(re.findall(r'\d+', x['title'])[0]) if re.findall(r'\d+', x['title']) else 0)
+                
+    return chapters
+
+
+
+
 @app.route("/manga/<int:manga_id>")
 def manga_detail(manga_id):
     featured_manga = get_featured_manga()
     manga = next((m for m in featured_manga if m['id'] == str(manga_id)), None)
+    
     if manga:
-        return render_template('manga_detail.html', manga=manga)
+        chapters = get_chapters_for_manga(manga['title'])
+        return render_template('manga_detail.html', manga=manga, chapters=chapters)
     else:
         return "Manga not found", 404
+
+
 
 
 
@@ -146,10 +167,9 @@ def chapter_detail(manga_title, chapterName):
 
 
 @app.route('/images/<manga_title>/<chapterName>/<filename>')
-def get_image(manga_title, chapterName, filename):
+def get_image(manga_title, filename, chapterName):
     image_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
     return send_from_directory(image_dir, filename)
-
 
 
 

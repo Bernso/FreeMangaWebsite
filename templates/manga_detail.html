@@ -6,7 +6,6 @@
     <title>{{ manga.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
-
 </head>
 <body>
     <header>
@@ -23,14 +22,16 @@
     <main>
         <section id="manga-details">
             <h1>{{ manga.title }}</h1>
-            <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
+            <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}" class="manga-cover">
             <p>{{ manga.description }}</p>
+            
             <h2>Chapters</h2>
             <div class="chapter-scroll">
-                {% for chapter in manga.chapters %}
-                <a href="{{ url_for('chapter_detail', manga_id=manga.id, chapter_id=chapter.id) }}" class="chapter-link">{{ chapter.title }}</a>
+                {% for chapter in chapters %}
+                <a href="{{ url_for('chapter_detail', manga_title=manga.title, chapterName=chapter.title) }}" class="chapter-link">{{ chapter.title }}</a>
                 {% endfor %}
             </div>
+            
             <h2>Recommended Manga</h2>
             <div class="recommended-scroll">
                 {% for recommended in recommended_manga %}
