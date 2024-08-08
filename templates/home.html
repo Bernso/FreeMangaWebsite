@@ -22,7 +22,7 @@
     <main>
         <section id="featured">
             <h1>Featured Manga</h1>
-            <div>
+            <div class="manga-scroll">
                 {% for manga in featured_manga %}
                 <div class="manga-card">
                     <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
@@ -32,10 +32,9 @@
                 </div>
                 {% endfor %}
             </div>
-            
         </section>
     </main>
 
-   
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

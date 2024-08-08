@@ -17,28 +17,33 @@
     --border-radius: 5px;
     --actual-background: #0d0d0d;
     --m: #86fcf23f;
+    --header-bg: #0f2a54;
+    --body-bg: #0a1e3c;
+    --card-bg: #142f56;
+    --link-color: #7fbcff;
+    --link-hover-color: #b5dfff;
+    --header-height: 60px;
 }
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #0a1e3c;
-    color: #fff;
+    background-color: var(--body-bg);
+    color: var(--text-color);
     overflow-x: hidden;
 }
 
 /* Header */
 header {
-    background-color: #0f2a54;
+    background-color: var(--header-bg);
     padding: 15px 30px;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    height: 60px; /* Adjust height as needed */
+    box-shadow: var(--box-shadow);
+    height: var(--header-height); /* Adjust height as needed */
 }
 
-/* Adjust the height of the header */
 nav ul {
     list-style: none;
     display: flex;
@@ -49,23 +54,23 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: #fff;
+    color: var(--text-color);
     font-size: 1.2em;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #7fbcff;
+    color: var(--link-color);
     transform: scale(1.1);
 }
 
 nav ul li a:active {
-    color: #b5dfff;
+    color: var(--link-hover-color);
 }
 
 /* Main Content */
 main {
-    padding-top: 100px; /* Adjust padding to match header height */
+    padding-top: calc(var(--header-height) + 40px);
     padding: 30px;
     max-width: 1200px;
     margin: 0 auto;
@@ -80,33 +85,47 @@ h1 {
     animation: slideIn 1.5s ease-in-out;
 }
 
-/* Manga Grid */
-.manga-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+/* Manga Scroll */
+.manga-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    background-color: var(--background-dark);
     gap: 20px;
 }
 
+.manga-scroll::-webkit-scrollbar {
+    display: none;
+}
+
 .manga-card {
-    background-color: #142f56;
+    min-width: 300px;
+    background-color: var(--card-bg);
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .manga-card img {
-    max-width: 150px; /* Set max width to 100px */
-    max-height: 150px; /* Set max height to 100px */
-    border-radius: 5px;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: var(--border-radius);
     margin-bottom: 15px;
 }
 
 .manga-card h2 {
-    font-size: 1.2em;
+    font-size: 1.5em;
     margin-top: 10px;
     transition: color 0.3s ease;
+}
+
+.manga-card p {
+    font-size: 1em;
+    margin: 10px 0;
 }
 
 .manga-card:hover {
@@ -115,13 +134,24 @@ h1 {
 }
 
 .manga-card:hover h2 {
-    color: #7fbcff;
+    color: var(--link-color);
 }
 
 .manga-card a {
-    color: #7fbcff;
+    display: inline-block;
+    color: var(--link-color);
+    background-color: var(--background-dark);
     text-decoration: none;
-    transition: color 0.3s ease;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    transition: color 0.3s ease, background-color 0.3s ease;
+    box-shadow: var(--box-shadow);
+    margin-top: 15px;
+}
+
+.manga-card a:hover {
+    background-color: var(--hover-color);
+    color: var(--link-hover-color);
 }
 
 /* Animations */
