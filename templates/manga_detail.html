@@ -4,11 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ manga.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>{{ manga.title }}</h1>
-    <img src="{{ manga.cover_image }}" alt="{{ manga.title }}">
-    <p>{{ manga.description }}</p>
-    <a href="{{ url_for('homePage') }}">Back to Home</a>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('homePage') }}">Home</a></li>
+                <li><a href="{{ url_for('manga_list') }}">Manga</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main></main>
+    <main>
+        <section id="manga-details">
+            <h1>{{ manga.title }}</h1>
+            <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
+            <p>{{ manga.description }}</p>
+            <h2>Chapters</h2>
+            <div class="chapter-scroll">
+                {% for chapter in manga.chapters %}
+                <a href="{{ url_for('chapter_detail', manga_id=manga.id, chapter_id=chapter.id) }}" class="chapter-link">{{ chapter.title }}</a>
+                {% endfor %}
+            </div>
+            <h2>Recommended Manga</h2>
+            <div class="recommended-scroll">
+                {% for recommended in recommended_manga %}
+                <div class="recommended-card">
+                    <img src="{{ url_for('serve_image', manga_title=recommended.title) }}" alt="{{ recommended.title }}" class="recommended-cover">
+                    <h3>{{ recommended.title }}</h3>
+                    <a href="{{ url_for('manga_detail', manga_id=recommended.id) }}">View Details</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    <footer>
+        <a href="{{ url_for('homePage') }}">Back to Home</a>
+    </footer>
 </body>
 </html>

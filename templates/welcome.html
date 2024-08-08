@@ -24,15 +24,16 @@
             <h1>Welcome to Manga Reader</h1>
             <div class="manga-scroll">
                 {% for manga in featured_manga %}
-                
+                {% for manga in featured_manga %}
                     <img style='max-height: 100px; max-width: 150px; border-radius: 5px;' src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
                 
                 {% endfor %}
+                {% endfor %}
             </div>
-            
+            <a href='/home' class='welcome-link'> Start Exploring </a>
         </section>
     </main>
 
-    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 // script.js
 document.addEventListener("DOMContentLoaded", function() {
     const scrollContainer = document.querySelector('.manga-scroll');
+    
     let isScrolling = true;
     let scrollDirection = 1; // 1 for right, -1 for left
 

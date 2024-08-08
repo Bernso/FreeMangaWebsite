@@ -32,6 +32,12 @@ body {
     overflow-x: hidden;
 }
 
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
 /* Header */
 header {
     background-color: var(--header-bg);
@@ -101,9 +107,9 @@ h1 {
 }
 
 .manga-card {
-    min-width: 300px;
+    min-width: 250px; /* Adjust width as needed */
     background-color: var(--card-bg);
-    padding: 20px;
+    padding: 15px; /* Adjust padding as needed */
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     text-align: center;
@@ -111,25 +117,25 @@ h1 {
 }
 
 .manga-card img {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 100px; /* Adjust image size to an appropriate size */
+    max-height: 100px; /* Adjust image size to an appropriate size */
     border-radius: var(--border-radius);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .manga-card h2 {
-    font-size: 1.5em;
-    margin-top: 10px;
+    font-size: 1.3em; /* Adjust font size as needed */
+    margin-top: 5px;
     transition: color 0.3s ease;
 }
 
 .manga-card p {
-    font-size: 1em;
-    margin: 10px 0;
+    font-size: 0.9em; /* Adjust font size as needed */
+    margin: 5px 0;
 }
 
 .manga-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
 }
 
@@ -142,11 +148,11 @@ h1 {
     color: var(--link-color);
     background-color: var(--background-dark);
     text-decoration: none;
-    padding: 10px 15px;
+    padding: 8px 12px; /* Adjust padding as needed */
     border-radius: var(--border-radius);
     transition: color 0.3s ease, background-color 0.3s ease;
     box-shadow: var(--box-shadow);
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .manga-card a:hover {
@@ -163,4 +169,9 @@ h1 {
 @keyframes slideIn {
     from { transform: translateY(-50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+img {
+    max-width: 150px;
+    max-height: 150px;
 }
