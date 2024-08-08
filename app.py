@@ -127,11 +127,15 @@ def manga_detail(manga_id):
 # Route for serving cover images
 @app.route("/cover/<manga_title>")
 def serve_image(manga_title):
-    image_path = os.path.join(MANGA_DIR, manga_title, 'cover_image.jpg')
-    if os.path.exists(image_path):
-        return send_from_directory(os.path.join(MANGA_DIR, manga_title), 'cover_image.jpg')
-    else:
-        return abort(404)
+    possible_extensions = ['jpg', 'jpeg', 'gif']
+    
+    # Check for each extension if the file exists
+    for ext in possible_extensions:
+        image_path = os.path.join(MANGA_DIR, manga_title, f'cover_image.{ext}')
+        if os.path.exists(image_path):
+            return send_from_directory(os.path.join(MANGA_DIR, manga_title), f'cover_image.{ext}')
+    
+    return abort(404)
 
 
 

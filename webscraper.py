@@ -42,7 +42,7 @@ def print_links_in_reverse_order(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
     }
-
+    
     # Make a request to the webpage
     response = requests.get(url, headers=headers)
 
@@ -77,7 +77,7 @@ def print_links_in_reverse_order(url):
             print(title)
         else:
             print("The specified div was not found in the HTML.")
-            
+        os.makedirs(f'manga/{title}', exist_ok=True)
             
         div = soup.find('div', class_='summary_image')
         if div:
@@ -117,7 +117,7 @@ def print_links_in_reverse_order(url):
         
         
         
-        os.makedirs(f'manga/{title}', exist_ok=True)
+        
         mainPath = f'manga/{title}'
 
                     # Making the description category
