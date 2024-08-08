@@ -33,8 +33,14 @@ app = Flask(__name__)
 currentPath = os.getcwd()
 
 @app.route("/")
+def welcomePage():
+    return render_template('welcome.html')
+
+@app.route("/home")
 def homePage():
-    return render_template('index.html')
+    return render_template('home.html')
+
+
 
 if __name__ == '__main__':
     try:
