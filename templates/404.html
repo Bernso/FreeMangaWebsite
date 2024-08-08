@@ -17,22 +17,15 @@
             </ul>
         </nav>
     </header>
+    <main></main>
+
     <main>
-    </main>
-    <main>
-        <section id="featured">
-            <h1>Welcome to Manga Reader</h1>
-            <div class="manga-scroll">
-                {% for manga in featured_manga %}
-                
-                    <img style='max-height: 100px; max-width: 150px; border-radius: 5px;' src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
-                
-                {% endfor %}
-            </div>
-            
-        </section>
+        <div class="manga-card">
+            <h2>Error</h2>
+            <p>{{ Error }}</p>
+        </div>
     </main>
 
-    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

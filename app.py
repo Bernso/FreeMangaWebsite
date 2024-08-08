@@ -80,10 +80,13 @@ def get_featured_manga():
 
 @app.route("/")
 def welcomePage():
-    return render_template('welcome.html')
+    featured_manga = get_featured_manga()
+    return render_template('welcome.html', featured_manga=featured_manga)
 
 
-
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', error=e), 404
 
 @app.route("/home")
 def homePage():
