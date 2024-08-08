@@ -185,14 +185,12 @@ h1 {
 .tower {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0px;
     align-items: center;
 }
 .tower img {
     max-width: 100%; 
-    height: auto; 
-    border: 2px solid #ddd;
-    border-radius: 5px;
+    border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
 }

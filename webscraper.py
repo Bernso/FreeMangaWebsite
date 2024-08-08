@@ -138,7 +138,45 @@ def print_links_in_reverse_order(url):
         mainPath = f'manga/{validDirName(title)}'
 
                     # Making the description category
+        
+        
+        # Find the div with the class 'post-content'
+        post_content = soup.find('div', class_='post-content')
+        
+        if post_content:
+            # Find all divs with the class 'post-content_item'
+            post_content_items = post_content.find_all('div', class_='post-content_item')
 
+            # Initialize the 'type' variable
+            type_value = None
+
+            # Iterate over all 'post-content_item' divs
+            for item in post_content_items:
+                # Find all divs with the class 'summary-heading'
+                summary_headings = item.find_all('div', class_='summary-heading')
+
+                for heading in summary_headings:
+                    # Find the h5 tag inside 'summary-heading'
+                    h5_tag = heading.find('h5')
+
+                    # Check if the h5 tag text is 'Type'
+                    if h5_tag and h5_tag.text.strip() == 'Type':
+                        # Find the corresponding 'summary-content' div
+                        summary_content = item.find('div', class_='summary-content')
+
+                        if summary_content:
+                            # Assign the text of 'summary-content' to the 'type' variable
+                            type_value = summary_content.text.strip()
+
+            # Print the value of 'type'
+            print('Type:', type_value)
+        else:
+            print('No div with class "post-content" found.')
+        file_path = os.path.join(mainPath, 'type.txt')
+        with open(file_path, 'w', encoding='utf-8') as typeFile:
+            typeFile.write(type_value)
+            
+            
         div = soup.find('div', class_='description-summary')
         if div:
             # Find all paragraph tags within the div
@@ -256,6 +294,5 @@ def main(url):
     
 
 if __name__ == '__main__':
-    url = input("Enter URL: ")
-    main(url)
+    main(input("Enter URL: "))
 
