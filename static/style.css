@@ -39,7 +39,7 @@ a {
 
 /* Header */
 header {
-    background-color: var(--header-bg);
+    background-color: var(--background-light);
     padding: 15px 30px;
     position: fixed;
     width: 100%;
@@ -59,7 +59,7 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--link-color);
     font-size: 1.2em;
     transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -88,7 +88,10 @@ h1 {
     margin-bottom: 30px;
     position: relative;
     animation: slideIn 1.5s ease-in-out;
+    color: var(--link-color); /* Ensure the text color is set */
+    text-shadow: 0 0 15px var(--link-color); /* Add glow effect */
 }
+
 
 /* Manga Scroll */
 .manga-scroll {
