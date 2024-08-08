@@ -178,8 +178,10 @@ def manga_detail(manga_id):
     else:
         return "Manga not found", 404
 
-
-
+def natural_sort_key(s):
+    """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
+    import re
+    return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
 
 
 
@@ -187,13 +189,31 @@ def manga_detail(manga_id):
 def chapter_detail(manga_title, chapterName):
     chapter_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
     
-    # List all images in the chapter directory
     try:
+        # Get all images in the chapter directory
         images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif)$', f, re.IGNORECASE)]
-        return render_template('manhwaContent.html', images=images, manga_title=manga_title, chapterName=chapterName)
+        
+        # Get and sort chapters for the manga
+        chapters = get_chapters_for_manga(manga_title)
+        chapters.sort(key=lambda x: natural_sort_key(x['title']))  # Sort using natural_sort_key
+        
+        # Find the current chapter's index
+        current_index = next((i for i, chapter in enumerate(chapters) if chapter['title'] == chapterName), -1)
+        
+        # Determine the next chapter
+        if current_index != -1 and current_index + 1 < len(chapters):
+            next_chapter = chapters[current_index + 1]['title']
+        else:
+            next_chapter = None
+        
+        # Debugging output
+        print(f"Current Chapter: {chapterName}")
+        print(f"Next Chapter: {next_chapter}")
+        
+        return render_template('manhwaContent.html', images=images, manga_title=manga_title, chapterName=chapterName, next_chapter=next_chapter)
+    
     except FileNotFoundError:
         return "Chapter not found", 404
-
 
 
 

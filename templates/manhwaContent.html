@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ manga_title }} - {{ chapter_id }}</title>
+    <title>{{ manga_title }} - {{ chapterName }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
 </head>
@@ -26,6 +26,19 @@
                 <img src="{{ url_for('get_image', manga_title=manga_title, chapterName=chapterName, filename=image) }}" alt="{{ image }}">
             {% endfor %}
         </div>
+
+        <!-- Next Chapter Button -->
+        {% if next_chapter %}
+        <div class="next-chapter-container">
+            <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" class="next-chapter-button">
+                Next Chapter: {{ next_chapter }}
+            </a>
+        </div>
+        {% else %}
+        <div class="next-chapter-container">
+            <p>No more chapters available.</p>
+        </div>
+        {% endif %}
     </main>
 </body>
 </html>

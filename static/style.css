@@ -251,3 +251,35 @@ h1 {
     border-radius: var(--border-radius);
     margin-bottom: 10px;
 }
+
+
+/* Next Chapter Button Styles */
+.next-chapter-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.next-chapter-button {
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: var(--link-color);
+    color: var(--background-dark);
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.next-chapter-button:hover {
+    background-color: var(--hover-color);
+    color: var(--link-hover-color);
+    transform: scale(1.05);
+}
+
+.next-chapter-button:active {
+    background-color: var(--link-hover-color);
+    color: var(--background-dark);
+    transform: scale(0.98);
+}
