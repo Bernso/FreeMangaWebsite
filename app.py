@@ -59,6 +59,10 @@ def get_featured_manga():
                 with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
                     description = f.read().strip()
 
+                # Truncate description to 50 characters if necessary
+                if len(description) > 50:
+                    description = description[:47] + '...'
+
                 # Create a dictionary with the manga data
                 manga_data = {
                     'id': manga_id,
@@ -71,6 +75,9 @@ def get_featured_manga():
                 print(f"Error reading manga data from {manga_folder}: {e}")
 
     return featured_manga
+
+
+
 
 # Route for the welcome page
 @app.route("/")

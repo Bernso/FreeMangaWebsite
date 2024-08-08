@@ -3,6 +3,7 @@ try:
     from bs4 import BeautifulSoup
     import os
     from urllib.parse import urljoin
+    import re
 except ImportError as e:
     print(f"Import Error: {e}")
 
@@ -13,7 +14,23 @@ except ImportError as e:
 # https://www.mangaread.org/manga/the-beginning-after-the-end/
 
 
-
+def validDirName(text):
+    # Replace invalid characters with underscores
+    text = re.sub(r'[<>:"/\\|?*]', '_', text)
+    
+    # Trim leading and trailing spaces
+    text = text.strip()
+    
+    # Ensure directory name is not empty
+    if not text:
+        text = "default_directory"
+    
+    # Optionally, you can limit the length of the directory name
+    max_length = 255
+    if len(text) > max_length:
+        text = text[:max_length]
+    
+    return text
 
 def count_directories():
     try:
@@ -77,7 +94,7 @@ def print_links_in_reverse_order(url):
             print(title)
         else:
             print("The specified div was not found in the HTML.")
-        os.makedirs(f'manga/{title}', exist_ok=True)
+        os.makedirs(f'manga/{validDirName(title)}', exist_ok=True)
             
         div = soup.find('div', class_='summary_image')
         if div:
@@ -95,7 +112,7 @@ def print_links_in_reverse_order(url):
                     if img_response.status_code == 200:
                         # Get the image file name and extension
                         img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
-                        img_name = os.path.join(f'manga/{title}', f'cover_image{img_extension}')
+                        img_name = os.path.join(f'manga/{validDirName(title)}', f'cover_image{img_extension}')
                         
                         # Open a file for writing the binary data
                         with open(img_name, 'wb') as handler:
@@ -118,7 +135,7 @@ def print_links_in_reverse_order(url):
         
         
         
-        mainPath = f'manga/{title}'
+        mainPath = f'manga/{validDirName(title)}'
 
                     # Making the description category
 
@@ -174,7 +191,7 @@ def webScrape(url, title):
         # Find the container with the specific class
         container = soup.find(class_='reading-content')
         
-        os.makedirs(f'manga/{title}/Chapters', exist_ok=True)
+        os.makedirs(f'manga/{validDirName(title)}/Chapters', exist_ok=True)
         
         
         
@@ -185,7 +202,7 @@ def webScrape(url, title):
                 chapterName = chapterName[len(title)+3:]
             print(chapterName)
         
-        if os.path.exists(f"manga/{title}/Chapters/{chapterName}"):
+        if os.path.exists(f"manga/{validDirName(title)}/Chapters/{chapterName}"):
             print(f"Chapter {chapterName} already exists.")
             return
         
@@ -194,7 +211,7 @@ def webScrape(url, title):
             img_tags = container.find_all('img')
             
             # Directory to save images
-            os.makedirs(f'manga/{title}/Chapters/{chapterName}', exist_ok=True)
+            os.makedirs(f'manga/{validDirName(title)}/Chapters/{chapterName}', exist_ok=True)
             
             # Loop through all img tags and download the images
             for i, img in enumerate(img_tags, start=1):
@@ -214,7 +231,7 @@ def webScrape(url, title):
                     if img_response.status_code == 200:
                         # Get the image file name and extension
                         img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
-                        img_name = os.path.join(f'manga/{title}/Chapters/{chapterName}', f'image_{i}{img_extension}')
+                        img_name = os.path.join(f'manga/{validDirName(title)}/Chapters/{chapterName}', f'image_{i}{img_extension}')
                         
                         # Open a file for writing the binary data
                         with open(img_name, 'wb') as handler:
