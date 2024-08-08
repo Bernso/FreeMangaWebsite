@@ -131,6 +131,29 @@ def manga_detail(manga_id):
 
 
 
+@app.route('/manga/<manga_title>/chapter/<chapterName>')
+def chapter_detail(manga_title, chapterName):
+    chapter_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
+    
+    # List all images in the chapter directory
+    try:
+        images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif)$', f, re.IGNORECASE)]
+        return render_template('manhwaContent.html', images=images, manga_title=manga_title, chapterName=chapterName)
+    except FileNotFoundError:
+        return "Chapter not found", 404
+
+
+
+
+@app.route('/images/<manga_title>/<chapterName>/<filename>')
+def get_image(manga_title, chapterName, filename):
+    image_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
+    return send_from_directory(image_dir, filename)
+
+
+
+
+
 # Route for serving cover images
 @app.route("/cover/<manga_title>")
 def serve_image(manga_title):
