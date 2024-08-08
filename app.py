@@ -59,9 +59,7 @@ def get_featured_manga():
                 with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
                     description = f.read().strip()
 
-                # Truncate description to 50 characters if necessary
-                if len(description) > 50:
-                    description = description[:47] + '...'
+                
 
                 # Create a dictionary with the manga data
                 manga_data = {
@@ -78,6 +76,39 @@ def get_featured_manga():
 
 
 
+def get_featured_mangaTruncated():
+    featured_manga = []
+
+    # Iterate over each folder in the MANGA_DIR
+    for manga_folder in os.listdir(MANGA_DIR):
+        manga_path = os.path.join(MANGA_DIR, manga_folder)
+
+        if os.path.isdir(manga_path):
+            try:
+                # Read the id, description, and cover image
+                with open(os.path.join(manga_path, 'id.txt'), 'r') as f:
+                    manga_id = f.read().strip()
+                with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
+                    description = f.read().strip()
+
+                if len(description) > 50:
+                    description = description[:47] + '...'
+
+
+                # Create a dictionary with the manga data
+                manga_data = {
+                    'id': manga_id,
+                    'title': manga_folder,
+                    'description': description
+                }
+
+                featured_manga.append(manga_data)
+            except Exception as e:
+                print(f"Error reading manga data from {manga_folder}: {e}")
+
+    return featured_manga
+
+
 
 # Route for the welcome page
 @app.route("/")
@@ -91,7 +122,7 @@ def welcomePage():
 # Route for the home page
 @app.route("/home")
 def homePage():
-    featured_manga = get_featured_manga()
+    featured_manga = get_featured_mangaTruncated()
     return render_template('home.html', featured_manga=featured_manga)
 
 
