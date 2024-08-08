@@ -17,11 +17,21 @@
             </ul>
         </nav>
     </header>
+    <main></main>
 
     <main>
         <section id="featured">
             <h1>Featured Manga</h1>
-            
+            <div>
+                {% for manga in featured_manga %}
+                <div class="manga-card">
+                    <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
+                    <h2>{{ manga.title }}</h2>
+                    <p>{{ manga.description }}</p>
+                    <a href="{{ url_for('manga_detail', manga_id=manga.id) }}">Read More</a>
+                </div>
+                {% endfor %}
+            </div>
             
         </section>
     </main>

@@ -7,8 +7,8 @@
 
 /* CSS Variables */
 :root {
-    --primary-color: #BB86FC;
-    --hover-color: #8725ff;
+    --primary-color: #86fcf2;
+    --hover-color: #86fcf277;
     --background-dark: #1a1a1a;
     --background-light: #111111;
     --text-color: #e0e0e0;
@@ -16,7 +16,7 @@
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     --border-radius: 5px;
     --actual-background: #0d0d0d;
-    --m: #3b008d;
+    --m: #86fcf23f;
 }
 
 body {
@@ -97,7 +97,8 @@ h1 {
 }
 
 .manga-card img {
-    max-width: 100%;
+    max-width: 150px; /* Set max width to 100px */
+    max-height: 150px; /* Set max height to 100px */
     border-radius: 5px;
     margin-bottom: 15px;
 }
@@ -115,6 +116,12 @@ h1 {
 
 .manga-card:hover h2 {
     color: #7fbcff;
+}
+
+.manga-card a {
+    color: #7fbcff;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 /* Animations */

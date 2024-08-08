@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ manga.title }}</title>
+</head>
+<body>
+    <h1>{{ manga.title }}</h1>
+    <img src="{{ manga.cover_image }}" alt="{{ manga.title }}">
+    <p>{{ manga.description }}</p>
+    <a href="{{ url_for('homePage') }}">Back to Home</a>
+</body>
+</html>
