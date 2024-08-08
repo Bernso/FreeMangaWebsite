@@ -16,7 +16,7 @@ except ImportError as e:
 
 def validDirName(text):
     # Replace invalid characters with underscores
-    text = re.sub(r'[<>:"/\\|?*]', '_', text)
+    text = re.sub(r'[<>:"/\\|?*]', '', text)
     
     # Trim leading and trailing spaces
     text = text.strip()

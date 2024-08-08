@@ -108,6 +108,7 @@ h1 {
 
 .manga-card {
     min-width: 250px; /* Adjust width as needed */
+    max-height: 285px;
     background-color: var(--card-bg);
     padding: 15px; /* Adjust padding as needed */
     border-radius: var(--border-radius);
