@@ -202,7 +202,7 @@ def webScrape(url, title):
                 chapterName = chapterName[len(title)+3:]
             print(chapterName)
         
-        if os.path.exists(f"manga/{validDirName(title)}/Chapters/{chapterName}"):
+        if os.path.exists(f"manga/{validDirName(title)}/Chapters/{validDirName(chapterName)}"):
             print(f"Chapter {chapterName} already exists.")
             return
         
@@ -211,7 +211,7 @@ def webScrape(url, title):
             img_tags = container.find_all('img')
             
             # Directory to save images
-            os.makedirs(f'manga/{validDirName(title)}/Chapters/{chapterName}', exist_ok=True)
+            os.makedirs(f'manga/{validDirName(title)}/Chapters/{validDirName(chapterName)}', exist_ok=True)
             
             # Loop through all img tags and download the images
             for i, img in enumerate(img_tags, start=1):
@@ -231,7 +231,7 @@ def webScrape(url, title):
                     if img_response.status_code == 200:
                         # Get the image file name and extension
                         img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
-                        img_name = os.path.join(f'manga/{validDirName(title)}/Chapters/{chapterName}', f'image_{i}{img_extension}')
+                        img_name = os.path.join(f'manga/{validDirName(title)}/Chapters/{validDirName(chapterName)}', f'image_{i}{img_extension}')
                         
                         # Open a file for writing the binary data
                         with open(img_name, 'wb') as handler:
