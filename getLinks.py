@@ -120,12 +120,30 @@ def print_links_in_reverse_order(url):
         os.makedirs(f'manga/{title}', exist_ok=True)
         mainPath = f'manga/{title}'
 
-        description = "summary__content show-more active" ##############DOOOO THISSS
-        # Making the description category
-        with open(f'{mainPath}/description.txt', 'w+') as descFile:
-            descFile.write(description)
+                    # Making the description category
 
+        div = soup.find('div', class_='description-summary')
+        if div:
+            # Find all paragraph tags within the div
+            paragraphs = div.find_all('p')
 
+            # Extract the text from each paragraph and join them together with two new lines between paragraphs
+            content = '\n\n'.join([p.get_text(strip=True) for p in paragraphs])
+            
+            # Print the content to the console
+            print(content)
+
+            # Create the directory if it does not exist
+            os.makedirs(mainPath, exist_ok=True)
+
+            # Write the content to a text file
+            file_path = os.path.join(mainPath, 'description.txt')
+            with open(file_path, 'w', encoding='utf-8') as descFile:
+                descFile.write(content)
+            
+        else:
+            print("The specified div was not found in the HTML.")
+        
         # making id file
         with open(f'{mainPath}/id.txt', 'w+') as id_file:
             id_file.write(count_directories())
