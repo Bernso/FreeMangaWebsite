@@ -1,11 +1,41 @@
-import requests
-from bs4 import BeautifulSoup
-import os
-from urllib.parse import urljoin
+try:
+    import requests
+    from bs4 import BeautifulSoup
+    import os
+    from urllib.parse import urljoin
+except ImportError as e:
+    print(f"Import Error: {e}")
+
+
 
 
 # URL of the page to scrape
-url = 'https://www.mangaread.org/manga/the-beginning-after-the-end/'  # Replace with the actual URL
+# https://www.mangaread.org/manga/the-beginning-after-the-end/
+
+
+
+
+def count_directories():
+    try:
+        directory_path = 'manga'
+        # List all entries in the given directory
+        entries = os.listdir(directory_path)
+        
+        # Count the number of directories
+        dir_count = sum([1 for entry in entries if os.path.isdir(os.path.join(directory_path, entry))])
+        
+        print(dir_count)
+        
+        return str(dir_count)
+    except FileNotFoundError:
+        print(f"The directory {directory_path} does not exist.")
+    except PermissionError:
+        print(f"Permission denied to access the directory {directory_path}.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        
+        
+        
 
 def print_links_in_reverse_order(url):
     # Headers to mimic a browser request
@@ -28,8 +58,6 @@ def print_links_in_reverse_order(url):
         if div:
             links = div.find_all('a', href=True)  # Find all 'a' tags with 'href' attributes
             link_urls = [a['href'] for a in links]  # Extract the href attribute from each link
-            # post-title
-            # h1
             
             
             # Reverse the order of the links
@@ -38,23 +66,80 @@ def print_links_in_reverse_order(url):
             # Print each link URL
             for link in link_urls:
                 print(link)
-                
+        else:
+            print("The specified div was not found in the HTML.")
+            
+            
                 
         div = soup.find('div', class_='post-title')
         if div:
             title = div.find('h1').text.strip()
             print(title)
-            
-            return link_urls, title
         else:
             print("The specified div was not found in the HTML.")
+            
+            
+        div = soup.find('div', class_='summary_image')
+        if div:
+            img = div.find("img")
+            img_url = img.get('src')
+            img_url = urljoin(url, img_url)
+            
+            if img_url:
+                    print(f'Found image URL: {img_url}')
+                    
+                    # Download the image using stream to handle large files
+                    img_response = requests.get(img_url, headers=headers, stream=True)
+                    
+                    # Check if the request was successful
+                    if img_response.status_code == 200:
+                        # Get the image file name and extension
+                        img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
+                        img_name = os.path.join(f'manga/{title}', f'cover_image{img_extension}')
+                        
+                        # Open a file for writing the binary data
+                        with open(img_name, 'wb') as handler:
+                            # Write the image in chunks to avoid high memory usage
+                            for chunk in img_response.iter_content(chunk_size=1024):
+                                if chunk:
+                                    handler.write(chunk)
+                        
+                        print(f'Downloaded {img_name}')
+                    else:
+                        print(f'Failed to download image from {img_url}. Status code: {img_response.status_code}')
+            
+            
+            
+        else:
+            print("The specified div was not found in the HTML.")
+            
+        #summary__content show-more active
+        
+        
+        
+        os.makedirs(f'manga/{title}', exist_ok=True)
+        mainPath = f'manga/{title}'
+
+        description = "summary__content show-more active" ##############DOOOO THISSS
+        # Making the description category
+        with open(f'{mainPath}/description.txt', 'w+') as descFile:
+            descFile.write(description)
+
+
+        # making id file
+        with open(f'{mainPath}/id.txt', 'w+') as id_file:
+            id_file.write(count_directories())
+            id_file.close()
+            
+        return link_urls, title
+       
     else:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
+#summary_image
 
 
-
-def webScrape(url):
+def webScrape(url, title):
     # Headers to mimic a browser request
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
@@ -71,12 +156,27 @@ def webScrape(url):
         # Find the container with the specific class
         container = soup.find(class_='reading-content')
         
+        os.makedirs(f'manga/{title}/Chapters', exist_ok=True)
+        
+        
+        
+        chapterName = soup.find('h1', id='chapter-heading').text.strip()
+        if chapterName:
+            print(chapterName)
+            if title in chapterName:
+                chapterName = chapterName[len(title)+3:]
+            print(chapterName)
+        
+        if os.path.exists(f"manga/{title}/Chapters/{chapterName}"):
+            print(f"Chapter {chapterName} already exists.")
+            return
+        
         # If the container exists, find all image tags inside it
         if container:
             img_tags = container.find_all('img')
             
             # Directory to save images
-            os.makedirs('downloaded_images', exist_ok=True)
+            os.makedirs(f'manga/{title}/Chapters/{chapterName}', exist_ok=True)
             
             # Loop through all img tags and download the images
             for i, img in enumerate(img_tags, start=1):
@@ -96,7 +196,7 @@ def webScrape(url):
                     if img_response.status_code == 200:
                         # Get the image file name and extension
                         img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
-                        img_name = os.path.join('downloaded_images', f'image_{i}{img_extension}')
+                        img_name = os.path.join(f'manga/{title}/Chapters/{chapterName}', f'image_{i}{img_extension}')
                         
                         # Open a file for writing the binary data
                         with open(img_name, 'wb') as handler:
@@ -113,8 +213,14 @@ def webScrape(url):
     else:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
-links = print_links_in_reverse_order(url)
+def main(url):
+    links, title = print_links_in_reverse_order(url)
 
-#for link in links:
-#    webScrape(link)
+    for link in links:
+        webScrape(url=link, title=title)
+    
+
+if __name__ == '__main__':
+    url = input("Enter URL: ")
+    main(url)
 
