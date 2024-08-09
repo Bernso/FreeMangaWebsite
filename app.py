@@ -5,6 +5,7 @@ try:
     import random
     import requests
     import json
+    from natsort import natsorted
     from dotenv import load_dotenv  
 except ImportError as e:
     input(f"Error importing: {e}")
@@ -57,13 +58,15 @@ def get_featured_manga():
                 with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
                     description = f.read().strip()
 
-                
+                with open(os.path.join(manga_path, 'type.txt'), 'r') as f:
+                    manga_type = f.read().strip()
 
                 # Create a dictionary with the manga data
                 manga_data = {
                     'id': manga_id,
                     'title': manga_folder,
-                    'description': description
+                    'description': description,
+                    'type': manga_type
                 }
 
                 featured_manga.append(manga_data)
@@ -89,6 +92,9 @@ def get_featured_mangaTruncated():
                 with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
                     description = f.read().strip()
 
+                with open(os.path.join(manga_path, 'type.txt'), 'r') as f:
+                    manga_type = f.read().strip()
+
                 if len(description) > 50:
                     description = description[:47] + '...'
 
@@ -97,7 +103,8 @@ def get_featured_mangaTruncated():
                 manga_data = {
                     'id': manga_id,
                     'title': manga_folder,
-                    'description': description
+                    'description': description,
+                    'type': manga_type
                 }
 
                 featured_manga.append(manga_data)
@@ -106,7 +113,10 @@ def get_featured_mangaTruncated():
 
     return featured_manga
 
-
+def natural_sort_key(s):
+    """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
+    import re
+    return [int(text) if text.isdigit() else text.lower() for text in re.split('(\d+)', s)]
 
 # Route for the welcome page
 @app.route("/")
@@ -176,10 +186,7 @@ def manga_detail(manga_id):
     else:
         return "Manga not found", 404
 
-def natural_sort_key(s):
-    """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
-    import re
-    return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
+
 
 
 
@@ -190,6 +197,9 @@ def chapter_detail(manga_title, chapterName):
     try:
         # Get all images in the chapter directory
         images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif|webp|png)$', f, re.IGNORECASE)]
+        
+        # Sort images naturally
+        images.sort(key=natural_sort_key)  # Using natsorted for natural sorting
         
         # Get and sort chapters for the manga
         chapters = get_chapters_for_manga(manga_title)

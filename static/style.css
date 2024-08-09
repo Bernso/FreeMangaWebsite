@@ -111,7 +111,7 @@ h1 {
 
 .manga-card {
     min-width: 250px; /* Adjust width as needed */
-    height: 330px; /* Set a fixed height for consistency */
+    height: 370px; /* Set a fixed height for consistency */
     background-color: var(--card-bg);
     padding: 15px;
     border-radius: var(--border-radius);
@@ -199,8 +199,8 @@ h1 {
 .manga-cover {
     max-width: 100%;
     height: auto;
-    max-height: 350px;
-    max-width: 350px;
+    height: 350px;
+    width: 350px;
     border: 2px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -276,7 +276,7 @@ h1 {
 
 /* Image Styling */
 .manga-information img {
-    max-width: 150px; /* Adjust image size as needed */
+    max-width: 220px; /* Adjust image size as needed */
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -381,4 +381,75 @@ h1 {
         width: 90%; /* Expand the container width on smaller screens */
         height: 500px; /* Reduce height for better fit */
     }
+}
+
+
+
+/* Recommended Manga Section */
+.recommended-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px;
+    gap: 20px;
+    align-items: flex-start;
+    background-color: var(--background-dark);
+    border-radius: var(--border-radius);
+}
+
+.recommended-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.recommended-card {
+    min-width: 200px; /* Adjust width as needed */
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recommended-card img {
+    max-width: 120px; /* Adjust image size to fit within card */
+    max-height: 180px; /* Ensure image fits well within the card */
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+}
+
+.recommended-card h3 {
+    font-size: 1.2em;
+    margin-top: 5px;
+    color: var(--link-color);
+    transition: color 0.3s ease;
+}
+
+.recommended-card a {
+    display: inline-block;
+    color: var(--link-color);
+    background-color: var(--background-dark);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    transition: color 0.3s ease, background-color 0.3s ease;
+    box-shadow: var(--box-shadow);
+    margin-top: 10px;
+}
+
+.recommended-card a:hover {
+    background-color: var(--hover-color);
+    color: var(--link-hover-color);
+}
+
+.recommended-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+}
+
+.recommended-card:hover h3 {
+    color: var(--link-hover-color);
 }

@@ -295,37 +295,7 @@ def main(url):
 
 if __name__ == '__main__':
     mangas = [
-        "https://www.mangaread.org/manga/terminally-ill-genius-dark-knight/",
-        "https://www.mangaread.org/manga/a-modern-man-who-got-transmigrated-into-the-murim-world/",
-        "https://www.mangaread.org/manga/executioner/",
-        "https://www.mangaread.org/manga/seoul-stations-necromancer/",
-        "https://www.mangaread.org/manga/the-heros-younger-brother-is-a-deceased-person-in-the-academy/",
-        "https://www.mangaread.org/manga/i-returned-as-an-fff-class-witch-doctor/",
-        "https://www.mangaread.org/manga/han-dae-sung-returned-from-hell/",
-        "https://www.mangaread.org/manga/player-from-today-onwards/",
-        "https://www.mangaread.org/manga/the-return-of-the-disaster-class-hero/",
-        "https://www.mangaread.org/manga/necromancer-academy-and-the-genius-summoner/",
-        "https://www.mangaread.org/manga/nano-machine/",
-        "https://www.mangaread.org/manga/i-picked-a-hammer-to-save-the-world/",
-        "https://www.mangaread.org/manga/pick-me-up-infinite-gacha/",
-        "https://www.mangaread.org/manga/talent-swallowing-magician/",
-        "https://www.mangaread.org/manga/capture-the-golem-and-escape-poverty/",
-        "https://www.mangaread.org/manga/max-level-player/",
-        "https://www.mangaread.org/manga/becoming-the-swordmaster-rank-young-lord-of-the-sichuan-tang-family/",
-        "https://www.mangaread.org/manga/sword-fanatic-wanders-through-the-night/",
-        "https://www.mangaread.org/manga/eleceed/",
-        "https://www.mangaread.org/manga/necromancers-evolutionary-traits/",
-        "https://www.mangaread.org/manga/reincarnator-manhwa/",
-        "https://www.mangaread.org/manga/to-hell-with-being-a-saint-im-a-doctor/",
-        "https://www.mangaread.org/manga/absolute-necromancer/",
-        "https://www.mangaread.org/manga/bad-ending-maker/",
-        "https://www.mangaread.org/manga/debuff-master/",
-        "https://www.mangaread.org/manga/the-heavenly-demon-will-give-you-a-massage/",
-        "https://www.mangaread.org/manga/return-of-the-flowery-mountain-sect/",
-        "https://www.mangaread.org/manga/be-the-actor/",
-        "https://www.mangaread.org/manga/baek-xx/",
-        "https://www.mangaread.org/manga/leveling-up-with-the-sword/",
-        "https://www.mangaread.org/manga/omniscient-readers-viewpoint/"
+        "https://www.mangaread.org/manga/the-beginning-after-the-end/"
     ]
     for link in mangas:
         main(link)

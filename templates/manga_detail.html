@@ -25,7 +25,9 @@
                 <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}" class="manga-cover">
                 <div class="manga-content">
                     <h2>{{ manga.title }}</h2>
+                    <p>Type: {{ manga.type }}<br></p>
                     <p>{{ manga.description }}</p>
+                    
                 </div>
             </div>
             
@@ -35,6 +37,73 @@
                 <a href="{{ url_for('chapter_detail', manga_title=manga.title, chapterName=chapter.title) }}" class="chapter-link">{{ chapter.title }}</a>
                 {% endfor %}
             </div>
+
+            <section id="recommended-manga">
+                <h2>Recommended Manga</h2>
+                <div class="recommended-scroll">
+                    <div class="recommended-card">
+                        <img src="manga-cover1.jpg" alt="Manga Title 1">
+                        <h3>Manga Title 1</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover2.jpg" alt="Manga Title 2">
+                        <h3>Manga Title 2</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover3.jpg" alt="Manga Title 3">
+                        <h3>Manga Title 3</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover4.jpg" alt="Manga Title 4">
+                        <h3>Manga Title 4</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover1.jpg" alt="Manga Title 1">
+                        <h3>Manga Title 1</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover2.jpg" alt="Manga Title 2">
+                        <h3>Manga Title 2</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover3.jpg" alt="Manga Title 3">
+                        <h3>Manga Title 3</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover4.jpg" alt="Manga Title 4">
+                        <h3>Manga Title 4</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover1.jpg" alt="Manga Title 1">
+                        <h3>Manga Title 1</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover2.jpg" alt="Manga Title 2">
+                        <h3>Manga Title 2</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover3.jpg" alt="Manga Title 3">
+                        <h3>Manga Title 3</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                    <div class="recommended-card">
+                        <img src="manga-cover4.jpg" alt="Manga Title 4">
+                        <h3>Manga Title 4</h3>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+            </section>
+
             
             <h2>Recommended Manga</h2>
             <div class="recommended-scroll">
