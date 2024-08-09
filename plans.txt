@@ -1,3 +1,4 @@
 Settings menu: adjust width of images, height of images, saves
 Automatic updates
 Enhance the UI (its terrible rn)
+Add a way to webscrapethe mangas while reading

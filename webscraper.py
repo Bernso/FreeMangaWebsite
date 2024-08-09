@@ -295,7 +295,7 @@ def main(url):
 
 if __name__ == '__main__':
     mangas = [
-        "https://www.mangaread.org/manga/the-beginning-after-the-end/"
+        "https://www.mangaread.org/manga/martial-peak/"
     ]
     for link in mangas:
         main(link)
