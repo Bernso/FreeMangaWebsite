@@ -1,5 +1,5 @@
 try:
-    from flask import Flask, render_template, request, jsonify, session, send_file, send_from_directory, abort
+    from flask import Flask, render_template, request, jsonify, session, send_file, send_from_directory, abort, redirect
     import os
     import re  
     import random
@@ -113,10 +113,63 @@ def get_featured_mangaTruncated():
 
     return featured_manga
 
+def get_featured_mangaTruncatedTitle():
+    featured_manga = []
+
+    # Iterate over each folder in the MANGA_DIR
+    for manga_folder in os.listdir(MANGA_DIR):
+        manga_path = os.path.join(MANGA_DIR, manga_folder)
+
+        if os.path.isdir(manga_path):
+            try:
+                # Read the id, description, and cover image
+                with open(os.path.join(manga_path, 'id.txt'), 'r') as f:
+                    manga_id = f.read().strip()
+                with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
+                    description = f.read().strip()
+
+                with open(os.path.join(manga_path, 'type.txt'), 'r') as f:
+                    manga_type = f.read().strip()
+                manga_folder2 = manga_folder
+                if len(manga_folder) > 15:
+                    manga_folder2 = manga_folder2[:12] + '...'
+                
+                
+                if len(description) > 50:
+                    description = description[:47] + '...'
+
+
+                # Create a dictionary with the manga data
+                manga_data = {
+                    'id': manga_id,
+                    'title': manga_folder2,
+                    'image_title': manga_folder,
+                    'description': description,
+                    'type': manga_type
+                }
+
+                featured_manga.append(manga_data)
+            except Exception as e:
+                print(f"Error reading manga data from {manga_folder}: {e}")
+
+    return featured_manga
+
 def natural_sort_key(s):
     """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
     import re
     return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
+
+def getTBATEid():
+    file_path = 'manga/The Beginning After The End/id.txt'
+
+    with open(file_path, 'r') as file:
+        # Read the contents of the file
+        content = file.read()
+        # Print the contents
+        print(content)
+        file.close()
+    return content
+
 
 # Route for the welcome page
 @app.route("/")
@@ -125,7 +178,10 @@ def welcomePage():
     return render_template('welcome.html', featured_manga=featured_manga)
 
 
-
+@app.route("/tbate")
+def redirectToTheGoat():
+    tbateID = getTBATEid()
+    return redirect(f"/manga/{tbateID}")
 
 # Route for the home page
 @app.route("/home")
@@ -178,11 +234,18 @@ def get_chapters_for_manga(manga_title):
 @app.route("/manga/<int:manga_id>")
 def manga_detail(manga_id):
     featured_manga = get_featured_manga()
+    reccomended_manga = get_featured_mangaTruncatedTitle()  # Correct variable name
+
     manga = next((m for m in featured_manga if m['id'] == str(manga_id)), None)
     
     if manga:
         chapters = get_chapters_for_manga(manga['title'])
-        return render_template('manga_detail.html', manga=manga, chapters=chapters)
+        chapters.reverse()
+        return render_template('manga_detail.html',
+                               manga=manga,
+                               chapters=chapters,           
+                               reccomended_manga=reccomended_manga  # Use the correct variable name
+                            )
     else:
         return "Manga not found", 404
 
@@ -193,7 +256,6 @@ def manga_detail(manga_id):
 @app.route('/manga/<manga_title>/chapter/<chapterName>')
 def chapter_detail(manga_title, chapterName):
     chapter_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
-    reccomended_manga = get_featured_mangaTruncated()  # Correct variable name
     try:
         # Get all images in the chapter directory
         images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif|webp|png)$', f, re.IGNORECASE)]
@@ -224,7 +286,6 @@ def chapter_detail(manga_title, chapterName):
             manga_title=manga_title,
             chapterName=chapterName,
             next_chapter=next_chapter,
-            reccomended_manga=reccomended_manga  # Use the correct variable name
         )
     
     except FileNotFoundError:

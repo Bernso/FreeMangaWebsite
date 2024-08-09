@@ -18,7 +18,7 @@
     --actual-background: #0d0d0d;
     --m: #86fcf23f;
     --header-bg: #0f2a54;
-    --card-bg: #142f56;
+    --card-bg: #111111;
     --link-color: #7fbcff;
     --link-hover-color: #b5dfff;
     --header-height: 60px;
@@ -335,7 +335,7 @@ h1 {
     overflow-y: auto; /* Vertical scrolling */
     overflow-x: hidden; /* Prevent horizontal scrolling */
     display: flex;
-    flex-direction: column-reverse; /* Reverse the order of items */
+    flex-direction: column;
 }
 
 .chapter-container a {
@@ -386,13 +386,14 @@ h1 {
 
 
 /* Recommended Manga Section */
+/* Recommended Manga Section */
 .recommended-scroll {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 20px;
     gap: 20px;
-    align-items: flex-start;
+    align-items: stretch; /* Ensures all cards are the same height */
     background-color: var(--background-dark);
     border-radius: var(--border-radius);
 }
@@ -402,6 +403,7 @@ h1 {
 }
 
 .recommended-card {
+    flex: 1 1 auto; /* Allows cards to grow and shrink as needed */
     min-width: 200px; /* Adjust width as needed */
     background-color: var(--card-bg);
     padding: 15px;
@@ -412,11 +414,16 @@ h1 {
     flex-direction: column;
     align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Ensure the cards expand to the same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures equal spacing between elements */
 }
 
 .recommended-card img {
-    max-width: 120px; /* Adjust image size to fit within card */
-    max-height: 180px; /* Ensure image fits well within the card */
+    width: 100%; /* Make image width fill the card */
+    height: 200px; /* Fixed height for consistent card height */
+    object-fit: cover; /* Ensures image covers the area without distortion */
     border-radius: var(--border-radius);
     margin-bottom: 10px;
 }
