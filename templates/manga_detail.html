@@ -25,9 +25,7 @@
                 <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}" class="manga-cover">
                 <div class="manga-content">
                     <h2>{{ manga.title }}</h2>
-                    <p>Type: {{ manga.type }}<br></p>
-                    <p>{{ manga.description }}</p>
-                    
+                    <p style='text-align: left;'>{{ manga.description }}<br><br></p><p style='text-align: left;'>Type: {{ manga.type }}</p>
                 </div>
             </div>
             
@@ -37,9 +35,9 @@
                     <a href="{{ url_for('chapter_detail', manga_title=manga.title, chapterName=chapter.title) }}" class="chapter-link">{{ chapter.title }}</a>
                 {% endfor %}
             </div>
-
+            <br><br><br><br><br><br>
             <section id="recommended-manga">
-                <h2>Recommended Manga</h2>
+                <h1>Recommended Manga</h1>
                 
                 <div class="recommended-scroll">
                     {% for recommended in reccomended_manga %}  <!-- Ensure this matches the Flask route variable -->
@@ -52,6 +50,12 @@
                 </div>
             </section>
         </section>
+    </main>
+    <main></main>
+    <main class="community" style='text-align: center; color: var(--text-muted);'>
+        <h1>Join Our Community</h1>
+        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
+        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
     </main>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

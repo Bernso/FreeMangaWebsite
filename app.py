@@ -53,12 +53,12 @@ def get_featured_manga():
         if os.path.isdir(manga_path):
             try:
                 # Read the id, description, and cover image
-                with open(os.path.join(manga_path, 'id.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'id.txt'), 'r', encoding='utf-8') as f:
                     manga_id = f.read().strip()
-                with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'description.txt'), 'r', encoding='utf-8') as f:
                     description = f.read().strip()
 
-                with open(os.path.join(manga_path, 'type.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
 
                 # Create a dictionary with the manga data
@@ -87,13 +87,15 @@ def get_featured_mangaTruncated():
         if os.path.isdir(manga_path):
             try:
                 # Read the id, description, and cover image
-                with open(os.path.join(manga_path, 'id.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'id.txt'), 'r', encoding='utf-8') as f:
                     manga_id = f.read().strip()
-                with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
+
+                with open(os.path.join(manga_path, 'description.txt'), 'r', encoding='utf-8') as f:
                     description = f.read().strip()
 
-                with open(os.path.join(manga_path, 'type.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
+
 
                 if len(description) > 50:
                     description = description[:47] + '...'
@@ -123,13 +125,15 @@ def get_featured_mangaTruncatedTitle():
         if os.path.isdir(manga_path):
             try:
                 # Read the id, description, and cover image
-                with open(os.path.join(manga_path, 'id.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'id.txt'), 'r', encoding='utf-8') as f:
                     manga_id = f.read().strip()
-                with open(os.path.join(manga_path, 'description.txt'), 'r') as f:
+
+                with open(os.path.join(manga_path, 'description.txt'), 'r', encoding='utf-8') as f:
                     description = f.read().strip()
 
-                with open(os.path.join(manga_path, 'type.txt'), 'r') as f:
+                with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
+
                 manga_folder2 = manga_folder
                 if len(manga_folder) > 15:
                     manga_folder2 = manga_folder2[:12] + '...'
@@ -190,11 +194,52 @@ def homePage():
     return render_template('home.html', featured_manga=featured_manga)
 
 
+def findAllManga():
+    manga_list = []
+    manga_count = 0
+
+    for manga_folder in os.listdir(MANGA_DIR):
+        print(manga_folder)
+        manga_path = os.path.join(MANGA_DIR, manga_folder)
+        
+        if os.path.isdir(manga_path):
+            manga_count += 1  # Increment the manga count
+
+            try:
+                # Read the id, description, and cover image
+                with open(os.path.join(manga_path, 'id.txt'), 'r', encoding='utf-8') as f:
+                    manga_id = f.read().strip()
+
+                with open(os.path.join(manga_path, 'description.txt'), 'r', encoding='utf-8') as f:
+                    description = f.read().strip()
+
+                with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
+                    manga_type = f.read().strip()
+
+
+                if len(description) > 50:
+                    description = description[:47] + '...'
+
+                # Create a dictionary with the manga data
+                manga_data = {
+                    'id': manga_id,
+                    'title': manga_folder,
+                    'description': description,
+                    'type': manga_type
+                }
+
+                manga_list.append(manga_data)
+
+            except Exception as e:
+                print(f"Error reading manga data from {manga_folder}: {e}")
+
+    return manga_list, manga_count
 
 
 @app.route("/manga")
 def manga_list():
-    return render_template('manga.html')
+    mangaList, mangaCount = findAllManga()
+    return render_template('manga.html', manga=mangaList, manga_count=mangaCount)
 
 
 

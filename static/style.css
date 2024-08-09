@@ -24,9 +24,16 @@
     --header-height: 60px;
 }
 
+p {
+    color: var(--text-muted);
+    text-align: center;
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background: var(--actual-background);
+    /*background: var(--actual-background);*/
+    background: linear-gradient(140deg, var(--background-dark), var(--background-light));
+    background-color: #0d0d0d;
     color: var(--text-color);
     overflow-x: hidden;
 }
@@ -78,6 +85,7 @@ main {
     padding-top: calc(var(--header-height) + 40px);
     padding: 30px;
     max-width: 1200px;
+    background: linear-gradient(90deg, var(--actual-background), var(--background-light)) ;
     margin: 0 auto;
     animation: fadeIn 2s ease-in-out;
 }
@@ -189,7 +197,7 @@ h1 {
     align-items: center;
 }
 .tower img {
-    max-width: 100%; 
+    width: 600px; 
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -459,4 +467,107 @@ h1 {
 
 .recommended-card:hover h3 {
     color: var(--link-hover-color);
+}
+
+
+
+
+
+
+
+/* Ensure the container is centered and full-width */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center; /* Center the items horizontally */
+    padding: 0 20px; /* Optional: Add some padding to avoid edge alignment issues */
+}
+
+.manga-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap between cards */
+    justify-content: center; /* Center the cards within this container */
+    width: 100%; /* Ensure the manga-container takes full width */
+}
+
+/* Ensure manga cards are centered in their container */
+.manga-card-full {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-dark);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: calc(100% - 40px); /* Full width minus padding */
+    max-width: 800px; /* Ensure a larger maximum width */
+    min-height: 250px; /* Increase the minimum height of the card to be larger than the image */
+    box-sizing: border-box; /* Include padding in height calculation */
+    transition: transform 200ms;
+    margin: 0 auto; /* Center the card horizontally */
+}
+
+.manga-card-full img {
+    max-width: 150px; /* Adjust image size */
+    height: auto; /* Maintain image aspect ratio */
+    max-height: 200px; /* Ensure the image does not overflow the card */
+    border-radius: var(--border-radius);
+    margin-right: 20px; /* Space between the image and the text */
+}
+
+.manga-card-full h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: var(--link-color);
+    text-shadow: 0 0 3px var(--link-color);
+    overflow: hidden; /* Prevents overflow */
+    text-overflow: ellipsis; /* Adds ellipsis to truncated titles */
+    white-space: normal; /* Allows the title to wrap onto the next line */
+}
+
+.manga-card-full p {
+    color: var(--text-muted);
+    font-size: 1em;
+    margin-bottom: 10px;
+    line-height: 1.3em;
+    height: auto; /* Remove fixed height to allow full content to display */
+    overflow: hidden; /* Ensures text doesn't overflow */
+    text-overflow: ellipsis; /* Adds ellipsis to truncated text */
+    white-space: normal; /* Allows the description to wrap onto the next line */
+}
+
+.manga-card-full a {
+    display: inline-block;
+    color: var(--link-color);
+    background-color: var(--background-dark);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    transition: color 0.3s ease, background-color 0.3s ease;
+    box-shadow: var(--box-shadow);
+    margin-top: auto; /* Pushes the link to the bottom */
+}
+
+.manga-card-full a:hover {
+    background-color: var(--hover-color);
+    color: var(--link-hover-color);
+}
+
+.manga-card-full:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .manga-card-full {
+        width: calc(75% - 40px); /* Wider cards on tablets, two per row */
+    }
+}
+
+@media (min-width: 1024px) {
+    .manga-card-full {
+        width: calc(50% - 40px); /* Wider cards on desktops, two per row */
+    }
 }

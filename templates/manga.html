@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/manga">Manga</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main></main>
+
+    <main>
+        <section id="featured">
+            <h1>All Manga</h1>
+            <p>Total: {{ manga_count }}</p>
+            <br><br>
+            <div class="container">
+                {% for manga in manga %}
+                <div class="manga-card-full">
+                    <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
+                    <div class="manga-info">
+                        <h2>{{ manga.title }}</h2>
+                        <div class="manga-type">{{ manga.type }}</div>
+                        <p style='text-align: left;'>{{ manga.description }}</p>
+                        <a href="{{ url_for('manga_detail', manga_id=manga.id) }}">Read More</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    <main></main>
+    <main></main><main></main><main></main>
+    <main class="community" style='text-align: center; color: var(--text-muted);'>
+        <h1>Join Our Community</h1>
+        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
+        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+    </main>
+    
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
