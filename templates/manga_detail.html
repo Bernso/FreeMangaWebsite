@@ -21,12 +21,16 @@
     <main></main>
     <main>
         <section id="manga-details">
-            <h1>{{ manga.title }}</h1>
-            <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}" class="manga-cover">
-            <p>{{ manga.description }}</p>
+            <div class="manga-information">
+                <img src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}" class="manga-cover">
+                <div class="manga-content">
+                    <h2>{{ manga.title }}</h2>
+                    <p>{{ manga.description }}</p>
+                </div>
+            </div>
             
             <h2>Chapters</h2>
-            <div class="chapter-scroll">
+            <div class="chapter-container">
                 {% for chapter in chapters %}
                 <a href="{{ url_for('chapter_detail', manga_title=manga.title, chapterName=chapter.title) }}" class="chapter-link">{{ chapter.title }}</a>
                 {% endfor %}

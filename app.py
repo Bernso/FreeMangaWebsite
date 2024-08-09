@@ -15,14 +15,12 @@ except ImportError as e:
 port = '1111'       # any number you want (4 digits)
 debug = True        # could be True or False
 host = '127.0.0.1'  # could be 127.0.0.1 or 0.0.0.0 or your ip
-app = Flask(__name__)
-currentPath = os.getcwd()
 
-MANGA_DIR = os.path.join(currentPath, 'manga')
-
-# Load environment variables
 load_dotenv()
+app = Flask(__name__)
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+currentPath = os.getcwd()
+MANGA_DIR = os.path.join(currentPath, 'manga')
 
 
 

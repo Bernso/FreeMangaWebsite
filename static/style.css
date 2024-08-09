@@ -229,28 +229,6 @@ h1 {
     color: var(--link-hover-color);
 }
 
-/* Recommended Manga Section */
-.recommended-scroll {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.recommended-card {
-    background-color: var(--card-bg);
-    padding: 15px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    text-align: center;
-    width: 200px; /* Adjust width as needed */
-}
-
-.recommended-cover {
-    max-width: 150px; /* Adjust image size */
-    height: auto;
-    border-radius: var(--border-radius);
-    margin-bottom: 10px;
-}
 
 
 /* Next Chapter Button Styles */
@@ -282,4 +260,125 @@ h1 {
     background-color: var(--link-hover-color);
     color: var(--background-dark);
     transform: scale(0.98);
+}
+
+
+.manga-information {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px; /* Space between the image and the text content */
+    margin-bottom: 40px; /* Space at the bottom of the section */
+    padding: 20px;
+    background-color: var(--background-dark);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* Image Styling */
+.manga-information img {
+    max-width: 150px; /* Adjust image size as needed */
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Text Content Styling */
+.manga-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 800px; /* Ensures the content doesn't get too wide */
+}
+
+.manga-content h2 {
+    font-size: 2em;
+    color: var(--link-color);
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px var(--link-color);
+}
+
+.manga-content p {
+    color: var(--text-muted);
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+/* Ensure the entire section is responsive */
+@media (max-width: 768px) {
+    .manga-information {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .manga-information img {
+        max-width: 100%;
+        margin-bottom: 20px; /* Space between image and content when stacked */
+    }
+
+    .manga-content {
+        max-width: 100%;
+    }
+}
+
+
+
+.chapter-container {
+    width: 70%; /* Adjust width to control space for the recommended manga */
+    max-width: 800px; /* Maximum width of the container */
+    height: 600px; /* Fixed height for scrollable content */
+    margin: 20px 0; /* Align the container to the left */
+    padding: 20px;
+    background-color: var(--background-dark); /* Darker background for a more subtle look */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow-y: auto; /* Vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    display: flex;
+    flex-direction: column-reverse; /* Reverse the order of items */
+}
+
+.chapter-container a {
+    display: block;
+    font-size: 1.1em;
+    color: var(--link-color); /* Subtle link color */
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: var(--background-light); /* Background for individual chapters */
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: left; /* Align text to the left */
+}
+
+.chapter-container a:hover {
+    background-color: var(--hover-color); /* Background on hover */
+    color: var(--link-hover-color); /* Link color on hover */
+}
+
+.chapter-container a:active {
+    background-color: var(--link-hover-color); /* Background on active */
+    color: var(--background-dark); /* Text color on active */
+}
+
+.chapter-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.chapter-container::-webkit-scrollbar-thumb {
+    background-color: var(--hover-color); /* Less intense color for scrollbar */
+    border-radius: 10px;
+}
+
+.chapter-container::-webkit-scrollbar-track {
+    background-color: var(--background-light);
+    border-radius: 10px;
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+    .chapter-container {
+        width: 90%; /* Expand the container width on smaller screens */
+        height: 500px; /* Reduce height for better fit */
+    }
 }
