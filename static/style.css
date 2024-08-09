@@ -32,7 +32,7 @@ p {
 body {
     font-family: 'Arial', sans-serif;
     /*background: var(--actual-background);*/
-    background: linear-gradient(140deg, var(--background-dark), var(--background-light));
+    background: linear-gradient(100deg, var(--background-dark), var(--background-light));
     background-color: #0d0d0d;
     color: var(--text-color);
     overflow-x: hidden;
@@ -188,6 +188,58 @@ h1 {
     from { transform: translateY(-50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+
+
+
+/* Custom Scrollbar Styles */
+
+/* Base Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+    height: 12px; /* Height of the scrollbar (for horizontal scrollbars) */
+}
+
+/* Track (part the scrollbar slides along) */
+::-webkit-scrollbar-track {
+    background: var(--background-dark); /* Track background color */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Handle (part the user drags) */
+::-webkit-scrollbar-thumb {
+    background: var(--link-color); /* Handle color */
+    border-radius: 10px; /* Rounded corners */
+    transition: background 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color); /* Change handle color on hover */
+}
+
+/* Scrollbar corner (intersection of horizontal and vertical scrollbars) */
+::-webkit-scrollbar-corner {
+    background: var(--background-dark); /* Corner background color */
+}
+
+/* For custom scrollbars on Firefox (using scrollbar-width) */
+* {
+    scrollbar-width: thin; /* Use 'auto' for default, 'thin' for thinner scrollbar */
+    scrollbar-color: var(--link-color) var(--background-dark); /* Handle and track color */
+}
+
+/* For custom scrollbars on Edge */
+@supports (-ms-overflow-style: none) {
+    .manga-scroll, .chapter-container, .recommended-scroll {
+        -ms-overflow-style: scrollbar; /* Default scrollbar style for IE and Edge */
+    }
+}
+
+/* For custom scrollbars on Safari */
+body {
+    overflow: -webkit-scrollbar; /* Enables custom scrollbars for Safari */
+}
+
 
 
 .tower {
@@ -571,3 +623,7 @@ h1 {
         width: calc(50% - 40px); /* Wider cards on desktops, two per row */
     }
 }
+
+
+
+
