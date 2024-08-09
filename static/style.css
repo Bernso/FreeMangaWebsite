@@ -592,7 +592,7 @@ body {
 .manga-card-full a {
     display: inline-block;
     color: var(--link-color);
-    background-color: var(--background-dark);
+    background-color: var(--background-light);
     text-decoration: none;
     padding: 8px 12px;
     border-radius: var(--border-radius);
