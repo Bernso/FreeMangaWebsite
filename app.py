@@ -191,7 +191,7 @@ def chapter_detail(manga_title, chapterName):
     
     try:
         # Get all images in the chapter directory
-        images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif)$', f, re.IGNORECASE)]
+        images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif|webp|png)$', f, re.IGNORECASE)]
         
         # Get and sort chapters for the manga
         chapters = get_chapters_for_manga(manga_title)
@@ -228,7 +228,7 @@ def get_image(manga_title, filename, chapterName):
 # Route for serving cover images
 @app.route("/cover/<manga_title>")
 def serve_image(manga_title):
-    possible_extensions = ['jpg', 'jpeg', 'gif']
+    possible_extensions = ['jpg', 'jpeg', 'gif', 'webp', 'png']
     
     # Check for each extension if the file exists
     for ext in possible_extensions:
