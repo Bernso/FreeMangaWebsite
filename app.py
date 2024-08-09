@@ -116,7 +116,7 @@ def get_featured_mangaTruncated():
 def natural_sort_key(s):
     """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
     import re
-    return [int(text) if text.isdigit() else text.lower() for text in re.split('(\d+)', s)]
+    return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
 
 # Route for the welcome page
 @app.route("/")
@@ -193,7 +193,7 @@ def manga_detail(manga_id):
 @app.route('/manga/<manga_title>/chapter/<chapterName>')
 def chapter_detail(manga_title, chapterName):
     chapter_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
-    
+    reccomended_manga = get_featured_mangaTruncated()  # Correct variable name
     try:
         # Get all images in the chapter directory
         images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif|webp|png)$', f, re.IGNORECASE)]
@@ -218,7 +218,14 @@ def chapter_detail(manga_title, chapterName):
         print(f"Current Chapter: {chapterName}")
         print(f"Next Chapter: {next_chapter}")
         
-        return render_template('manhwaContent.html', images=images, manga_title=manga_title, chapterName=chapterName, next_chapter=next_chapter)
+        return render_template(
+            'manhwaContent.html',
+            images=images,
+            manga_title=manga_title,
+            chapterName=chapterName,
+            next_chapter=next_chapter,
+            reccomended_manga=reccomended_manga  # Use the correct variable name
+        )
     
     except FileNotFoundError:
         return "Chapter not found", 404

@@ -105,9 +105,8 @@
             </section>
 
             
-            <h2>Recommended Manga</h2>
             <div class="recommended-scroll">
-                {% for recommended in recommended_manga %}
+                {% for recommended in reccomended_manga %}  <!-- Ensure this matches the Flask route variable -->
                 <div class="recommended-card">
                     <img src="{{ url_for('serve_image', manga_title=recommended.title) }}" alt="{{ recommended.title }}" class="recommended-cover">
                     <h3>{{ recommended.title }}</h3>
@@ -117,8 +116,5 @@
             </div>
         </section>
     </main>
-    <footer>
-        <a href="{{ url_for('homePage') }}">Back to Home</a>
-    </footer>
 </body>
 </html>
