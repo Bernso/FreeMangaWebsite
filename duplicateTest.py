@@ -9,12 +9,12 @@ def getAllIds():
     allDirs = os.listdir(MANGA_DIR)
     allIds = []
     for dir in allDirs:
-        print(dir)
+        print(dir, end=' ')
         idFile = os.path.join(MANGA_DIR, dir, 'id.txt')
         with open(idFile, 'r') as fid:
             mangaId = fid.read()
             allIds.append(int(mangaId))
-            print(mangaId)
+            print("id:", mangaId)
             fid.close()
     print(allIds)
     return allIds
@@ -32,4 +32,4 @@ for num in range(len(allid)):
         input(f"Missing manga with ID: {num}")
         quit()
 
-print("No Invalid ID's found")
+input("No Invalid ID's found")
