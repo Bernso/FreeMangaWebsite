@@ -39,3 +39,25 @@ document.addEventListener("DOMContentLoaded", function() {
     setupAutoScroll('.manga-scroll');
     setupAutoScroll('.recommended-scroll');
 });
+
+
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const searchQuery = document.getElementById('searchInput').value.trim();
+    if (searchQuery) {
+        window.location.href = `manga/${encodeURIComponent(searchQuery)}`;
+    }
+});
+
+
+function generateEmail() {
+    // Get the values from the form
+    const subject = document.getElementById('subject').value;
+    const body = document.getElementById('body').value;
+
+    // Create a mailto link with the subject and body
+    const mailtoLink = `mailto:bernso@duck.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Redirect to the mailto link
+    window.location.href = mailtoLink;
+}

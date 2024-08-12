@@ -158,6 +158,15 @@ def get_featured_mangaTruncatedTitle():
 
     return featured_manga
 
+def getAllIds():
+    allDirs = os.listdir(MANGA_DIR)
+    for dir in allDirs:
+        print(dir)
+    MANGA_DIR
+    pass
+
+
+
 def natural_sort_key(s):
     """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
     import re

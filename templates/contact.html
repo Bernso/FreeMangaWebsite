@@ -20,24 +20,21 @@
     </header>
     <main></main>
     <main>
-        <section id="contact-form" style="max-width: 600px; margin: 0 auto;">
-            <h1>Contact Us</h1>
-            <p>If you have any questions or feedback, feel free to reach out to us.</p>
-            <form action="mailto:bernso@duck.com" method="post" enctype="text/plain" style="display: flex; flex-direction: column; gap: 15px;">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Your Name" required style="padding: 10px; border-radius: var(--border-radius); background-color: var(--background-dark); color: var(--text-color); border: none; box-shadow: var(--box-shadow);">
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Your Email" required style="padding: 10px; border-radius: var(--border-radius); background-color: var(--background-dark); color: var(--text-color); border: none; box-shadow: var(--box-shadow);">
-
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5" placeholder="Your Message" required style="padding: 10px; border-radius: var(--border-radius); background-color: var(--background-dark); color: var(--text-color); border: none; box-shadow: var(--box-shadow);"></textarea>
-
-                <button type="submit" style="padding: 15px; background-color: var(--link-color); color: var(--background-dark); border-radius: var(--border-radius); font-size: 1.2em; box-shadow: var(--box-shadow); cursor: pointer; transition: background-color 0.3s, color 0.3s;">
-                    Send Message
-                </button>
+        <section id="contact-form" style="max-width: 600px; margin: 0 auto; background-color: #1e1e1e; padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);">
+            <h1 style="text-align: center; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Contact Us</h1>
+            <p style="text-align: center; color: #b0b0b0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">If you have any questions or feedback, feel free to reach out to us.</p>
+            <form onsubmit="event.preventDefault(); generateEmail();">
+                <label for="subject" style="display: block; font-weight: bold; margin-bottom: 5px; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Subject:</label>
+                <input type="text" id="subject" name="subject" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #444; border-radius: 5px; background-color: #2e2e2e; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                
+                <label for="body" style="display: block; font-weight: bold; margin-bottom: 5px; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Body:</label>
+                <textarea id="body" name="body" rows="10" cols="30" required style="width: 100%; padding: 10px; border: 1px solid #444; border-radius: 5px; margin-bottom: 20px; background-color: #2e2e2e; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"></textarea>
+                
+                <button type="submit" style="width: 100%; padding: 12px; background-color: #007acc; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Generate Email</button>
             </form>
         </section>
+        
+        
     
         <br><br><br><br><br><br>
 
