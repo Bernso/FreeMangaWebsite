@@ -40,6 +40,29 @@ def sendToDiscord(message):
         print(f"Message failed to send to discord. Status Code: {response.status_code}")
 
 
+@app.route('/send_to_discord', methods=['POST'])
+def send_to_discord():
+    data = request.json
+    
+    email = data.get('email')
+    subject = data.get('subject')
+    body = data.get('body')
+    
+    if not (email and subject and body):
+        return jsonify({"success": False, "error": "Missing data"}), 400
+    
+    # Create the message to be sent to Discord
+    discord_message = {
+        "content": f"**New Message from:** {email}\n\n**Subject:** {subject}\n\n**Message:**\n{body}"
+    }
+    
+    # Send the message to the Discord webhook
+    response = requests.post(WEBHOOK_URL, json=discord_message)
+    
+    if response.status_code == 204:
+        return jsonify({"success": True}), 200
+    else:
+        return jsonify({"success": False, "error": "Failed to send message"}), 500
 
 
 # Function to get featured manga
@@ -193,6 +216,11 @@ def welcomePage():
 
 @app.route("/tbate")
 def redirectToTheGoat():
+    tbateID = getTBATEid()
+    return redirect(f"/manga/{tbateID}")
+
+@app.route("/manga/tbate")
+def redirectToTheGoat2():
     tbateID = getTBATEid()
     return redirect(f"/manga/{tbateID}")
 

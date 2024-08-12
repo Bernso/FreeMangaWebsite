@@ -61,3 +61,5 @@ function generateEmail() {
     // Redirect to the mailto link
     window.location.href = mailtoLink;
 }
+
+
