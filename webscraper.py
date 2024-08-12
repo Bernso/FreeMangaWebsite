@@ -294,9 +294,10 @@ def main(url):
     
 
 if __name__ == '__main__':
-    mangas = [
-        "https://www.mangaread.org/manga/martial-peak/"
-    ]
+    numberOfMangas = int(input("Enter the number of mangas: "))
+    mangas = []
+    for i in range(numberOfMangas):
+        mangas.append(input(f"Enter the URL of manga {i+1}: "))
     for link in mangas:
         main(link)
 

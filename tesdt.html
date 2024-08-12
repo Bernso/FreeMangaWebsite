@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Draft Generator</title>
+    <script>
+        function generateEmail() {
+            // Get the values from the form
+            const subject = document.getElementById('subject').value;
+            const body = document.getElementById('body').value;
+
+            // Create a mailto link with the subject and body
+            const mailtoLink = `mailto:bernso@duck.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Redirect to the mailto link
+            window.location.href = mailtoLink;
+        }
+    </script>
+</head>
+<body>
+    <h1>Email Draft Generator</h1>
+    <form onsubmit="event.preventDefault(); generateEmail();">
+        <label for="subject">Subject:</label><br>
+        <input type="text" id="subject" name="subject" required><br><br>
+        
+        <label for="body">Body:</label><br>
+        <textarea id="body" name="body" rows="10" cols="30" required></textarea><br><br>
+        
+        <button type="submit">Generate Email</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Manga Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/manga">Manga</a></li>
+                <li><a href="/search">Search</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main></main>
+    <main>
+        <section id="contact-form" style="max-width: 600px; margin: 0 auto;">
+            <h1>Contact Us</h1>
+            <p>If you have any questions or feedback, feel free to reach out to us.</p>
+            <form action="mailto:bernso@duck.com" method="post" enctype="text/plain" style="display: flex; flex-direction: column; gap: 15px;">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" required style="padding: 10px; border-radius: var(--border-radius); background-color: var(--background-dark); color: var(--text-color); border: none; box-shadow: var(--box-shadow);">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Your Email" required style="padding: 10px; border-radius: var(--border-radius); background-color: var(--background-dark); color: var(--text-color); border: none; box-shadow: var(--box-shadow);">
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" placeholder="Your Message" required style="padding: 10px; border-radius: var(--border-radius); background-color: var(--background-dark); color: var(--text-color); border: none; box-shadow: var(--box-shadow);"></textarea>
+
+                <button type="submit" style="padding: 15px; background-color: var(--link-color); color: var(--background-dark); border-radius: var(--border-radius); font-size: 1.2em; box-shadow: var(--box-shadow); cursor: pointer; transition: background-color 0.3s, color 0.3s;">
+                    Send Message
+                </button>
+            </form>
+        </section>
+    
+        <br><br><br><br><br><br>
+
+
+        <h1>Join Our Community</h1>
+        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
+        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
