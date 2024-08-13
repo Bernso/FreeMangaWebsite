@@ -27,18 +27,29 @@
             {% endfor %}
         </div>
 
-        <!-- Next Chapter Button -->
-        {% if next_chapter %}
-        <div class="next-chapter-container">
-            <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" class="next-chapter-button">
-                Next Chapter: {{ next_chapter }}
-            </a>
+        <!-- Chapter Navigation Buttons -->
+        <div class="chapter-navigation-container">
+        
+            {% if next_chapter %}
+            <div class="next-chapter-container">
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" class="next-chapter-button">
+                    Next Chapter: {{ next_chapter }}
+                </a>
+            </div>
+            {% else %}
+            <div class="next-chapter-container">
+                <p>No more chapters available :&#40;</p>
+            </div>
+            {% endif %}
+            
+            {% if previous_chapter %}
+            <div class="prev-chapter-container">
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=previous_chapter) }}" class="prev-chapter-button">
+                    Previous Chapter: {{ previous_chapter }}
+                </a>
+            </div>
+            {% endif %}
         </div>
-        {% else %}
-        <div class="next-chapter-container">
-            <p>No more chapters available :&#40;</p>
-        </div>
-        {% endif %}
     </main>
     <main></main>
     <main class="community" style='text-align: center; color: var(--text-muted);'>
@@ -47,4 +58,52 @@
         <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
     </main>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let isScrolling = false;
+        let scrollSpeed = 2; // Adjust the scroll speed here (higher number means faster scrolling)
+        let scrollInterval;
+
+        // Function to start auto-scrolling
+        function startScroll() {
+            scrollInterval = setInterval(function () {
+                window.scrollBy(0, scrollSpeed);
+            }, 10); // Adjust the interval to control the smoothness of the scroll
+        }
+
+        // Function to stop auto-scrolling
+        function stopScroll() {
+            clearInterval(scrollInterval);
+        }
+
+        // Toggle auto-scroll on Alt key press
+        document.addEventListener("keydown", function (event) {
+            if (event.ctrlKey) {
+                isScrolling = !isScrolling;
+                if (isScrolling) {
+                    startScroll();
+                } else {
+                    stopScroll();
+                }
+            }
+        });
+
+        // Navigate chapters with arrow keys
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowRight") {
+                // Navigate to the next chapter if it exists
+                const nextChapterButton = document.querySelector('.next-chapter-button');
+                if (nextChapterButton) {
+                    window.location.href = nextChapterButton.href;
+                }
+            } else if (event.key === "ArrowLeft") {
+                // Navigate to the previous chapter if it exists
+                const prevChapterButton = document.querySelector('.prev-chapter-button');
+                if (prevChapterButton) {
+                    window.location.href = prevChapterButton.href;
+                }
+            }
+        });
+    });
+</script>
 </html>

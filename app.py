@@ -352,15 +352,14 @@ def chapter_detail(manga_title, chapterName):
         # Find the current chapter's index
         current_index = next((i for i, chapter in enumerate(chapters) if chapter['title'] == chapterName), -1)
         
-        # Determine the next chapter
-        if current_index != -1 and current_index + 1 < len(chapters):
-            next_chapter = chapters[current_index + 1]['title']
-        else:
-            next_chapter = None
+        # Determine the next and previous chapters
+        next_chapter = chapters[current_index + 1]['title'] if current_index != -1 and current_index + 1 < len(chapters) else None
+        previous_chapter = chapters[current_index - 1]['title'] if current_index > 0 else None
         
         # Debugging output
         print(f"Current Chapter: {chapterName}")
         print(f"Next Chapter: {next_chapter}")
+        print(f"Previous Chapter: {previous_chapter}")
         
         return render_template(
             'manhwaContent.html',
@@ -368,10 +367,13 @@ def chapter_detail(manga_title, chapterName):
             manga_title=manga_title,
             chapterName=chapterName,
             next_chapter=next_chapter,
+            previous_chapter=previous_chapter  # This should be passed correctly
         )
+
     
     except FileNotFoundError:
         return "Chapter not found", 404
+
 
 
 
