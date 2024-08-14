@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Manga Chapters</h1>
+        <ul>
+            {% for chapter in manga_list %}
+                <li><a href="{{ url_for('manga_reader', chapter_name=chapter) }}">{{ chapter }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

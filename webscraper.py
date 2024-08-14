@@ -1,283 +1,145 @@
-try:
-    import requests
-    from bs4 import BeautifulSoup
-    import os
-    from urllib.parse import urljoin
-    import re
-except ImportError as e:
-    print(f"Import Error: {e}")
+import requests
+from bs4 import BeautifulSoup
+import os
+from urllib.parse import urljoin
+import re
+from replaceCode import replace_special_characters
 
-
-
-
-# URL of the page to scrape
-# https://www.mangaread.org/manga/the-beginning-after-the-end/
-
+# Constants
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'
+DIRECTORY_PATH = 'manga'
+MAX_DIR_NAME_LENGTH = 255
 
 def validDirName(text):
     # Replace invalid characters with underscores
-    text = re.sub(r'[<>:"/\\|?*]', '', text)
-    
-    # Trim leading and trailing spaces
-    text = text.strip()
-    
-    # Ensure directory name is not empty
-    if not text:
-        text = "default_directory"
-    
-    # Optionally, you can limit the length of the directory name
-    max_length = 255
-    if len(text) > max_length:
-        text = text[:max_length]
-    
-    return text
+    text = re.sub(r'[<>:"/\\|?*]', '', text).strip()
+    return text[:MAX_DIR_NAME_LENGTH] 
 
-def count_directories():
+def count_directories(base_path):
     try:
-        directory_path = 'manga'
-        # List all entries in the given directory
-        entries = os.listdir(directory_path)
-        
-        # Count the number of directories
-        dir_count = sum([1 for entry in entries if os.path.isdir(os.path.join(directory_path, entry))])
-        
-        print(dir_count)
-        
+        entries = os.listdir(base_path)
+        dir_count = sum([1 for entry in entries if os.path.isdir(os.path.join(base_path, entry))])
         return str(dir_count)
     except FileNotFoundError:
-        print(f"The directory {directory_path} does not exist.")
+        print(f"The directory {base_path} does not exist.")
     except PermissionError:
-        print(f"Permission denied to access the directory {directory_path}.")
+        print(f"Permission denied to access the directory {base_path}.")
     except Exception as e:
         print(f"An error occurred: {e}")
-        
-        
-        
 
 def print_links_in_reverse_order(url):
-    # Headers to mimic a browser request
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
-    }
-    
-    # Make a request to the webpage
-    response = requests.get(url, headers=headers)
-
-    # Check if the request was successful
+    response = requests.get(url, headers={'User-Agent': USER_AGENT})
     if response.status_code == 200:
-        # Parse the HTML content using BeautifulSoup
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        # Find the div with the specific class
-        div = soup.find('div', class_='listing-chapters_wrap cols-1 show-more')
+        title_div = soup.find('div', class_='post-title')
+        if title_div:
+            title = title_div.find('h1').text.strip()
+            safe_title = replace_special_characters(validDirName(title))
+            directory_path = f'{DIRECTORY_PATH}/{safe_title}'
+            os.makedirs(directory_path, exist_ok=True)
+            print(f"Title Directory: {directory_path}")
+        else:
+            title = safe_title = "default_directory"
         
-        # If the div exists, find all links within it
-        if div:
-            links = div.find_all('a', href=True)  # Find all 'a' tags with 'href' attributes
-            link_urls = [a['href'] for a in links]  # Extract the href attribute from each link
-            
-            
-            # Reverse the order of the links
-            link_urls.reverse()
-            
-            # Print each link URL
-            for link in link_urls:
-                print(link)
+        links_div = soup.find('div', class_='listing-chapters_wrap cols-1 show-more')
+        if links_div:
+            links = [a['href'] for a in links_div.find_all('a', href=True)]
+            links.reverse()
+            for link in links:
+                print(f"Link: {link}")
         else:
             print("The specified div was not found in the HTML.")
-            
-            
-                
-        div = soup.find('div', class_='post-title')
-        if div:
-            title = div.find('h1').text.strip()
-            print(title)
-        else:
-            print("The specified div was not found in the HTML.")
-        os.makedirs(f'manga/{validDirName(title)}', exist_ok=True)
-            
-        div = soup.find('div', class_='summary_image')
-        if div:
-            img = div.find("img")
-            img_url = img.get('src')
-            img_url = urljoin(url, img_url)
-            
+        
+        img_div = soup.find('div', class_='summary_image')
+        if img_div:
+            img = img_div.find("img")
+            img_url = urljoin(url, img.get('src'))
             if img_url:
-                    print(f'Found image URL: {img_url}')
-                    
-                    # Download the image using stream to handle large files
-                    img_response = requests.get(img_url, headers=headers, stream=True)
-                    
-                    # Check if the request was successful
-                    if img_response.status_code == 200:
-                        # Get the image file name and extension
-                        img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
-                        img_name = os.path.join(f'manga/{validDirName(title)}', f'cover_image{img_extension}')
-                        
-                        # Open a file for writing the binary data
-                        with open(img_name, 'wb') as handler:
-                            # Write the image in chunks to avoid high memory usage
-                            for chunk in img_response.iter_content(chunk_size=1024):
-                                if chunk:
-                                    handler.write(chunk)
-                        
-                        print(f'Downloaded {img_name}')
-                    else:
-                        print(f'Failed to download image from {img_url}. Status code: {img_response.status_code}')
-            
-            
-            
+                print(f'Found image URL: {img_url}')
+                img_response = requests.get(img_url, headers={'User-Agent': USER_AGENT}, stream=True)
+                if img_response.status_code == 200:
+                    img_ext = os.path.splitext(img_url)[1]
+                    img_name = os.path.join(directory_path, f'cover_image{img_ext}')
+                    print(f"Image Path: {img_name}")
+                    with open(img_name, 'wb') as handler:
+                        for chunk in img_response.iter_content(chunk_size=1024):
+                            if chunk:
+                                handler.write(chunk)
+                    print(f'Downloaded {img_name}')
+                else:
+                    print(f'Failed to download image from {img_url}. Status code: {img_response.status_code}')
         else:
             print("The specified div was not found in the HTML.")
-            
-        #summary__content show-more active
         
-        
-        
-        
-        mainPath = f'manga/{validDirName(title)}'
-
-                    # Making the description category
-        
-        
-        # Find the div with the class 'post-content'
-        post_content = soup.find('div', class_='post-content')
-        
-        if post_content:
-            # Find all divs with the class 'post-content_item'
-            post_content_items = post_content.find_all('div', class_='post-content_item')
-
-            # Initialize the 'type' variable
-            type_value = None
-
-            # Iterate over all 'post-content_item' divs
-            for item in post_content_items:
-                # Find all divs with the class 'summary-heading'
-                summary_headings = item.find_all('div', class_='summary-heading')
-
-                for heading in summary_headings:
-                    # Find the h5 tag inside 'summary-heading'
-                    h5_tag = heading.find('h5')
-
-                    # Check if the h5 tag text is 'Type'
-                    if h5_tag and h5_tag.text.strip() == 'Type':
-                        # Find the corresponding 'summary-content' div
-                        summary_content = item.find('div', class_='summary-content')
-
-                        if summary_content:
-                            # Assign the text of 'summary-content' to the 'type' variable
-                            type_value = summary_content.text.strip()
-
-            # Print the value of 'type'
-            print('Type:', type_value)
-        else:
-            print('No div with class "post-content" found.')
-        file_path = os.path.join(mainPath, 'type.txt')
-        with open(file_path, 'w', encoding='utf-8') as typeFile:
-            typeFile.write(type_value)
-            
-            
-        div = soup.find('div', class_='description-summary')
-        if div:
-            # Find all paragraph tags within the div
-            paragraphs = div.find_all('p')
-
-            # Extract the text from each paragraph and join them together with two new lines between paragraphs
-            content = '\n\n'.join([p.get_text(strip=True) for p in paragraphs])
-            
-            # Print the content to the console
-            print(content)
-
-            # Create the directory if it does not exist
-            os.makedirs(mainPath, exist_ok=True)
-
-            # Write the content to a text file
-            file_path = os.path.join(mainPath, 'description.txt')
-            with open(file_path, 'w', encoding='utf-8') as descFile:
+        content_div = soup.find('div', class_='description-summary')
+        if content_div:
+            paragraphs = content_div.find_all('p')
+            content = '\n\n'.join(p.get_text(strip=True) for p in paragraphs)
+            desc_path = os.path.join(directory_path, 'description.txt')
+            print(f"Description Path: {desc_path}")
+            with open(desc_path, 'w', encoding='utf-8') as descFile:
                 descFile.write(content)
-            
         else:
             print("The specified div was not found in the HTML.")
         
-        # making id file
-        with open(f'{mainPath}/id.txt', 'w+') as id_file:
-            id_file.write(count_directories())
-            id_file.close()
-            
-        return link_urls, title
-       
+        post_content_div = soup.find('div', class_='post-content')
+        type_value = None
+        if post_content_div:
+            for item in post_content_div.find_all('div', class_='post-content_item'):
+                type_heading = item.find('div', class_='summary-heading').find('h5')
+                if type_heading and type_heading.text.strip() == 'Type':
+                    type_value = item.find('div', class_='summary-content').text.strip()
+            type_path = os.path.join(directory_path, 'type.txt')
+            print(f"Type Path: {type_path}")
+            with open(type_path, 'w', encoding='utf-8') as typeFile:
+                typeFile.write(type_value if type_value else '')
+        
+        id_path = os.path.join(directory_path, 'id.txt')
+        print(f"ID Path: {id_path}")
+        with open(id_path, 'w') as id_file:
+            id_file.write(count_directories(DIRECTORY_PATH))
+        
+        return links, title
     else:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
-#summary_image
-
 
 def webScrape(url, title):
-    # Headers to mimic a browser request
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
-    }
-
-    # Make a request to the webpage
-    response = requests.get(url, headers=headers)
-
-    # Check if the request was successful
+    response = requests.get(url, headers={'User-Agent': USER_AGENT})
     if response.status_code == 200:
-        # Parse the HTML content using BeautifulSoup
         soup = BeautifulSoup(response.content, 'html.parser')
-        
-        # Find the container with the specific class
         container = soup.find(class_='reading-content')
         
-        os.makedirs(f'manga/{validDirName(title)}/Chapters', exist_ok=True)
+        safe_title = replace_special_characters(validDirName(title))
+        chapters_dir = os.path.join(DIRECTORY_PATH, safe_title, 'Chapters')
+        os.makedirs(chapters_dir, exist_ok=True)
         
+        chapter_name = soup.find('h1', id='chapter-heading').text.strip()
+        if chapter_name and title in chapter_name:
+            chapter_name = chapter_name[len(title)+3:]
         
-        
-        chapterName = soup.find('h1', id='chapter-heading').text.strip()
-        if chapterName:
-            print(chapterName)
-            if title in chapterName:
-                chapterName = chapterName[len(title)+3:]
-            print(chapterName)
-        
-        if os.path.exists(f"manga/{validDirName(title)}/Chapters/{validDirName(chapterName)}"):
-            print(f"Chapter {chapterName} already exists.")
+        chapter_dir = os.path.join(chapters_dir, replace_special_characters(validDirName(chapter_name)))
+        if os.path.exists(chapter_dir):
+            print(f"Chapter {chapter_name} already exists.")
             return
         
-        # If the container exists, find all image tags inside it
         if container:
             img_tags = container.find_all('img')
-            
-            # Directory to save images
-            os.makedirs(f'manga/{validDirName(title)}/Chapters/{validDirName(chapterName)}', exist_ok=True)
-            
-            # Loop through all img tags and download the images
+            os.makedirs(chapter_dir, exist_ok=True)
             for i, img in enumerate(img_tags, start=1):
-                img_url = img.get('src')
-                
-                # Ensure the image URL is absolute
-                img_url = urljoin(url, img_url)
-                
-                # Make sure the img tag has a 'src' attribute
+                img_url = urljoin(url, img.get('src'))
                 if img_url:
                     print(f'Found image URL: {img_url}')
-                    
-                    # Download the image using stream to handle large files
-                    img_response = requests.get(img_url, headers=headers, stream=True)
-                    
-                    # Check if the request was successful
+                    img_response = requests.get(img_url, headers={'User-Agent': USER_AGENT}, stream=True)
                     if img_response.status_code == 200:
-                        # Get the image file name and extension
-                        img_extension = os.path.splitext(img_url)[1]  # Get the extension from the URL
-                        img_name = os.path.join(f'manga/{validDirName(title)}/Chapters/{validDirName(chapterName)}', f'image_{i}{img_extension}')
-                        
-                        # Open a file for writing the binary data
+                        img_ext = os.path.splitext(img_url)[1]
+                        img_name = os.path.join(chapter_dir, f'image_{i}{img_ext}')
+                        print(f"Image Path: {img_name}")
                         with open(img_name, 'wb') as handler:
-                            # Write the image in chunks to avoid high memory usage
                             for chunk in img_response.iter_content(chunk_size=1024):
                                 if chunk:
                                     handler.write(chunk)
-                        
                         print(f'Downloaded {img_name}')
                     else:
                         print(f'Failed to download image from {img_url}. Status code: {img_response.status_code}')
@@ -286,18 +148,14 @@ def webScrape(url, title):
     else:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
+
 def main(url):
     links, title = print_links_in_reverse_order(url)
-
     for link in links:
-        webScrape(url=link, title=title)
-    
+        webScrape(link, title)
 
 if __name__ == '__main__':
     numberOfMangas = int(input("Enter the number of mangas: "))
-    mangas = []
-    for i in range(numberOfMangas):
-        mangas.append(input(f"Enter the URL of manga {i+1}: "))
-    for link in mangas:
-        main(link)
-
+    mangas = [input(f"Enter the URL of manga {i+1}: ") for i in range(numberOfMangas)]
+    for manga in mangas:
+        main(manga)

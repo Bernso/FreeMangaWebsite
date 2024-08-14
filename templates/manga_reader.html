@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ chapter_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <label for="image-height">Adjust Height:</label>
+            <input type="range" id="image-height" min="100" max="1000" value="600" class="uncopyable">
+        </div>
+        <div class="manga-viewer unselectable">
+            <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
+        </div>
+        <div class="chapter-navigation">
+            {% if previous_chapter %}
+                <a href="{{ url_for('manga_reader', chapter_name=previous_chapter) }}" class="btn">Previous Chapter</a>
+            {% endif %}
+            {% if next_chapter %}
+                <a href="{{ url_for('manga_reader', chapter_name=next_chapter) }}" class="btn">Next Chapter</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = {{ images|tojson }};
+            let currentImageIndex = 0;
+        
+            const mangaPanel = document.getElementById('manga-panel');
+            const heightSlider = document.getElementById('image-height');
+        
+            function updateImage() {
+                if (images.length > 0) {
+                    mangaPanel.src = images[currentImageIndex];
+                }
+            }
+        
+            function adjustHeight() {
+                const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
+                mangaPanel.style.height = heightSlider.value + 'px';
+        
+                // Prevent scrolling when the height reaches the maximum value
+                if (parseInt(heightSlider.value) >= maxHeight) {
+                    mangaPanel.style.overflow = 'hidden';
+                } else {
+                    mangaPanel.style.overflow = 'auto';
+                }
+            }
+        
+            // Event listeners for arrow keys
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowLeft') {
+                    if (currentImageIndex > 0) {
+                        currentImageIndex--;
+                        updateImage();
+                    }
+                } else if (event.key === 'ArrowRight') {
+                    if (currentImageIndex < images.length - 1) {
+                        currentImageIndex++;
+                        updateImage();
+                    }
+                }
+            });
+    
+            // Prevent slider adjustment using arrow keys
+            heightSlider.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                    event.preventDefault(); // Prevent arrow keys from adjusting the slider
+                }
+            });
+    
+            heightSlider.addEventListener('input', function() {
+                adjustHeight();
+                // Smoothly adjust height by animating
+                mangaPanel.style.transition = 'height 0.3s ease';
+            });
+    
+            // Initialize height
+            const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
+            heightSlider.max = maxHeight;
+            adjustHeight();
+            // Initialize first image
+            updateImage();
+        });
+    </script>
+    
+    
+    
+    
+</body>
+</html>
