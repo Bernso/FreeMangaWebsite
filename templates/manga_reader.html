@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="container" style='background: var(--background-light)'>
         <div class="controls">
             <label for="image-height">Adjust Height:</label>
-            <input type="range" id="image-height" min="100" max="1000" value="600" class="uncopyable">
+            <input type="range" id="image-height" min="100" max="1000" value="{{ saved_height }}" class="uncopyable">
+            <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label> <!-- Display slider value -->
         </div>
         <div class="chapter-navigation">
             {% if previous_chapter %}
@@ -20,12 +21,12 @@
                 <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn">Next Chapter</a>
             {% endif %}
         </div>
-        <div class="manga-viewer unselectable">
-            <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
-        </div>
+        
         
     </div>
-
+<div class="manga-viewer unselectable">
+            <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
+        </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const images = {{ images|tojson }};
@@ -33,7 +34,13 @@
         
             const mangaPanel = document.getElementById('manga-panel');
             const heightSlider = document.getElementById('image-height');
-        
+            
+            // Load height setting from localStorage
+            const savedHeight = localStorage.getItem('mangaPanelHeight');
+            if (savedHeight) {
+                heightSlider.value = savedHeight;
+            }
+
             function updateImage() {
                 if (images.length > 0) {
                     mangaPanel.src = images[currentImageIndex];
@@ -43,14 +50,26 @@
             function adjustHeight() {
                 const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
                 mangaPanel.style.height = heightSlider.value + 'px';
-        
+            
                 if (parseInt(heightSlider.value) >= maxHeight) {
                     mangaPanel.style.overflow = 'hidden';
                 } else {
                     mangaPanel.style.overflow = 'auto';
                 }
-
+                
+                // Save height setting to localStorage
+                localStorage.setItem('mangaPanelHeight', heightSlider.value);
+                
+                // Send the height to the server
+                fetch('/save_height', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ height: heightSlider.value })
+                });
             }
+            
         
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowLeft') {
@@ -82,7 +101,6 @@
             adjustHeight();
             updateImage();
         });
-        
     </script>
 </body>
 </html>

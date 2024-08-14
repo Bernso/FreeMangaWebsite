@@ -28,6 +28,7 @@ host = '127.0.0.1'  # could be 127.0.0.1 or 0.0.0.0 or your ip
 
 load_dotenv()
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 currentPath = os.getcwd()
 MANGA_DIR = os.path.join(currentPath, 'manga')
@@ -338,7 +339,9 @@ def manga_detail(manga_id):
                                reccomended_manga=reccomended_manga  # Use the correct variable name
                             )
     else:
-        return "Manga not found", 404
+        return 404
+
+
 
 
 @app.route("/manga_reader")
@@ -348,12 +351,14 @@ def manga_reader_home():
     for manga in manga_folders:
         manga_id_path = os.path.join(MANGA_DIR, manga, 'type.txt')
         if os.path.isfile(manga_id_path):
-            with open(manga_id_path, 'r') as f:
+            with open(manga_id_path, 'r', encoding='utf-8') as f:
                 manga_id = f.read().strip()
                 if manga_id == "Manga":
                     manga_list.append((manga, manga_id))
 
     return render_template('manga_reader_home.html', manga_list=manga_list)
+
+
 
 
 @app.route("/manga_reader/<manga_name>")
@@ -374,7 +379,7 @@ def manga_details(manga_name):
 
     description_path = os.path.join(manga_path, 'description.txt')
     if os.path.isfile(description_path):
-        with open(description_path, 'r') as f:
+        with open(description_path, 'r', encoding='utf-8') as f:
             description = f.read().strip()
     else:
         description = "No description available."
@@ -383,8 +388,12 @@ def manga_details(manga_name):
     chapters_dir = os.path.join(manga_path, "Chapters")
     chapters = [folder for folder in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, folder))]
     chapters.sort(key=natural_sort_key)
+    chapters = chapters[::-1]
 
     return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters)
+
+
+
 
 @app.route('/manga_reader/<manga_name>/<chapter_name>')
 def manga_reader(manga_name, chapter_name):
@@ -411,8 +420,22 @@ def manga_reader(manga_name, chapter_name):
     next_chapter = chapters[current_chapter_index + 1] if current_chapter_index < len(chapters) - 1 else None
     previous_chapter = chapters[current_chapter_index - 1] if current_chapter_index > 0 else None
 
+    # Get the saved height from session
+    saved_height = session.get('mangaPanelHeight', 600)
+
     return render_template('manga_reader.html', images=images, chapter_name=chapter_name, manga_name=manga_name,
-                           next_chapter=next_chapter, previous_chapter=previous_chapter)
+                           next_chapter=next_chapter, previous_chapter=previous_chapter, saved_height=saved_height)
+
+
+
+
+@app.route('/save_height', methods=['POST'])
+def save_height():
+    height = request.json.get('height')
+    session['mangaPanelHeight'] = height
+    return jsonify({"status": "success"})
+
+
 
 
 
@@ -428,7 +451,6 @@ def manga_reader_image(manga_name, chapter_name, filename):
         abort(404)
 
     return send_from_directory(directory, filename)
-
 
 
 
