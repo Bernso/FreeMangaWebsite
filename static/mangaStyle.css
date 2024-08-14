@@ -70,6 +70,86 @@ ul li a:hover {
     color: var(--link-hover-color);
 }
 
+/* Home Page - Manga Grid */
+.manga-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.manga-item {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease;
+}
+
+.manga-item:hover {
+    transform: translateY(-5px);
+}
+
+.cover-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+}
+
+.manga-title {
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin-top: 10px;
+}
+
+/* Manga Details Page */
+.manga-header-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.manga-info {
+    flex-grow: 1;
+}
+
+.manga-info h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: var(--link-color);
+}
+
+.manga-info .description {
+    font-size: 1.2em;
+    color: var(--text-muted);
+}
+
+/* Scrollable Chapter List */
+.chapter-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.chapter-list li {
+    margin-bottom: 10px;
+}
+
+.chapter-list li a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.chapter-list li a:hover {
+    color: var(--link-hover-color);
+}
+
 /* Manga Viewer Page */
 .controls {
     display: flex;
@@ -160,8 +240,6 @@ ul li a:hover {
 body {
     overflow: -webkit-scrollbar;
 }
-
-/* Add this to mangaStyle.css */
 
 input[type="range"] {
     width: 100%;

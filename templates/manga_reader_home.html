@@ -8,12 +8,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>Manga Chapters</h1>
-        <ul>
-            {% for chapter in manga_list %}
-                <li><a href="{{ url_for('manga_reader', chapter_name=chapter) }}">{{ chapter }}</a></li>
+        <h1>Available Manga</h1>
+        <div class="manga-grid">
+            {% for manga, manga_id in manga_list %}
+                <div class="manga-item">
+                    <a href="{{ url_for('manga_details', manga_name=manga) }}">
+                        <div class="manga-cover">
+                            <img src="{{ url_for('serve_image', manga_title=manga) }}" alt="{{ manga }}" class="cover-image">
+                        </div>
+                        <div class="manga-title">{{ manga }}</div>
+                    </a>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 </body>
 </html>

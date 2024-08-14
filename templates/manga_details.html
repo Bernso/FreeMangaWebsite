@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ manga_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="manga-header">
+            <div class="manga-header-content">
+                {% if cover_image %}
+                    <div class="manga-cover">
+                        <img src="{{ url_for('serve_image', manga_title=manga_name) }}" alt="{{ manga_name }} Cover Image" class="cover-image">
+                    </div>
+                {% endif %}
+                <div class="manga-info">
+                    <h1>{{ manga_name }}</h1>
+                    <p class="description">{{ description }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Chapters</h2>
+        <ul class="chapter-list">
+            {% for chapter in chapters %}
+                <li><a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}">{{ chapter }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

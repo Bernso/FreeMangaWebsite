@@ -343,51 +343,94 @@ def manga_detail(manga_id):
 
 @app.route("/manga_reader")
 def manga_reader_home():
-    manga_path = os.path.join(MANGA_DIR, "I'm Dating a Dark Summoner", "Chapters")
-    manga_list = os.listdir(manga_path)
-    manga_list = [replace_special_characters(chapter) for chapter in manga_list]
-    manga_list.sort(key=natural_sort_key)
+    manga_folders = [folder for folder in os.listdir(MANGA_DIR) if os.path.isdir(os.path.join(MANGA_DIR, folder))]
+    manga_list = []
+    for manga in manga_folders:
+        manga_id_path = os.path.join(MANGA_DIR, manga, 'type.txt')
+        if os.path.isfile(manga_id_path):
+            with open(manga_id_path, 'r') as f:
+                manga_id = f.read().strip()
+                if manga_id == "Manga":
+                    manga_list.append((manga, manga_id))
+
     return render_template('manga_reader_home.html', manga_list=manga_list)
 
-@app.route('/manga_reader/<chapter_name>')
-def manga_reader(chapter_name):
-    chapter_name = urllib.parse.unquote(chapter_name)
-    chapter_name = replace_special_characters(chapter_name)
 
-    chapter_path = os.path.join(MANGA_DIR, "I'm Dating a Dark Summoner", "Chapters", chapter_name)
+@app.route("/manga_reader/<manga_name>")
+def manga_details(manga_name):
+    manga_name = urllib.parse.unquote(manga_name)
+    manga_path = os.path.join(MANGA_DIR, manga_name)
+
+    if not os.path.isdir(manga_path):
+        return "Manga not found", 404
+
+    # Read manga details
+    cover_image = None
+    for ext in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
+        potential_cover = os.path.join(manga_path, f'cover_image.{ext}')
+        if os.path.isfile(potential_cover):
+            cover_image = url_for('static', filename=os.path.relpath(potential_cover, 'static'))
+            break
+
+    description_path = os.path.join(manga_path, 'description.txt')
+    if os.path.isfile(description_path):
+        with open(description_path, 'r') as f:
+            description = f.read().strip()
+    else:
+        description = "No description available."
+
+    # List chapters
+    chapters_dir = os.path.join(manga_path, "Chapters")
+    chapters = [folder for folder in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, folder))]
+    chapters.sort(key=natural_sort_key)
+
+    return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters)
+
+@app.route('/manga_reader/<manga_name>/<chapter_name>')
+def manga_reader(manga_name, chapter_name):
+    manga_name = urllib.parse.unquote(manga_name)
+    chapter_name = urllib.parse.unquote(chapter_name)
+
+    chapter_path = os.path.join(MANGA_DIR, manga_name, "Chapters", chapter_name)
     
     if not os.path.isdir(chapter_path):
         return "Chapter not found", 404
     
     images = sorted([img for img in os.listdir(chapter_path) if img.lower().endswith(('jpg', 'jpeg', 'png', 'gif', 'webp'))])
-    images = [url_for('manga_reader_image', chapter_name=chapter_name, filename=img) for img in images]  # Generate URLs for the images
-    
-    manga_list = os.listdir(os.path.join(MANGA_DIR, "I'm Dating a Dark Summoner", "Chapters"))
-    manga_list = [replace_special_characters(chapter) for chapter in manga_list]
-    manga_list.sort(key=natural_sort_key)
-    
-    if chapter_name not in manga_list:
-        return "Chapter not found", 404
+    images = [url_for('manga_reader_image', manga_name=manga_name, chapter_name=chapter_name, filename=img) for img in images]
+    images.sort(key=natural_sort_key)
 
-    current_index = manga_list.index(chapter_name)
-    next_chapter = manga_list[current_index + 1] if current_index < len(manga_list) - 1 else None
-    previous_chapter = manga_list[current_index - 1] if current_index > 0 else None
-    
-    return render_template('manga_reader.html', images=images, chapter_name=chapter_name, next_chapter=next_chapter, previous_chapter=previous_chapter)
+    # Retrieve the list of chapters
+    chapters_path = os.path.join(MANGA_DIR, manga_name, "Chapters")
+    chapters = sorted(os.listdir(chapters_path), key=natural_sort_key)
+
+    # Find the current chapter index
+    current_chapter_index = chapters.index(chapter_name)
+
+    # Determine next and previous chapters
+    next_chapter = chapters[current_chapter_index + 1] if current_chapter_index < len(chapters) - 1 else None
+    previous_chapter = chapters[current_chapter_index - 1] if current_chapter_index > 0 else None
+
+    return render_template('manga_reader.html', images=images, chapter_name=chapter_name, manga_name=manga_name,
+                           next_chapter=next_chapter, previous_chapter=previous_chapter)
 
 
-@app.route('/manga_reader_image/<chapter_name>/<filename>')
-def manga_reader_image(chapter_name, filename):
+
+@app.route('/manga_reader_image/<manga_name>/<chapter_name>/<filename>')
+def manga_reader_image(manga_name, chapter_name, filename):
+    manga_name = urllib.parse.unquote(manga_name)
     chapter_name = urllib.parse.unquote(chapter_name)
     chapter_name = replace_special_characters(chapter_name)
 
-    directory = os.path.join(MANGA_DIR, "I'm Dating a Dark Summoner", "Chapters", chapter_name)
-    
+    directory = os.path.join(MANGA_DIR, manga_name, "Chapters", chapter_name)
     file_path = os.path.join(directory, filename)
     if not os.path.isfile(file_path):
         abort(404)
-    
+
     return send_from_directory(directory, filename)
+
+
+
 
 
 @app.route('/manga/<manga_title>/chapter/<chapterName>')
