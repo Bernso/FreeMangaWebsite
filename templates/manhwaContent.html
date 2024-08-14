@@ -29,7 +29,14 @@
 
         <!-- Chapter Navigation Buttons -->
         <div class="chapter-navigation-container">
-        
+            {% if previous_chapter %}
+            <div class="prev-chapter-container">
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=previous_chapter) }}" class="prev-chapter-button">
+                    Previous Chapter: {{ previous_chapter }}
+                </a>
+            </div>
+            {% endif %}
+            
             {% if next_chapter %}
             <div class="next-chapter-container">
                 <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" class="next-chapter-button">
@@ -42,13 +49,7 @@
             </div>
             {% endif %}
             
-            {% if previous_chapter %}
-            <div class="prev-chapter-container">
-                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=previous_chapter) }}" class="prev-chapter-button">
-                    Previous Chapter: {{ previous_chapter }}
-                </a>
-            </div>
-            {% endif %}
+            
         </div>
     </main>
     <main></main>
