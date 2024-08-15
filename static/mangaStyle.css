@@ -338,32 +338,31 @@ input[type="range"]::-moz-range-thumb {
 
 /* Header Styles */
 .main-header {
-    background: linear-gradient(to right, #1a1a1a, #333); /* Gradient background */
+    background: #1a1a1a 0%;
     height: var(--header-height);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Evenly space items */
+    justify-content: space-between;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    transition: top 0.5s ease;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6);
-    padding: 0 20px; /* Padding for better spacing */
+    transition: top 0.3s ease, background 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); /* Softer, yet pronounced shadow */
+    padding: 0 30px; /* Increased padding for better spacing */
 }
 
 .main-header nav {
-    display: flex;
     flex-grow: 1; /* Allow nav to grow and occupy available space */
+    display: flex;
+    justify-content: center;
 }
 
 .main-header nav ul {
     list-style: none;
     display: flex;
-    margin-left: 15%;
+    gap: 20px; /* Add consistent spacing between items */
     align-items: center;
-    justify-content: space-between; /* Spread items across the nav */
-    width: 70%;
     margin: 0;
     padding: 0;
 }
@@ -374,15 +373,18 @@ input[type="range"]::-moz-range-thumb {
 
 .main-header nav ul li a {
     color: var(--link-color);
-    font-size: 1.2em;
-    font-weight: 500; /* Medium weight for emphasis */
-    text-decoration: none;
+    font-size: 1.1em; /* Slightly smaller for a modern look */
+    font-weight: 600; /* Slightly bolder for emphasis */
+    text-transform: uppercase; /* Uppercase text for navigation */
+    letter-spacing: 0.05em; /* Space out letters slightly */
+    padding: 10px 15px; /* Add padding to make it easier to click */
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .main-header nav ul li a:hover {
     color: var(--link-hover-color);
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    border-radius: 8px; /* Rounded corners for hover state */
+    transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
 .main-header nav ul li::after {
@@ -391,7 +393,7 @@ input[type="range"]::-moz-range-thumb {
     bottom: -5px; /* Position under the text */
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px; /* Thinner underline */
     background: var(--link-hover-color);
     transform: scaleX(0);
     transform-origin: bottom right;
@@ -411,30 +413,45 @@ input[type="range"]::-moz-range-thumb {
 /* Responsive Design */
 @media (max-width: 768px) {
     .main-header {
-        padding: 0 10px; /* Less padding on smaller screens */
+        padding: 0 20px; /* Less padding on smaller screens */
     }
 
     .main-header nav ul {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        gap: 15px;
     }
 
-    .main-header nav ul li {
-        margin-bottom: 10px;
-    }
-
-    .main-header nav ul li:last-child {
-        margin-bottom: 0;
+    .main-header nav ul li a {
+        padding: 8px 12px; /* Adjust padding for smaller screens */
     }
 }
-
 
 /* Adjust container and content to account for header */
 .container {
-    padding-top: calc(var(--header-height) + 20px);
+    padding-top: 15px;
 }
+
 
 /* Hidden header state */
 .header-hidden {
     top: -60px; /* Hide the header */
+}
+
+/* Progress Bar Styles */
+.progress-container {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #000000; /* Background of the progress container */
+    z-index: 1000;
+}
+
+#progress-bar {
+    height: 100%;
+    background: linear-gradient(140deg, var(--background-dark), var(--link-color)) ; /* Color of the progress bar */
+    width: 0;
+    transition: width 0.3s ease; /* Smooth transition */
 }

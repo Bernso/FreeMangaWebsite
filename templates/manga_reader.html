@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ chapter_name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
 </head>
 <body>
     {% include 'header.html' %}
-
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
     
     <div class="container" style='background: var(--background-light)'>
         <div class="controls">
@@ -25,11 +28,11 @@
             {% endif %}
         </div>
         
-        
-    </div>
-<div class="manga-viewer unselectable">
+        <div class="manga-viewer unselectable">
             <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
         </div>
+    </div>
+        
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const images = {{ images|tojson }};
@@ -45,11 +48,19 @@
                 heightSlider.value = savedHeight;
             }
 
+            function updateProgressBar() {
+                const progressBar = document.getElementById('progress-bar');
+                const progress = ((currentImageIndex + 1) / images.length) * 100;
+                progressBar.style.width = progress + '%';
+            }
+            
             function updateImage() {
                 if (images.length > 0) {
                     mangaPanel.src = images[currentImageIndex];
+                    updateProgressBar(); // Update the progress bar whenever the image changes
                 }
             }
+            
         
             function adjustHeight() {
                 const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
