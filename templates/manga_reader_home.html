@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
 </head>
 <body>
+    {% include 'header.html' %}
+
+    
     <div class="container">
         <h1>Available Manga</h1>
         <div class="manga-grid">
-            {% for manga, manga_id in manga_list %}
+            {% for manga, manga_id, mangaLink in manga_list %}
                 <div class="manga-item">
-                    <a href="{{ url_for('manga_details', manga_name=manga) }}">
+                    <a href="{{ url_for('manga_details', manga_name=mangaLink) }}">
                         <div class="manga-cover">
-                            <img src="{{ url_for('serve_image', manga_title=manga) }}" alt="{{ manga }}" class="cover-image">
+                            <img src="{{ url_for('serve_image', manga_title=mangaLink) }}" alt="{{ manga }}" class="cover-image">
                         </div>
                         <div class="manga-title">{{ manga }}</div>
                     </a>

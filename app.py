@@ -93,6 +93,8 @@ def get_featured_manga():
 
                 with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
+                    if manga_type.lower() == 'manga':
+                        continue
 
                 # Create a dictionary with the manga data
                 manga_data = {
@@ -128,6 +130,8 @@ def get_featured_mangaTruncated():
 
                 with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
+                    if manga_type.lower() == 'manga':
+                        continue
 
 
                 if len(description) > 50:
@@ -166,6 +170,8 @@ def get_featured_mangaTruncatedTitle():
 
                 with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
+                    if manga_type.lower() == 'manga':
+                        continue
 
                 manga_folder2 = manga_folder
                 if len(manga_folder) > 15:
@@ -349,12 +355,15 @@ def manga_reader_home():
     manga_folders = [folder for folder in os.listdir(MANGA_DIR) if os.path.isdir(os.path.join(MANGA_DIR, folder))]
     manga_list = []
     for manga in manga_folders:
+        mangaLink = manga
         manga_id_path = os.path.join(MANGA_DIR, manga, 'type.txt')
         if os.path.isfile(manga_id_path):
             with open(manga_id_path, 'r', encoding='utf-8') as f:
                 manga_id = f.read().strip()
                 if manga_id == "Manga":
-                    manga_list.append((manga, manga_id))
+                    if len(manga) > 80:
+                        manga = manga[:77] + '...'
+                    manga_list.append((manga, manga_id, mangaLink))
 
     return render_template('manga_reader_home.html', manga_list=manga_list)
 

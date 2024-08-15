@@ -81,8 +81,10 @@ ul li a:hover {
 /* Home Page - Manga Grid */
 .manga-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
+    padding-top: 10px;
+
 }
 
 .manga-item {
@@ -91,11 +93,14 @@ ul li a:hover {
     padding: 10px;
     text-align: center;
     box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease; 
+    color: var(--link-color); 
+
 }
 
 .manga-item:hover {
     transform: translateY(-5px);
+    color: var(--link-hover-color); 
 }
 
 .cover-image {
@@ -331,3 +336,105 @@ input[type="range"]::-moz-range-thumb {
   }
 
 
+/* Header Styles */
+.main-header {
+    background: linear-gradient(to right, #1a1a1a, #333); /* Gradient background */
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Evenly space items */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: top 0.5s ease;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.6);
+    padding: 0 20px; /* Padding for better spacing */
+}
+
+.main-header nav {
+    display: flex;
+    flex-grow: 1; /* Allow nav to grow and occupy available space */
+}
+
+.main-header nav ul {
+    list-style: none;
+    display: flex;
+    margin-left: 15%;
+    align-items: center;
+    justify-content: space-between; /* Spread items across the nav */
+    width: 70%;
+    margin: 0;
+    padding: 0;
+}
+
+.main-header nav ul li {
+    position: relative; /* For pseudo-elements */
+}
+
+.main-header nav ul li a {
+    color: var(--link-color);
+    font-size: 1.2em;
+    font-weight: 500; /* Medium weight for emphasis */
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.main-header nav ul li a:hover {
+    color: var(--link-hover-color);
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.main-header nav ul li::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* Position under the text */
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--link-hover-color);
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+.main-header nav ul li:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Hidden header state */
+.header-hidden {
+    top: -var(--header-height);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 0 10px; /* Less padding on smaller screens */
+    }
+
+    .main-header nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .main-header nav ul li {
+        margin-bottom: 10px;
+    }
+
+    .main-header nav ul li:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+/* Adjust container and content to account for header */
+.container {
+    padding-top: calc(var(--header-height) + 20px);
+}
+
+/* Hidden header state */
+.header-hidden {
+    top: -60px; /* Hide the header */
+}

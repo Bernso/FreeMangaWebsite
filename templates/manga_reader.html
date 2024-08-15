@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
 </head>
 <body>
+    {% include 'header.html' %}
+
+    
     <div class="container" style='background: var(--background-light)'>
         <div class="controls">
             <label for="image-height">Adjust Height:</label>
@@ -35,6 +38,7 @@
             const mangaPanel = document.getElementById('manga-panel');
             const heightSlider = document.getElementById('image-height');
             
+
             // Load height setting from localStorage
             const savedHeight = localStorage.getItem('mangaPanelHeight');
             if (savedHeight) {
@@ -95,12 +99,30 @@
                 adjustHeight();
                 mangaPanel.style.transition = 'height 0.3s ease';
             });
+
+
+            
         
             const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
             heightSlider.max = maxHeight;
             adjustHeight();
             updateImage();
         });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.main-header');
+            
+            // Hide the header initially
+            header.classList.add('header-hidden');
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key.toLowerCase() === 'h') {
+                    header.classList.toggle('header-hidden');
+                }
+            });
+        });
+        
     </script>
 </body>
 </html>
