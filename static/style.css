@@ -54,6 +54,7 @@ header {
     z-index: 1000;
     box-shadow: var(--box-shadow);
     height: var(--header-height); /* Adjust height as needed */
+    transition: top 0.3s ease;
 }
 
 nav ul {
@@ -780,4 +781,8 @@ input[type="range"] {
 
 .link-container {
     align-self: center;
+}
+/* Hidden header state */
+.header-hidden {
+    top: -60px; /* Hide the header */
 }

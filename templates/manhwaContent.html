@@ -97,6 +97,17 @@
                 }
             }
         });
+
+        
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const header = document.querySelector('header');
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key.toLowerCase() === 'h') {
+                header.classList.toggle('header-hidden');
+            }
+        });
     });
 </script>
 </html>
