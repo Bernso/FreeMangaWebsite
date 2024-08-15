@@ -268,6 +268,8 @@ def findAllManga():
 
                 with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
                     manga_type = f.read().strip()
+                    if manga_type.lower() == 'manga':
+                        continue
 
 
                 if len(description) > 50:

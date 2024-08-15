@@ -3,22 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manga Reader</title>
+    <title>Welcome - MR</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
 
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/manga">Manga</a></li>
-                <li><a href="/search">Search</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'manhwaHeader.html' %}
+
     <main>
     </main>
     <main>
@@ -26,13 +18,15 @@
             <h1>Welcome to Manga Reader</h1>
             <div class="manga-scroll">
                 {% for manga in featured_manga %}
-                {% for manga in featured_manga %}
                     <img style='max-height: 100px; max-width: 150px; border-radius: 5px;' src="{{ url_for('serve_image', manga_title=manga.title) }}" alt="{{ manga.title }}">
                 
                 {% endfor %}
-                {% endfor %}
             </div>
-            <a href='/home' class='welcome-link'> Start Exploring </a>
+            <div class='link-container'>
+                <a href='/home' class='welcome-link'> Manhwa </a>
+                <br>
+                <a href='/manga_reader' class='welcome-link'> Manga </a>
+            <div>
         </section>
     </main>
 

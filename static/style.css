@@ -751,3 +751,33 @@ input[type="range"] {
 }
 
 
+
+
+.welcome-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff; /* White text color */
+    background: linear-gradient(to right, var(--link-color), var(--primary-color)); /* Gradient background */
+    border-radius: 25px;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-link:hover {
+    background: linear-gradient(to right, var(--primary-color), var(--link-color)); /* Reverse gradient on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
+.welcome-link:active {
+    transform: scale(0.95); /* Slightly shrink when clicked */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Less shadow when clicked */
+}
+
+.link-container {
+    align-self: center;
+}

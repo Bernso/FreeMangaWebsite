@@ -8,16 +8,7 @@
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('homePage') }}">Home</a></li>
-                <li><a href="{{ url_for('manga_list') }}">Manga</a></li>
-                <li><a href="{{ url_for('search') }}">Search</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'manhwaHeader.html' %}
     <main></main>
     <main>
         <section id="manga-details">
