@@ -6,7 +6,6 @@ try:
     import requests
     import json
     from natsort import natsorted
-    import logging
     import urllib.parse
     from replaceCode import replace_special_characters
     from dotenv import load_dotenv
@@ -17,8 +16,6 @@ except ImportError as e:
 
 
 
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 

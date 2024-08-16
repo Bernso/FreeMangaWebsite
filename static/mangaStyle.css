@@ -34,16 +34,16 @@ body {
     background: var(--card-bg);
     color: var(--text-color);
     overflow-x: hidden;
+    height: 100%;
+    margin: 0;
 }
-
-
 
 /* Side Menu */
 .side-menu {
     position: fixed;
     right: 0;
     top: 0;
-    width: 300px; /* Adjust the width as needed */
+    width: var(--side-menu-width);
     height: 100%;
     background: var(--background-dark);
     padding: 20px;
@@ -122,15 +122,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    height: 100%; /* Full height of the container */
+    width: 100%; /* Full width of the container */
+    padding: 0; /* Remove padding if necessary */
+    overflow: hidden; /* Hide overflow to prevent scrollbars */
+    transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
+    margin-right: 0; /* Default margin */
 }
 
 .manga-viewer img {
     max-width: 100%;
-    max-height: 80vh;
+    max-height: 100%;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    transition: height 0.3s ease;
+    object-fit: contain; /* Maintain aspect ratio */
 }
 
 /* Custom Scrollbar Styles */
@@ -147,7 +152,7 @@ body {
 ::-webkit-scrollbar-thumb {
     background: var(--link-color);
     border-radius: 10px;
-    transition: background 0.3s ease;
+    transition: background var(--side-menu-transition);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -222,9 +227,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 html, body {
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    overflow: hidden; /* Remove extra properties */
     height: 100%;
     width: 100%;
 }
@@ -318,7 +321,9 @@ html, body {
 /* Adjust container and content to account for header */
 .container {
     margin-right: 0; /* No margin by default */
-    padding-top: 60px; /* Adjust for header height */
+    padding-top: 0; /* Remove top padding */
+    height: 100vh; /* Full viewport height */
+    overflow: auto; /* Ensure scrollability if content overflows */
     transition: margin-right 0.3s ease; /* Smooth transition when side menu toggles */
 }
 
@@ -331,11 +336,11 @@ html, body {
 .progress-container {
     position: fixed;
     top: 0;
-    left: 0; /* Attach it to the left-hand side */
+    left: 0;
     height: 5px;
     background: #000;
     z-index: 1000;
-    width: 100%; /* Extend full width by default */
+    width: 100%;
     transition: width 0.3s ease; /* Smooth transition when side menu toggles */
 }
 
@@ -346,12 +351,18 @@ html, body {
     transition: width 0.3s ease;
 }
 
-
 /* Adjustments for side-menu open state */
 .side-menu.open ~ .container {
-    margin-right: 300px; /* Add margin only when side menu is open */
+    margin-right: var(--side-menu-width); /* Move container to the left by the width of the side menu */
+    transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
 }
 
 .side-menu.open ~ .progress-container {
-    width: calc(100% - 300px); /* Adjust width when side menu is open */
+    width: calc(100% - var(--side-menu-width)); /* Adjust width when side menu is open */
+    transition: width 0.3s ease; /* Smooth transition for width adjustment */
+}
+
+.side-menu.open ~ .manga-viewer {
+    margin-right: var(--side-menu-width); /* Adjust margin-right when side menu is open */
+    transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
 }
