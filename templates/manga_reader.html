@@ -11,20 +11,31 @@
     {% include 'header.html' %}
 
     <div class="side-menu">
-        <h2 class="manga-title">{{ manga_name }}</h2>
-        <p>{{ chapter_name }}</p>
-        <div class="controls">
-            <label for="image-height">Adjust Height:</label>
-            <input type="range" id="image-height" min="1" class="uncopyable">
-            <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label>
-        </div>
-        <div class="chapter-navigation">
-            {% if previous_chapter %}
-                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=previous_chapter) }}" class="btn">Previous Chapter</a>
-            {% endif %}
-            {% if next_chapter %}
-                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn">Next Chapter</a>
-            {% endif %}
+        <div class='general'>
+            <div class='manga-informaion'>
+                <h2 class="manga-title">{{ manga_name }}</h2>
+                <p>{{ chapter_name }}</p>
+            </div>
+
+            <div class="controls">
+                <label for="image-height">Adjust Height:</label>
+                <input type="range" id="image-height" min="1" class="uncopyable">
+                <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label>
+            </div>
+
+            <div class="current-page">
+                <button id="prev-panel" class="arrow-btn">←</button>
+                <p id="current-page-display">1 / {{ images|length }}</p>
+                <button id="next-panel" class="arrow-btn">→</button>
+            </div>
+            <div class="chapter-navigation">
+                {% if previous_chapter %}
+                    <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=previous_chapter) }}" class="btn">Previous Chapter</a>
+                {% endif %}
+                {% if next_chapter %}
+                    <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn">Next Chapter</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 
@@ -42,100 +53,124 @@
         document.addEventListener('DOMContentLoaded', function() {
             const images = {{ images|tojson }};
             let currentImageIndex = 0;
-
+        
             const mangaPanel = document.getElementById('manga-panel');
             const heightSlider = document.getElementById('image-height');
             const heightValueLabel = document.getElementById('height-value');
             const progressBar = document.getElementById('progress-bar');
-            const progressContainer = document.querySelector('.progress-container');
             const prevChapterLink = document.querySelector('.chapter-navigation a:first-child');
             const nextChapterLink = document.querySelector('.chapter-navigation a:last-child');
-
+            const currentPageDisplay = document.getElementById('current-page-display');
+            const prevPanelButton = document.getElementById('prev-panel');
+            const nextPanelButton = document.getElementById('next-panel');
+        
             function preloadImages() {
-                images.forEach((src, index) => {
+                images.forEach((src) => {
                     const img = new Image();
                     img.src = src;
                 });
             }
-
+        
             preloadImages();
-
+        
             // Set the max value of the height slider to the viewport height
             const viewportHeight = window.innerHeight;
             heightSlider.max = viewportHeight;
-
+        
             // Set the slider's value to the saved height, or default if not saved
             const savedHeight = localStorage.getItem('mangaPanelHeight') || '500';
             heightSlider.value = savedHeight;
             mangaPanel.style.height = savedHeight + 'px';
             heightValueLabel.textContent = `${savedHeight}px`;
-
+        
             function updateProgressBar() {
                 const progress = ((currentImageIndex + 1) / images.length) * 100;
                 progressBar.style.width = progress + '%';
             }
-
+        
             function updateImage() {
                 if (images.length > 0) {
                     mangaPanel.src = images[currentImageIndex];
                     updateProgressBar();
+                    updateCurrentPageDisplay();
                 }
             }
-
+        
+            function updateCurrentPageDisplay() {
+                currentPageDisplay.textContent = `${currentImageIndex + 1} / ${images.length}`;
+            }
+        
             function adjustHeight() {
                 const newHeight = heightSlider.value;
                 mangaPanel.style.height = newHeight + 'px';
                 heightValueLabel.textContent = `${newHeight}px`;
                 localStorage.setItem('mangaPanelHeight', newHeight);
-
+        
                 fetch('/save_height', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ height: newHeight })
                 });
             }
-
+        
+            function goToPreviousPanel() {
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateImage();
+                } else if (currentImageIndex === 0 && prevChapterLink) {
+                    window.location.href = prevChapterLink.href;
+                }
+            }
+        
+            function goToNextPanel() {
+                if (currentImageIndex < images.length - 1) {
+                    currentImageIndex++;
+                    updateImage();
+                } else if (currentImageIndex === images.length - 1 && nextChapterLink) {
+                    window.location.href = nextChapterLink.href;
+                }
+            }
+        
+            // Keyboard navigation
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowLeft') {
-                    if (currentImageIndex > 0) {
-                        currentImageIndex--;
-                        updateImage();
-                    } else if (currentImageIndex === 0 && prevChapterLink) {
-                        window.location.href = prevChapterLink.href;
-                    }
+                    goToPreviousPanel();
                 } else if (event.key === 'ArrowRight') {
-                    if (currentImageIndex < images.length - 1) {
-                        currentImageIndex++;
-                        updateImage();
-                    } else if (currentImageIndex === images.length - 1 && nextChapterLink) {
-                        window.location.href = nextChapterLink.href;
-                    }
+                    goToNextPanel();
                 }
             });
-
+        
+            // Arrow button navigation
+            prevPanelButton.addEventListener('click', goToPreviousPanel);
+            nextPanelButton.addEventListener('click', goToNextPanel);
+        
+            // Height adjustment
             heightSlider.addEventListener('input', adjustHeight);
-
+        
+            // Initial setup
             adjustHeight();
             updateImage();
         });
-
+        
+        // Hide and show the header with 'h' key
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.main-header');
             header.classList.add('header-hidden');
-
+        
             document.addEventListener('keydown', function(event) {
                 if (event.key.toLowerCase() === 'h') {
                     header.classList.toggle('header-hidden');
                 }
             });
         });
-
+        
+        // Side menu toggle with 'm' key
         document.addEventListener('DOMContentLoaded', () => {
             const sideMenu = document.querySelector('.side-menu');
             const container = document.querySelector('.container');
             const progressContainer = document.querySelector('.progress-container');
             let isOpen = false;
-
+        
             const toggleSideMenu = () => {
                 isOpen = !isOpen;
                 if (isOpen) {
@@ -148,18 +183,19 @@
                     progressContainer.style.width = '100%'; // Full-width progress bar
                 }
             };
-
+        
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'm' || e.key === 'M') {
                     toggleSideMenu();
                 }
             });
-
+        
             // Set initial state
             sideMenu.classList.remove('open');
             container.style.marginRight = '0';
             progressContainer.style.width = '100%';
         });
+        
     </script>
 </body>
 </html>

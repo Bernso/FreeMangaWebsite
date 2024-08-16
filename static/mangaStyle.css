@@ -45,7 +45,7 @@ body {
     top: 0;
     width: var(--side-menu-width);
     height: 100%;
-    background: var(--background-dark);
+    background: linear-gradient(140deg, var(--header-bg), var(--background-light));
     padding: 20px;
     box-shadow: var(--box-shadow);
     z-index: 1000;
@@ -73,22 +73,83 @@ body {
     margin-bottom: 20px;
 }
 
-.side-menu .controls {
-    margin-bottom: 20px;
+/* Controls Section */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-top: 20px;
+    gap: 10px;
 }
 
-.controls label#height-value {
-    display: block;
-    margin-top: 10px;
-    text-align: center;
+.controls label {
+    font-size: 1.1em;
     color: var(--text-color);
+    margin-bottom: 5px;
+    text-align: center;
 }
 
-/* Height Slider */
 .controls input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
     width: 100%;
-    margin-top: 10px;
+    height: 10px;
+    background: var(--control-bg);
+    outline: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
+
+.controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.controls input[type="range"]::-webkit-slider-thumb:hover {
+    background-color: var(--hover-color);
+}
+
+.controls input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.1);
+}
+
+.controls input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.controls input[type="range"]::-moz-range-thumb:hover {
+    background-color: var(--hover-color);
+}
+
+.controls input[type="range"]::-moz-range-thumb:active {
+    transform: scale(1.1);
+}
+
+.controls #height-value {
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-top: 5px;
+    text-align: center;
+}
+
 
 .side-menu .chapter-navigation {
     display: flex;
@@ -366,3 +427,77 @@ html, body {
     margin-right: var(--side-menu-width); /* Adjust margin-right when side menu is open */
     transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
 }
+
+
+/* Current Page Navigation */
+.current-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: var(--background-light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-top: 20px;
+}
+
+.current-page p {
+    font-size: 1.2em;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.arrow-btn {
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.arrow-btn:hover {
+    background-color: var(--button-hover-bg);
+    transform: scale(1.1);
+}
+
+.arrow-btn:active {
+    transform: scale(1.05);
+}
+
+
+/* Manga Information */
+.manga-informaion {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--background-light);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+}
+
+.manga-informaion .manga-title {
+    font-size: 1.2em; /* Smaller font size for the title */
+    font-weight: bold;
+    color: var(--link-color);
+    margin-bottom: 10px; /* Space between title and chapter name */
+}
+
+.manga-informaion p {
+    font-size: 1em; /* Smaller font size for the chapter name */
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.general {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 5px;
+    border-radius: var(--border-radius);
+    border-style: var(--border-radius);
+}    /*background: var(--control-bg); */
