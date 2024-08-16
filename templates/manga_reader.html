@@ -21,10 +21,10 @@
         </div>
         <div class="chapter-navigation">
             {% if previous_chapter %}
-                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=previous_chapter) }}" class="btn">Previous Chapter</a>
+                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=previous_chapter) }}" class="btn" id="prev-chapter-link">Previous Chapter</a>
             {% endif %}
             {% if next_chapter %}
-                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn">Next Chapter</a>
+                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn" id="next-chapter-link">Next Chapter</a>
             {% endif %}
         </div>
         
@@ -37,10 +37,27 @@
         document.addEventListener('DOMContentLoaded', function() {
             const images = {{ images|tojson }};
             let currentImageIndex = 0;
-        
+
             const mangaPanel = document.getElementById('manga-panel');
             const heightSlider = document.getElementById('image-height');
-            
+            const nextChapterLink = document.getElementById('next-chapter-link');
+            const prevChapterLink = document.getElementById('prev-chapter-link');
+
+            // Preload all images
+            function preloadImages() {
+                images.forEach((src, index) => {
+                    const img = new Image();
+                    img.src = src;
+                    img.onload = function() {
+                        console.log(`Image ${index + 1}/${images.length} preloaded.`);
+                    };
+                    img.onerror = function() {
+                        console.error(`Failed to preload image ${index + 1}: ${src}`);
+                    };
+                });
+            }
+
+            preloadImages();  // Call the preload function
 
             // Load height setting from localStorage
             const savedHeight = localStorage.getItem('mangaPanelHeight');
@@ -61,7 +78,6 @@
                 }
             }
             
-        
             function adjustHeight() {
                 const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
                 mangaPanel.style.height = heightSlider.value + 'px';
@@ -85,17 +101,22 @@
                 });
             }
             
-        
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowLeft') {
                     if (currentImageIndex > 0) {
                         currentImageIndex--;
                         updateImage();
+                    } else if (currentImageIndex === 0 && prevChapterLink) {
+                        // If at the first panel, go to the previous chapter
+                        window.location.href = prevChapterLink.href;
                     }
                 } else if (event.key === 'ArrowRight') {
                     if (currentImageIndex < images.length - 1) {
                         currentImageIndex++;
                         updateImage();
+                    } else if (currentImageIndex === images.length - 1 && nextChapterLink) {
+                        // If at the last panel, go to the next chapter
+                        window.location.href = nextChapterLink.href;
                     }
                 }
             });
@@ -111,15 +132,11 @@
                 mangaPanel.style.transition = 'height 0.3s ease';
             });
 
-
-            
-        
             const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
             heightSlider.max = maxHeight;
             adjustHeight();
             updateImage();
         });
-
 
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.main-header');
@@ -133,7 +150,6 @@
                 }
             });
         });
-        
     </script>
 </body>
 </html>
