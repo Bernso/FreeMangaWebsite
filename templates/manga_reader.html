@@ -23,7 +23,7 @@
                 <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label>
             </div>
 
-            <div class="current-page">
+            <div class="current-page uncopyable">
                 <button id="prev-panel" class="arrow-btn">←</button>
                 <p id="current-page-display">1 / {{ images|length }}</p>
                 <button id="next-panel" class="arrow-btn">→</button>
@@ -65,14 +65,16 @@
             const nextPanelButton = document.getElementById('next-panel');
             const container = document.querySelector('.container');
         
-            function preloadImages() {
-                images.forEach((src) => {
+            // Preload images to reduce lag
+            function preloadImages(imageArray) {
+                imageArray.forEach((imageSrc) => {
                     const img = new Image();
-                    img.src = src;
+                    img.onload = () => console.log(`Preloaded image: ${imageSrc}`);
+                    img.src = imageSrc;
                 });
             }
         
-            preloadImages();
+            preloadImages(images);
         
             const viewportHeight = window.innerHeight;
             heightSlider.max = viewportHeight;
