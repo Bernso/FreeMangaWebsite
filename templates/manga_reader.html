@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ chapter_name }}</title>
+    <title>{{ manga_name }} - {{ chapter_name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
 </head>
@@ -12,9 +12,10 @@
 
     <div class="side-menu">
         <h2 class="manga-title">{{ manga_name }}</h2>
+        <p>{{ chapter_name }}</p>
         <div class="controls">
             <label for="image-height">Adjust Height:</label>
-            <input type="range" id="image-height" min="100" class="uncopyable">
+            <input type="range" id="image-height" min="1" class="uncopyable">
             <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label>
         </div>
         <div class="chapter-navigation">
