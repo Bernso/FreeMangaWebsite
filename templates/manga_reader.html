@@ -63,6 +63,7 @@
             const currentPageDisplay = document.getElementById('current-page-display');
             const prevPanelButton = document.getElementById('prev-panel');
             const nextPanelButton = document.getElementById('next-panel');
+            const container = document.querySelector('.container');
         
             function preloadImages() {
                 images.forEach((src) => {
@@ -73,11 +74,9 @@
         
             preloadImages();
         
-            // Set the max value of the height slider to the viewport height
             const viewportHeight = window.innerHeight;
             heightSlider.max = viewportHeight;
         
-            // Set the slider's value to the saved height, or default if not saved
             const savedHeight = localStorage.getItem('mangaPanelHeight') || '500';
             heightSlider.value = savedHeight;
             mangaPanel.style.height = savedHeight + 'px';
@@ -146,6 +145,19 @@
         
             // Height adjustment
             heightSlider.addEventListener('input', adjustHeight);
+        
+            // Click navigation on the container
+            container.addEventListener('click', function(event) {
+                const containerRect = container.getBoundingClientRect();
+                const clickPosition = event.clientX - containerRect.left;
+                const containerWidth = containerRect.width;
+
+                if (clickPosition < containerWidth / 2) {
+                    goToPreviousPanel();
+                } else {
+                    goToNextPanel();
+                }
+            });
         
             // Initial setup
             adjustHeight();
