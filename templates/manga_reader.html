@@ -9,30 +9,34 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <div class="progress-container">
-        <div id="progress-bar"></div>
-    </div>
-    
-    <div class="container" style='background: var(--background-light)'>
+
+    <div class="side-menu">
+        <h2 class="manga-title">{{ manga_name }}</h2>
         <div class="controls">
             <label for="image-height">Adjust Height:</label>
-            <input type="range" id="image-height" min="100" max="1000" value="{{ saved_height }}" class="uncopyable">
-            <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label> <!-- Display slider value -->
+            <input type="range" id="image-height" min="100" class="uncopyable">
+            <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label>
         </div>
         <div class="chapter-navigation">
             {% if previous_chapter %}
-                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=previous_chapter) }}" class="btn" id="prev-chapter-link">Previous Chapter</a>
+                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=previous_chapter) }}" class="btn">Previous Chapter</a>
             {% endif %}
             {% if next_chapter %}
-                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn" id="next-chapter-link">Next Chapter</a>
+                <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=next_chapter) }}" class="btn">Next Chapter</a>
             {% endif %}
         </div>
-        
+    </div>
+
+    <div class="container">
         <div class="manga-viewer unselectable">
             <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
         </div>
     </div>
-        
+
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const images = {{ images|tojson }};
@@ -40,74 +44,62 @@
 
             const mangaPanel = document.getElementById('manga-panel');
             const heightSlider = document.getElementById('image-height');
-            const nextChapterLink = document.getElementById('next-chapter-link');
-            const prevChapterLink = document.getElementById('prev-chapter-link');
+            const heightValueLabel = document.getElementById('height-value');
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.querySelector('.progress-container');
+            const prevChapterLink = document.querySelector('.chapter-navigation a:first-child');
+            const nextChapterLink = document.querySelector('.chapter-navigation a:last-child');
 
-            // Preload all images
             function preloadImages() {
                 images.forEach((src, index) => {
                     const img = new Image();
                     img.src = src;
-                    img.onload = function() {
-                        console.log(`Image ${index + 1}/${images.length} preloaded.`);
-                    };
-                    img.onerror = function() {
-                        console.error(`Failed to preload image ${index + 1}: ${src}`);
-                    };
                 });
             }
 
-            preloadImages();  // Call the preload function
+            preloadImages();
 
-            // Load height setting from localStorage
-            const savedHeight = localStorage.getItem('mangaPanelHeight');
-            if (savedHeight) {
-                heightSlider.value = savedHeight;
-            }
+            // Set the max value of the height slider to the viewport height
+            const viewportHeight = window.outerHeight;
+            heightSlider.max = viewportHeight;
+
+            // Set the slider's value to the saved height, or default if not saved
+            const savedHeight = localStorage.getItem('mangaPanelHeight') || '500';
+            heightSlider.value = savedHeight;
+            mangaPanel.style.height = savedHeight + 'px';
+            heightValueLabel.textContent = `${savedHeight}px`;
 
             function updateProgressBar() {
-                const progressBar = document.getElementById('progress-bar');
                 const progress = ((currentImageIndex + 1) / images.length) * 100;
                 progressBar.style.width = progress + '%';
             }
-            
+
             function updateImage() {
                 if (images.length > 0) {
                     mangaPanel.src = images[currentImageIndex];
-                    updateProgressBar(); // Update the progress bar whenever the image changes
+                    updateProgressBar();
                 }
             }
-            
+
             function adjustHeight() {
-                const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
-                mangaPanel.style.height = heightSlider.value + 'px';
-            
-                if (parseInt(heightSlider.value) >= maxHeight) {
-                    mangaPanel.style.overflow = 'hidden';
-                } else {
-                    mangaPanel.style.overflow = 'auto';
-                }
-                
-                // Save height setting to localStorage
-                localStorage.setItem('mangaPanelHeight', heightSlider.value);
-                
-                // Send the height to the server
+                const newHeight = heightSlider.value;
+                mangaPanel.style.height = newHeight + 'px';
+                heightValueLabel.textContent = `${newHeight}px`;
+                localStorage.setItem('mangaPanelHeight', newHeight);
+
                 fetch('/save_height', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ height: heightSlider.value })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ height: newHeight })
                 });
             }
-            
+
             document.addEventListener('keydown', function(event) {
                 if (event.key === 'ArrowLeft') {
                     if (currentImageIndex > 0) {
                         currentImageIndex--;
                         updateImage();
                     } else if (currentImageIndex === 0 && prevChapterLink) {
-                        // If at the first panel, go to the previous chapter
                         window.location.href = prevChapterLink.href;
                     }
                 } else if (event.key === 'ArrowRight') {
@@ -115,40 +107,57 @@
                         currentImageIndex++;
                         updateImage();
                     } else if (currentImageIndex === images.length - 1 && nextChapterLink) {
-                        // If at the last panel, go to the next chapter
                         window.location.href = nextChapterLink.href;
                     }
                 }
             });
-        
-            heightSlider.addEventListener('keydown', function(event) {
-                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-                    event.preventDefault();
-                }
-            });
-        
-            heightSlider.addEventListener('input', function() {
-                adjustHeight();
-                mangaPanel.style.transition = 'height 0.3s ease';
-            });
 
-            const maxHeight = window.innerHeight - document.querySelector('.controls').offsetHeight - document.querySelector('.chapter-navigation').offsetHeight;
-            heightSlider.max = maxHeight;
+            heightSlider.addEventListener('input', adjustHeight);
+
             adjustHeight();
             updateImage();
         });
 
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.main-header');
-            
-            // Hide the header initially
             header.classList.add('header-hidden');
-            
+
             document.addEventListener('keydown', function(event) {
                 if (event.key.toLowerCase() === 'h') {
                     header.classList.toggle('header-hidden');
                 }
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sideMenu = document.querySelector('.side-menu');
+            const container = document.querySelector('.container');
+            const progressContainer = document.querySelector('.progress-container');
+            let isOpen = false;
+
+            const toggleSideMenu = () => {
+                isOpen = !isOpen;
+                if (isOpen) {
+                    sideMenu.classList.add('open');
+                    container.style.marginRight = '300px'; // Shift content when menu is open
+                    progressContainer.style.width = 'calc(100% - 300px)'; // Adjust progress bar
+                } else {
+                    sideMenu.classList.remove('open');
+                    container.style.marginRight = '0'; // Expand content when menu is closed
+                    progressContainer.style.width = '100%'; // Full-width progress bar
+                }
+            };
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'm' || e.key === 'M') {
+                    toggleSideMenu();
+                }
+            });
+
+            // Set initial state
+            sideMenu.classList.remove('open');
+            container.style.marginRight = '0';
+            progressContainer.style.width = '100%';
         });
     </script>
 </body>
