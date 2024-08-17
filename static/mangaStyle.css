@@ -536,10 +536,9 @@ html, body {
 }
 
 .manga-title {
-    padding: 15px;
     font-size: 1.2em;
     color: var(--text-color);
-    text-align: center;
+    text-align: left;
 }
 
 /* Responsive Design */
