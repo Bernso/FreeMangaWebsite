@@ -35,6 +35,16 @@ MANGA_DIR = os.path.join(currentPath, 'manga')
 
 # Function to send messages to Discord
 def sendToDiscord(message):
+    """
+    Sends a message to a Discord channel using a webhook URL.
+
+    Parameters:
+    message (str): The message to be sent to Discord.
+
+    Returns:
+    None. Prints a success message if the message is sent successfully,
+    or an error message with the status code if the message fails to send.
+    """
     data = {
         "content": message,
         "username": "Manga Website"

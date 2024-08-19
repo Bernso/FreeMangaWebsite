@@ -10,32 +10,36 @@
 <body>
     {% include 'header.html' %}
     <br><br><br>
-    <div class="container">
-        <div class="manga-header">
-            <div class="manga-header-content">
-                {% if cover_image %}
-                    <div class="manga-cover">
-                        <img src="{{ url_for('serve_image', manga_title=manga_name) }}" alt="{{ manga_name }} Cover Image" class="cover-image">
+    <main>
+        <div class="container">
+            
+            <div class="manga-header">
+                <div class="manga-header-content">
+                    {% if cover_image %}
+                        <div class="manga-cover">
+                            <img src="{{ url_for('serve_image', manga_title=manga_name) }}" alt="{{ manga_name }} Cover Image" class="cover-image">
+                        </div>
+                    {% endif %}
+                    <div class="manga-info">
+                        <h1>{{ manga_name }}</h1>
+                        <p class="description">{{ description }}</p>
                     </div>
-                {% endif %}
-                <div class="manga-info">
-                    <h1>{{ manga_name }}</h1>
-                    <p class="description">{{ description }}</p>
                 </div>
             </div>
+
+            
+            <h2>Chapters</h2>
+            <ul class="chapter-list">
+                {% for chapter in chapters %}
+                    <li><a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}">{{ chapter }}</a></li>
+                {% endfor %}
+            </ul>
         </div>
-        
-        <h2>Chapters</h2>
-        <ul class="chapter-list">
-            {% for chapter in chapters %}
-                <li><a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}">{{ chapter }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-    <main class="community" style='text-align: center; color: var(--text-muted);'>
-        <h1>Join Our Community</h1>
-        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
-        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+        <main class="community" style='text-align: center; color: var(--text-muted);'>
+            <h1>Join Our Community</h1>
+            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
+            <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+        </main>
     </main>
 </body>
 </html>
