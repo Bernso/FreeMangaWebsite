@@ -9,26 +9,28 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <br><br><br><br>
-    <main class="container">
-        <h1>Available Manga</h1>
-        <div class="manga-grid">
-            {% for manga, manga_id, mangaLink in manga_list %}
-                <div class="manga-item">
-                    <a href="{{ url_for('manga_details', manga_name=mangaLink) }}" aria-label="{{ manga }}">
-                        <div class="manga-cover">
-                            <img src="{{ url_for('serve_image', manga_title=mangaLink) }}" alt="{{ manga }} cover image" class="cover-image">
-                        </div>
-                        <div class="manga-title">{{ manga }}</div>
-                    </a>
-                </div>
-            {% endfor %}
+    <main class="main-content">
+        <div class="container">
+            <h1>Available Manga</h1>
+            <div class="manga-grid">
+                {% for manga, manga_id, mangaLink in manga_list %}
+                    <div class="manga-item">
+                        <a href="{{ url_for('manga_details', manga_name=mangaLink) }}" aria-label="{{ manga }}">
+                            <div class="manga-cover">
+                                <img src="{{ url_for('serve_image', manga_title=mangaLink) }}" alt="{{ manga }} cover image" class="preview-image">
+                            </div>
+                            <div class="manga-title">{{ manga }}</div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </main>
-    <main class="community" style='text-align: center; color: var(--text-muted);'>
-        <h1>Join Our Community</h1>
-        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
-        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+
+        <section class="community">
+            <h1>Join Our Community</h1>
+            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank">Discord Server</a></p>
+            <p>Created by <a href="https://www.github.com/Bernso" target="_blank">Bernso</a></p>
+        </section>
     </main>
 </body>
 </html>

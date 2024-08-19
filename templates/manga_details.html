@@ -9,10 +9,8 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <br><br><br>
-    <main>
+    <main class="main-content">
         <div class="container">
-            
             <div class="manga-header">
                 <div class="manga-header-content">
                     {% if cover_image %}
@@ -27,7 +25,6 @@
                 </div>
             </div>
 
-            
             <h2>Chapters</h2>
             <ul class="chapter-list">
                 {% for chapter in chapters %}
@@ -35,11 +32,12 @@
                 {% endfor %}
             </ul>
         </div>
-        <main class="community" style='text-align: center; color: var(--text-muted);'>
+
+        <section class="community">
             <h1>Join Our Community</h1>
-            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
-            <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
-        </main>
+            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank">Discord Server</a></p>
+            <p>Created by <a href="https://www.github.com/Bernso" target="_blank">Bernso</a></p>
+        </section>
     </main>
 </body>
 </html>
