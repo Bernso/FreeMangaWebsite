@@ -56,6 +56,12 @@ body {
     transition: transform 0.3s ease;
 }
 
+.main-content {
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: calc(100vh - var(--header-height)); /* Adjust to leave room for the header */
+    margin-top: var(--header-height); /* Ensure content is below the header */
+}
+
 .side-menu.open {
     transform: translateX(0); /* Slide into view */
 }
@@ -387,12 +393,19 @@ html, body {
 }
 
 /* Adjust container and content to account for header */
-.container {
+.container-manga {
     margin-right: 0; /* No margin by default */
     padding-top: 0; /* Remove top padding */
     height: 100vh; /* Full viewport height */
     overflow: auto; /* Ensure scrollability if content overflows */
     transition: margin-right 0.3s ease; /* Smooth transition when side menu toggles */
+}
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: auto;
 }
 
 /* Hidden header state */

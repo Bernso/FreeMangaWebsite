@@ -605,7 +605,7 @@ def manga_details(manga_name):
     """
     manga_name = urllib.parse.unquote(manga_name)
     manga_path = os.path.join(MANGA_DIR, manga_name)
-
+    
     if not os.path.isdir(manga_path):
         return "Manga not found", 404
 
@@ -627,7 +627,10 @@ def manga_details(manga_name):
     # List chapters
     chapters_dir = os.path.join(manga_path, "Chapters")
     chapters = [folder for folder in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, folder))]
-    chapters.sort(key=natural_sort_key)
+    if manga_name == "Berserk":
+        print()
+    else:
+        chapters.sort(key=natural_sort_key)
     chapters = chapters[::-1]
 
     return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters)

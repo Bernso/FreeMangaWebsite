@@ -32,7 +32,7 @@ def print_links_in_reverse_order(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        title = "Beserk"
+        title = "Berserk"
         safe_title = replace_special_characters(validDirName(title))
         directory_path = f'{DIRECTORY_PATH}/{safe_title}'
         os.makedirs(directory_path, exist_ok=True)
