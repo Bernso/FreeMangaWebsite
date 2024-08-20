@@ -16,9 +16,6 @@ except ImportError as e:
 
 
 
-
-
-
 port = '1111'       # any number you want (4 digits)
 debug = True        # could be True or False
 host = '127.0.0.1'  # could be 127.0.0.1 or 0.0.0.0 or your ip
