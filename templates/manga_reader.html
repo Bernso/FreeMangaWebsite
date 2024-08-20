@@ -10,7 +10,7 @@
 <body>
     {% include 'header.html' %}
 
-    <div class="side-menu" class='uncopyable'>
+    <div class="side-menu uncopyable" class='uncopyable'>
         <div class='general'>
             <div class='manga-informaion'>
                 <h2 class="manga-title">{{ manga_name }}</h2>
@@ -23,7 +23,7 @@
                 <label id="height-value">&nbsp;&nbsp;{{ saved_height }}px</label>
             </div>
 
-            <div class="current-page uncopyable">
+            <div class="current-page">
                 <button id="prev-panel" class="arrow-btn">←</button>
                 <p id="current-page-display">1 / {{ images|length }}</p>
                 <button id="next-panel" class="arrow-btn">→</button>
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <div class="container-manga">
+    <div class="container">
         <div class="manga-viewer unselectable">
             <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
         </div>

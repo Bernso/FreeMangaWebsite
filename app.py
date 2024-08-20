@@ -587,7 +587,11 @@ def manga_reader_home():
 
     return render_template('manga_reader_home.html', manga_list=manga_list)
 
-
+def berserk_sort_key(chapter_name):
+    # Define your custom sorting logic here
+    # Example: Extract numbers from chapter names to sort numerically
+    numbers = re.findall(r'\d+', chapter_name)
+    return int(numbers[0]) if numbers else float('inf')
 
 
 @app.route("/manga_reader/<manga_name>")
@@ -628,7 +632,7 @@ def manga_details(manga_name):
     chapters_dir = os.path.join(manga_path, "Chapters")
     chapters = [folder for folder in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, folder))]
     if manga_name == "Berserk":
-        print()
+        chapters.sort(key=berserk_sort_key)# sorting algo
     else:
         chapters.sort(key=natural_sort_key)
     chapters = chapters[::-1]

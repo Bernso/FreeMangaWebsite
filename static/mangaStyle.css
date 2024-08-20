@@ -393,7 +393,7 @@ html, body {
 }
 
 /* Adjust container and content to account for header */
-.container-manga {
+.container {
     margin-right: 0; /* No margin by default */
     padding-top: 0; /* Remove top padding */
     height: 100vh; /* Full viewport height */
@@ -401,7 +401,7 @@ html, body {
     transition: margin-right 0.3s ease; /* Smooth transition when side menu toggles */
 }
 
-.container {
+.container-info {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
@@ -643,6 +643,25 @@ html, body {
 .chapter-list li a:hover {
     background-color: var(--button-hover-bg);
     transform: scale(1.01);
+}
+
+section p {
+    color: var(--text-muted);
+    text-align: center;
+}
+
+section a {
+    color: var(--link-color);
+}
+
+section h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    position: relative;
+    animation: slideIn 1.5s ease-in-out;
+    color: var(--link-color); /* Ensure the text color is set */
+    text-shadow: 0 0 15px var(--link-color); /* Add glow effect */
 }
 
 /* Responsive Adjustments */
