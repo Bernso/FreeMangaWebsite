@@ -102,12 +102,22 @@
     });
     document.addEventListener('DOMContentLoaded', function() {
         const header = document.querySelector('header');
-        
-        document.addEventListener('keydown', function(event) {
-            if (event.key.toLowerCase() === 'h') {
-                header.classList.toggle('header-hidden');
+        let lastScrollTop = 0;
+    
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+            if (scrollTop > lastScrollTop && !header.classList.contains('header-hidden')) {
+                // Scrolling down and header is visible
+                header.classList.add('header-hidden');
+            } else if (scrollTop < lastScrollTop && header.classList.contains('header-hidden')) {
+                // Scrolling up and header is hidden
+                header.classList.remove('header-hidden');
             }
+    
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
         });
     });
+    
 </script>
 </html>
