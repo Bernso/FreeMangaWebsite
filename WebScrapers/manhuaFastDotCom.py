@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
 import re
-from replaceCode import replace_special_characters
+from Required.replaceCode import replace_special_characters
 
 # Constants
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'
@@ -42,7 +42,7 @@ def print_links_in_reverse_order(url):
         else:
             title = safe_title = "default_directory"
         
-        links_div = soup.find('div', class_='listing-chapters_wrap cols-1 show-more')
+        links_div = soup.find('div', class_='page-content-listing single-page')
         if links_div:
             links = [a['href'] for a in links_div.find_all('a', href=True)]
             links.reverse()
@@ -50,7 +50,8 @@ def print_links_in_reverse_order(url):
                 print(f"Link: {link}")
         else:
             print("The specified div was not found in the HTML.")
-        
+            
+        quit()
         img_div = soup.find('div', class_='summary_image')
         if img_div:
             img = img_div.find("img")

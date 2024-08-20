@@ -7,7 +7,7 @@ try:
     import json
     from natsort import natsorted
     import urllib.parse
-    from replaceCode import replace_special_characters
+    from WebScrapers.Required.replaceCode import replace_special_characters
     from dotenv import load_dotenv
     import urllib  
 except ImportError as e:
