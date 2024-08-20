@@ -74,14 +74,15 @@ def print_links_in_reverse_order(url):
         
         content_div = soup.find('div', class_='description-summary')
         if content_div:
-            paragraphs = content_div.find_all('p')
-            content = '\n\n'.join(p.get_text(strip=True) for p in paragraphs)
+            # Extract all text from the description-summary div
+            content = content_div.get_text(separator='\n\n', strip=True)
             desc_path = os.path.join(directory_path, 'description.txt')
             print(f"Description Path: {desc_path}")
             with open(desc_path, 'w', encoding='utf-8') as descFile:
-                descFile.write(content)
+                descFile.write(content[:-10])
         else:
             print("The specified div was not found in the HTML.")
+
         
         post_content_div = soup.find('div', class_='post-content')
         type_value = None
@@ -155,7 +156,8 @@ def main(url):
         webScrape(link, title)
 
 if __name__ == '__main__':
-    numberOfMangas = int(input("Enter the number of mangas: "))
-    mangas = [input(f"Enter the URL of manga {i+1}: ") for i in range(numberOfMangas)]
+    #numberOfMangas = int(input("Enter the number of mangas: "))
+    #mangas = [input(f"Enter the URL of manga {i+1}: ") for i in range(numberOfMangas)]
+    mangas = ["https://manhwaclan.com/manga/apocalypse-sword-god"]
     for manga in mangas:
         main(manga)
