@@ -156,8 +156,7 @@ def main(url):
         webScrape(link, title)
 
 if __name__ == '__main__':
-    #numberOfMangas = int(input("Enter the number of mangas: "))
-    #mangas = [input(f"Enter the URL of manga {i+1}: ") for i in range(numberOfMangas)]
-    mangas = ["https://manhwaclan.com/manga/apocalypse-sword-god"]
+    numberOfMangas = int(input("Enter the number of mangas: "))
+    mangas = [input(f"Enter the URL of manga {i+1}: ") for i in range(numberOfMangas)]
     for manga in mangas:
         main(manga)
