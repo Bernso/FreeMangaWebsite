@@ -1,15 +1,24 @@
 try:
     from flask import Flask, render_template, request, jsonify, session, send_file, send_from_directory, abort, redirect, url_for
+    #print("imported flask")
     import os
-    import re  
-    import random
+    #print("imported os")
+    import re
+    #print("imported re")
     import requests
+    #print("imported requests")
     import json
-    from natsort import natsorted
+    #print("imported json")
     import urllib.parse
+    #print("imported urllib.parse")
     from WebScrapers.Required.replaceCode import replace_special_characters
+    #print("imported replace_special_characters")
+    import WebScrapers.mangaReaderDotOrg
+    #print("imported WebScrapers.mangaReaderDotOrg")
     from dotenv import load_dotenv
-    import urllib  
+    #print("imported load_dotenv")
+    import urllib
+    #print("imported urllib")
 except ImportError as e:
     input(f"Error importing: {e}")
 
@@ -547,12 +556,60 @@ def manga_detail(manga_id):
         chapters = get_chapters_for_manga(manga['title'])
         chapters.reverse()
         return render_template('manga_detail.html',
+                               mangaId = manga_id,
                                manga=manga,
                                chapters=chapters,           
                                reccomended_manga=reccomended_manga  # Use the correct variable name
                             )
     else:
         return 404
+
+
+
+
+@app.route('/hello', methods=['POST'])
+def hello_world():
+    return "Hello, World!", 200
+
+
+def buildURLFromID(search_id):
+    base_directory = 'manga/'
+    
+    # Walk through the directory tree
+    for root, dirs, files in os.walk(base_directory):
+        # Check if 'id.txt' file is in the current directory
+        if 'id.txt' in files:
+            # Construct the path to the 'id.txt' file
+            file_path = os.path.join(root, 'id.txt')
+            
+            # Read the contents of the file
+            with open(file_path, 'r') as file:
+                file_id = file.read().strip()  # Read and strip any extra whitespace
+                file_path = file_path[:-7]
+                # Check if the ID in the file matches the search_id
+                if file_id == search_id:
+                    manga_name = file_path.lower()
+                    manga_name = manga_name.replace(' ', '-')
+                    print(manga_name)
+                    # Construct the URL (you can adjust this format as needed)
+                    url = f'https://www.mangaread.org/{manga_name}'
+                    
+                    return url
+    # Return None if the file with the correct ID is not found
+    return None
+
+
+
+
+@app.route('/updateManhwa', methods=['POST'])
+def updateManhwaFunction():
+    mangaID = request.json.get('mangaId')
+    print(f"Manga ID recieved: {mangaID}")
+    url = buildURLFromID(search_id=str(mangaID))
+    input(f"URL created: {url}")
+    WebScrapers.mangaReaderDotOrg.main(url=url)
+    
+    return f"Updated {url}", 200
 
 
 

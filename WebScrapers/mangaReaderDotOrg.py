@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
 import re
-from Required.replaceCode import replace_special_characters
+from WebScrapers.Required.replaceCode import replace_special_characters
 
 # Constants
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'

@@ -786,3 +786,40 @@ input[type="range"] {
 .header-hidden {
     top: -60px; /* Hide the header */
 }
+
+
+.manhwa-options {
+    display: flex; 
+    gap: 15px; 
+    justify-content: left; 
+    margin-top: 20px; 
+}
+
+.manhwa-details-options {
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: var(--link-color);
+    color: var(--background-dark);
+    text-decoration: none;
+    font-size: 1.3em;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    text-align: center;
+}
+
+.manhwa-details-options:hover {
+    background-color: var(--hover-color);
+    color: var(--link-hover-color);
+    transform: scale(1.05);
+}
+
+.manhwa-details-options:active {
+    background-color: var(--link-hover-color);
+    color: var(--background-dark);
+    transform: scale(0.98);
+}
+
+
+
