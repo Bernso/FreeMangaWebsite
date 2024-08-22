@@ -26,10 +26,16 @@ allid.sort()
 highestValue = allid[len(allid)-1]
 
 for num in range(len(allid)):
+    if num <= 0:
+        continue
     if allid[num]!= num + 1:
         print(f"There are a total of {len(allid)} manga, although the highest value is {highestValue}")
         print(allid)
         input(f"Missing manga with ID: {num}")
         quit()
+
+
+        
+    
 
 input("No Invalid ID's found")
