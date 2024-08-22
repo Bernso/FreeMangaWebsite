@@ -38,12 +38,23 @@
             </div>
         </div>
     </div>
-
+    {% for i in range(100) %}
     <div class="container">
-        <div class="manga-viewer unselectable">
-            <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
-        </div>
+    {% endfor %}
+    <div class="manga-viewer unselectable">
+        {% for i in range(100) %}
+    <div class="container">
+    {% endfor %}
+        <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
+        {% for i in range(100) %}
     </div>
+        {% endfor %}
+    </div>
+    {% for i in range(100) %}
+    </div>
+    {% endfor %}
+    
+
 
     <div class="progress-container">
         <div id="progress-bar"></div>
@@ -79,7 +90,7 @@
             const viewportHeight = window.innerHeight;
             heightSlider.max = viewportHeight;
         
-            const savedHeight = localStorage.getItem('mangaPanelHeight') || '500';
+            const savedHeight = localStorage.getItem('mangaPanelHeight') || '800';
             heightSlider.value = savedHeight;
             mangaPanel.style.height = savedHeight + 'px';
             heightValueLabel.textContent = `${savedHeight}px`;
