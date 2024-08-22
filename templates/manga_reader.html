@@ -68,14 +68,24 @@
             const currentPageDisplay = document.getElementById('current-page-display');
             const prevPanelButton = document.getElementById('prev-panel');
             const nextPanelButton = document.getElementById('next-panel');
+            const header = document.querySelector('.main-header');
+            const sideMenu = document.querySelector('.side-menu');
             const container = document.querySelector('.container');
+            const progressContainer = document.querySelector('.progress-container');
+            header.classList.add('header-hidden');
+            // Image Cache
+            const imageCache = {};
         
-            // Preload images to reduce lag
             function preloadImages(imageArray) {
                 imageArray.forEach((imageSrc) => {
-                    const img = new Image();
-                    img.onload = () => console.log(`Preloaded image: ${imageSrc}`);
-                    img.src = imageSrc;
+                    if (!imageCache[imageSrc]) {
+                        const img = new Image();
+                        img.onload = () => {
+                            imageCache[imageSrc] = img;
+                            console.log(`Preloaded image: ${imageSrc}`);
+                        };
+                        img.src = imageSrc;
+                    }
                 });
             }
         
@@ -95,8 +105,8 @@
             }
         
             function updateImage() {
-                if (images.length > 0) {
-                    mangaPanel.src = images[currentImageIndex];
+                if (images.length > 0 && imageCache[images[currentImageIndex]]) {
+                    mangaPanel.src = imageCache[images[currentImageIndex]].src;
                     updateProgressBar();
                     updateCurrentPageDisplay();
                 }
@@ -143,6 +153,10 @@
                     goToPreviousPanel();
                 } else if (event.key === 'ArrowRight') {
                     goToNextPanel();
+                } else if (event.key.toLowerCase() === 'h') {
+                    header.classList.toggle('header-hidden');
+                } else if (event.key === 'm' || event.key === 'M') {
+                    toggleSideMenu();
                 }
             });
         
@@ -158,7 +172,7 @@
                 const containerRect = container.getBoundingClientRect();
                 const clickPosition = event.clientX - containerRect.left;
                 const containerWidth = containerRect.width;
-
+        
                 if (clickPosition < containerWidth / 2) {
                     goToPreviousPanel();
                 } else {
@@ -166,53 +180,18 @@
                 }
             });
         
+            // Side menu toggle function
+            function toggleSideMenu() {
+                const isOpen = sideMenu.classList.contains('open');
+                sideMenu.classList.toggle('open', !isOpen);
+                container.style.marginRight = isOpen ? '0' : '300px';
+                progressContainer.style.width = isOpen ? '100%' : 'calc(100% - 300px)';
+            }
+        
             // Initial setup
             adjustHeight();
             updateImage();
-        });
-        
-        // Hide and show the header with 'h' key
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.main-header');
-            header.classList.add('header-hidden');
-        
-            document.addEventListener('keydown', function(event) {
-                if (event.key.toLowerCase() === 'h') {
-                    header.classList.toggle('header-hidden');
-                }
-            });
-        });
-        
-        // Side menu toggle with 'm' key
-        document.addEventListener('DOMContentLoaded', () => {
-            const sideMenu = document.querySelector('.side-menu');
-            const container = document.querySelector('.container');
-            const progressContainer = document.querySelector('.progress-container');
-            let isOpen = false;
-        
-            const toggleSideMenu = () => {
-                isOpen = !isOpen;
-                if (isOpen) {
-                    sideMenu.classList.add('open');
-                    container.style.marginRight = '300px'; // Shift content when menu is open
-                    progressContainer.style.width = 'calc(100% - 300px)'; // Adjust progress bar
-                } else {
-                    sideMenu.classList.remove('open');
-                    container.style.marginRight = '0'; // Expand content when menu is closed
-                    progressContainer.style.width = '100%'; // Full-width progress bar
-                }
-            };
-        
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'm' || e.key === 'M') {
-                    toggleSideMenu();
-                }
-            });
-        
-            // Set initial state
-            sideMenu.classList.remove('open');
-            container.style.marginRight = '0';
-            progressContainer.style.width = '100%';
+            updateProgressBar();
         });
         
     </script>
