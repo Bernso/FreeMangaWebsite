@@ -38,19 +38,13 @@
             </div>
         </div>
     </div>
-    {% for i in range(100) %}
+    {% for i in range(300) %}
     <div class="container">
     {% endfor %}
     <div class="manga-viewer unselectable">
-        {% for i in range(100) %}
-    <div class="container">
-    {% endfor %}
         <img id="manga-panel" src="{{ images[0] }}" alt="Manga Panel">
-        {% for i in range(100) %}
     </div>
-        {% endfor %}
-    </div>
-    {% for i in range(100) %}
+    {% for i in range(300) %}
     </div>
     {% endfor %}
     
@@ -74,20 +68,14 @@
             const currentPageDisplay = document.getElementById('current-page-display');
             const prevPanelButton = document.getElementById('prev-panel');
             const nextPanelButton = document.getElementById('next-panel');
+            const container = document.querySelector('.container');
         
-            // Image Cache
-            const imageCache = {};
-        
+            // Preload images to reduce lag
             function preloadImages(imageArray) {
                 imageArray.forEach((imageSrc) => {
-                    if (!imageCache[imageSrc]) {
-                        const img = new Image();
-                        img.onload = () => {
-                            imageCache[imageSrc] = img;
-                            console.log(`Preloaded image: ${imageSrc}`);
-                        };
-                        img.src = imageSrc;
-                    }
+                    const img = new Image();
+                    img.onload = () => console.log(`Preloaded image: ${imageSrc}`);
+                    img.src = imageSrc;
                 });
             }
         
@@ -107,8 +95,8 @@
             }
         
             function updateImage() {
-                if (images.length > 0 && imageCache[images[currentImageIndex]]) {
-                    mangaPanel.src = imageCache[images[currentImageIndex]].src;
+                if (images.length > 0) {
+                    mangaPanel.src = images[currentImageIndex];
                     updateProgressBar();
                     updateCurrentPageDisplay();
                 }
@@ -155,25 +143,6 @@
                     goToPreviousPanel();
                 } else if (event.key === 'ArrowRight') {
                     goToNextPanel();
-                } else if (event.key.toLowerCase() === 'h') {
-                    const header = document.querySelector('.main-header');
-                    header.classList.toggle('header-hidden');
-                } else if (event.key === 'm' || event.key === 'M') {
-                    const sideMenu = document.querySelector('.side-menu');
-                    const container = document.querySelector('.container');
-                    const progressContainer = document.querySelector('.progress-container');
-                    let isOpen = sideMenu.classList.contains('open');
-        
-                    isOpen = !isOpen;
-                    if (isOpen) {
-                        sideMenu.classList.add('open');
-                        container.style.marginRight = '300px'; // Shift content when menu is open
-                        progressContainer.style.width = 'calc(100% - 300px)'; // Adjust progress bar
-                    } else {
-                        sideMenu.classList.remove('open');
-                        container.style.marginRight = '0'; // Expand content when menu is closed
-                        progressContainer.style.width = '100%'; // Full-width progress bar
-                    }
                 }
             });
         
@@ -185,12 +154,11 @@
             heightSlider.addEventListener('input', adjustHeight);
         
             // Click navigation on the container
-            const container = document.querySelector('.container');
             container.addEventListener('click', function(event) {
                 const containerRect = container.getBoundingClientRect();
                 const clickPosition = event.clientX - containerRect.left;
                 const containerWidth = containerRect.width;
-        
+
                 if (clickPosition < containerWidth / 2) {
                     goToPreviousPanel();
                 } else {
@@ -202,7 +170,6 @@
             adjustHeight();
             updateImage();
         });
-        
         
         // Hide and show the header with 'h' key
         document.addEventListener('DOMContentLoaded', function() {
