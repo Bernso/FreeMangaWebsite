@@ -149,7 +149,48 @@ def get_featured_manga():
 
     return featured_manga
 
+def get_featured_manga_and_manhwa():
+    """
+    This function retrieves the featured manga from the MANGA_DIR directory.
+    
+    Parameters:
+    None
+    
+    Returns:
+    featured_manga (list): A list of dictionaries, where each dictionary represents a manga. 
+                            Each dictionary contains the manga's id, title, description, and type.
+    """
+    featured_manga = []
 
+    # Iterate over each folder in the MANGA_DIR
+    for manga_folder in os.listdir(MANGA_DIR):
+        manga_path = os.path.join(MANGA_DIR, manga_folder)
+
+        if os.path.isdir(manga_path):
+            try:
+                # Read the id, description, and cover image
+                with open(os.path.join(manga_path, 'id.txt'), 'r', encoding='utf-8') as f:
+                    manga_id = f.read().strip()
+                with open(os.path.join(manga_path, 'description.txt'), 'r', encoding='utf-8') as f:
+                    description = f.read().strip()
+
+                with open(os.path.join(manga_path, 'type.txt'), 'r', encoding='utf-8') as f:
+                    manga_type = f.read().strip()
+                    
+
+                # Create a dictionary with the manga data
+                manga_data = {
+                    'id': manga_id,
+                    'title': manga_folder,
+                    'description': description,
+                    'type': manga_type
+                }
+
+                featured_manga.append(manga_data)
+            except Exception as e:
+                print(f"Error reading manga data from {manga_folder}: {e}")
+
+    return featured_manga
 
 
 def get_featured_mangaTruncated():
@@ -326,7 +367,7 @@ def welcomePage():
     Returns:
     render_template: A rendered HTML template for the welcome page with the featured manga.
     """
-    featured_manga = get_featured_manga()
+    featured_manga = get_featured_manga_and_manhwa()
     return render_template('welcome.html', featured_manga=featured_manga)
 
 
