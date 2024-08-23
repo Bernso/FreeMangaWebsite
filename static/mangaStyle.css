@@ -31,9 +31,7 @@
 .manga-reader-background {
     background: var(--card-bg);
 }
-.manga-title-side-bar {
-    font-size: 1.3em;
-}
+
 
 .side-menu {
     position: fixed;
@@ -56,11 +54,12 @@
     transform: translateX(0); 
 }
 
-.side-menu h1 {
+.side-menu h2 {
     font-size: 1.4em;
     color: var(--link-color);
-    text-align: center;
+    text-align: left;
     margin-bottom: 10px;
+    text-shadow: 0 0 10px var(--link-color);
 }
 
 .side-menu .chapter-info {
