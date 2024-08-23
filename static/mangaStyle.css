@@ -1,4 +1,3 @@
-/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
@@ -6,29 +5,28 @@
     text-decoration: none;
 }
 
-/* CSS Variables */
-:root {
-    --primary-color: #86fcf2;
-    --hover-color: #86fcf277;
-    --background-dark: #1a1a1a;
-    --background-light: #111111;
-    --text-color: #e0e0e0;
-    --text-muted: #ccccccbd;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --border-radius: 5px;
-    --header-bg: #0f2a54;
-    --card-bg: #111111;
-    --link-color: #7fbcff;
-    --link-hover-color: #b5dfff;
-    --header-height: 60px;
-    --control-bg: #333;
-    --button-bg: #444;
-    --button-hover-bg: #555;
-    --side-menu-width: 300px;
-    --side-menu-transition: transform 0.3s ease;
-}
+    /* CSS Variables */
+    :root {
+        --primary-color: #86fcf2;
+        --hover-color: #86fcf277;
+        --background-dark: #1a1a1a;
+        --background-light: #111111;
+        --text-color: #e0e0e0;
+        --text-muted: #ccccccbd;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        --border-radius: 5px;
+        --header-bg: #0f2a54;
+        --card-bg: #111111;
+        --link-color: #7fbcff;
+        --link-hover-color: #b5dfff;
+        --header-height: 60px;
+        --control-bg: #333;
+        --button-bg: #444;
+        --button-hover-bg: #555;
+        --side-menu-width: 300px;
+        --side-menu-transition: transform 0.3s ease;
+    }
 
-/* Body */
 body {
     font-family: 'Arial', sans-serif;
     background: var(--card-bg);
@@ -38,7 +36,6 @@ body {
     margin: 0;
 }
 
-/* Side Menu */
 .side-menu {
     position: fixed;
     right: 0;
@@ -56,14 +53,8 @@ body {
     transition: transform 0.3s ease;
 }
 
-.main-content {
-    overflow-y: auto; /* Allow vertical scrolling */
-    max-height: calc(100vh - var(--header-height)); /* Adjust to leave room for the header */
-    margin-top: var(--header-height); /* Ensure content is below the header */
-}
-
 .side-menu.open {
-    transform: translateX(0); /* Slide into view */
+    transform: translateX(0); 
 }
 
 .side-menu h1 {
@@ -79,7 +70,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Controls Section */
 .controls {
     display: flex;
     flex-direction: column;
@@ -184,24 +174,17 @@ body {
     color: var(--text-color);
 }
 
-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
 
-
-/* Manga Viewer */
 .manga-viewer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%; /* Full height of the container */
-    width: 100%; /* Full width of the container */
-    padding: 0; /* Remove padding if necessary */
-    overflow: hidden; /* Hide overflow to prevent scrollbars */
-    transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
-    margin-right: 0; /* Default margin */
+    height: 100%; 
+    width: 100%;
+    padding: 0;
+    overflow: hidden; 
+    transition: margin-right 0.3s ease; 
+    margin-right: 0; 
 }
 
 .manga-viewer img {
@@ -212,35 +195,9 @@ main {
     object-fit: contain; /* Maintain aspect ratio */
 }
 
-/* Custom Scrollbar Styles */
-::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-}
 
-::-webkit-scrollbar-track {
-    background: var(--background-dark);
-    border-radius: 10px;
-}
 
-::-webkit-scrollbar-thumb {
-    background: var(--link-color);
-    border-radius: 10px;
-    transition: background var(--side-menu-transition);
-}
 
-::-webkit-scrollbar-thumb:hover {
-    background: var(--hover-color);
-}
-
-::-webkit-scrollbar-corner {
-    background: var(--background-dark);
-}
-
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--link-color) var(--background-dark);
-}
 
 @supports (-ms-overflow-style: none) {
     .manga-viewer {
@@ -278,7 +235,6 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 50%;
 }
 
-/* Unselectable Elements */
 .unselectable {
     user-select: none;
     pointer-events: none;
@@ -290,23 +246,16 @@ input[type="range"]::-moz-range-thumb {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Hide Scrollbar for All Elements */
-* {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+
   
-*::-webkit-scrollbar {
-    display: none;
-}
+
 
 html, body {
-    overflow: hidden; /* Remove extra properties */
+    overflow: hidden;
     height: 100%;
     width: 100%;
 }
 
-/* Header Styles */
 .main-header {
     background: var(--background-light);
     height: var(--header-height);
@@ -392,28 +341,20 @@ html, body {
     }
 }
 
-/* Adjust container and content to account for header */
 .container {
-    margin-right: 0; /* No margin by default */
-    padding-top: 0; /* Remove top padding */
-    height: 100vh; /* Full viewport height */
-    overflow: auto; /* Ensure scrollability if content overflows */
-    transition: margin-right 0.3s ease; /* Smooth transition when side menu toggles */
+    margin-right: 0; 
+    padding-top: 0;
+    height: 100vh; 
+    overflow: auto; 
+    transition: margin-right 0.3s ease; 
 }
 
-.container-info {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: auto;
-}
 
-/* Hidden header state */
+
 .header-hidden {
     top: -60px;
 }
 
-/* Progress Bar Styles */
 .progress-container {
     position: fixed;
     top: 0;
@@ -422,7 +363,7 @@ html, body {
     background: #000;
     z-index: 1000;
     width: 100%;
-    transition: width 0.3s ease; /* Smooth transition when side menu toggles */
+    transition: width 0.3s ease; 
 }
 
 #progress-bar {
@@ -434,22 +375,21 @@ html, body {
 
 /* Adjustments for side-menu open state */
 .side-menu.open ~ .container {
-    margin-right: var(--side-menu-width); /* Move container to the left by the width of the side menu */
-    transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
+    margin-right: var(--side-menu-width); 
+    transition: margin-right 0.3s ease; 
 }
 
 .side-menu.open ~ .progress-container {
-    width: calc(100% - var(--side-menu-width)); /* Adjust width when side menu is open */
-    transition: width 0.3s ease; /* Smooth transition for width adjustment */
+    width: calc(100% - var(--side-menu-width));
+    transition: width 0.3s ease;
 }
 
 .side-menu.open ~ .manga-viewer {
-    margin-right: var(--side-menu-width); /* Adjust margin-right when side menu is open */
-    transition: margin-right 0.3s ease; /* Smooth transition for margin adjustment */
+    margin-right: var(--side-menu-width); 
+    transition: margin-right 0.3s ease; 
 }
 
 
-/* Current Page Navigation */
 .current-page {
     display: flex;
     align-items: center;
@@ -488,7 +428,6 @@ html, body {
 }
 
 
-/* Manga Information */
 .manga-informaion {
     display: flex;
     flex-direction: column;
@@ -501,14 +440,14 @@ html, body {
 }
 
 .manga-informaion .manga-title {
-    font-size: 1.2em; /* Smaller font size for the title */
+    font-size: 1.2em; 
     font-weight: bold;
     color: var(--link-color);
-    margin-bottom: 10px; /* Space between title and chapter name */
+    margin-bottom: 10px;
 }
 
 .manga-informaion p {
-    font-size: 1em; /* Smaller font size for the chapter name */
+    font-size: 1em; 
     color: var(--text-muted);
     margin: 0;
 }
@@ -520,166 +459,252 @@ html, body {
     padding: 5px;
     border-radius: var(--border-radius);
     border-style: var(--border-radius);
-}    /*background: var(--control-bg); */
-
-
-
-
-.manga-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 8fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-}
-
-.manga-item {
-    background-color: var(--background-dark);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    width: 250px;
-    align-self: center;
-}
-
-.manga-item:hover {
-    transform: scale(1.05);
-}
-
-.manga-cover img {
-    width: 100%;
-    height: auto;
-    align-items: center;
-    align-self: center;
-    border-bottom: 1px solid var(--background-light);
-}
+}    
 
 .manga-title {
     font-size: 1.2em;
     color: var(--text-color);
     text-align: left;
+    width: calc(100vw - 250px - 315px - 50px - 350px);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .manga-grid {
-        grid-template-columns: 1fr;
-    }
+
+/* Base Styles */
+body {
+    /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
-/* Manga Header */
-.manga-header {
+/* Main Content Styles */
+main {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+.main-content {
+    padding: 20px;
+    padding-top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-color: var(--background-dark);
+}
+
+/* Featured Section Styles */
+#featured {
+    padding: 20px;
+    margin: 20px;
+    color: #a0cfff;
+}
+
+#featured h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.8);
+}
+
+#featured p {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: var(--text-muted);
+}
+
+/* Container for Information Cards */
+.container-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto 40px; /* Centering horizontally with margin: 0 auto */
+}
+
+
+/* Manga Card Styles */
+.manga-card-full {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid var(--background-dark);
+    border-radius: var(--border-radius);
+    background-color: var(--card-bg);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.manga-card-full:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+.preview-image {
+    height: 280px;
+    width: 200px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+}
+
+/* Manga Info Section (Shared between Cards and Details Page) */
+.manga-info {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    max-width: 600px;
+    width: calc(100% - 180px);
+    color: var(--text-color);
+}
+
+.manga-info h2,
+.manga-title {
+    font-size: 1.5rem;
+    color: #a0cfff;
+    margin-bottom: 10px;
+}
+
+
+
+.manga-type {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.manga-info p,
+.description {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    font-size: 1rem;
+    overflow: hidden;
+    width: calc(100vw - 250px - 315px - 50px - 350px);
+}
+
+.manga-info a {
+    color: #333;
+    background-color: #a0cfff;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+.manga-info a:hover {
+    background-color: var(--hover-color);
+}
+
+/* Manga Header (Details Page) */
+.manga-header {
+    background-color: var(--background-light);
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
 .manga-header-content {
     display: flex;
-    flex-direction: row; /* Arrange the cover image and info side by side */
-    align-items: center; /* Align items vertically centered */
-    gap: 20px; /* Add space between the image and the text */
+    align-items: flex-start;
+    gap: 20px;
 }
 
-.manga-cover {
-    flex-shrink: 0; /* Prevent the image from shrinking */
-}
-
-.manga-cover img {
+.manga-cover .cover-image {
     width: 250px;
-    border-style: solid;
-    border-color: var(--text-color);
-    border-width: 3px;
-    height: auto;
     border-radius: var(--border-radius);
-    flex-shrink: 0; /* Prevent the image from shrinking */
+    box-shadow: var(--box-shadow);
 }
 
-.manga-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center the title and description vertically */
+/* Chapters Section */
+h2 {
+    font-size: 2rem;
+    color: #a0cfff;
+    margin-bottom: 15px;
+    text-align: left;
 }
 
-.manga-info h1 {
-    font-size: 2em;
-    color: var(--link-color);
-    margin-bottom: 10px;
-}
-
-.manga-info .description {
-    font-size: 1.1em;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
-
-/* Chapter List */
 .chapter-list {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
-    margin: 20px 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.chapter-list li a {
-    display: block;
-    padding: 10px 15px;
-    background-color: var(--button-bg);
-    color: var(--text-color);
+.chapter-list li {
+    background-color: var(--background-light);
+    padding: 10px;
     border-radius: var(--border-radius);
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--box-shadow);
+}
+
+.chapter-list li a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
 }
 
 .chapter-list li a:hover {
-    background-color: var(--button-hover-bg);
-    transform: scale(1.01);
+    color: var(--link-hover-color);
 }
 
-section p {
-    color: var(--text-muted);
+/* Community Section Styles */
+.community {
+    padding: 20px;
     text-align: center;
+    background-color: var(--background-light);
+    margin: 0 auto ;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 800px;
 }
 
-section a {
+.community a {
     color: var(--link-color);
+    text-decoration: none;
+    font-weight: bold;
 }
 
-section h1 {
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 30px;
-    position: relative;
-    animation: slideIn 1.5s ease-in-out;
-    color: var(--link-color); /* Ensure the text color is set */
-    text-shadow: 0 0 15px var(--link-color); /* Add glow effect */
+.community a:hover {
+    color: var(--link-hover-color);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .manga-header-content {
-        flex-direction: column;
-        align-items: center;
-    }
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--background-dark);
+}
 
-    .manga-cover img {
-        width: 100px;
-    }
+::-webkit-scrollbar-thumb {
+    background-color: var(--link-color);
+    border: 2px solid var(--background-dark);
+    border-radius: 5px;
+}
 
-    .manga-info h1 {
-        font-size: 1.5em;
-    }
-
-    .chapter-list li a {
-        text-align: center;
-    }
+::-webkit-scrollbar-track {
+    background-color: var(--background-dark);
+    border-radius: 5px;
 }

@@ -3,26 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Manga Reader</title>
+    <title>Contact Us - MR</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/manga">Manga</a></li>
-                <li><a href="/search">Search</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'manhwaHeader.html' %}
     <main></main>
     <main>
+        <!-- I love this code frfr -->
         <section id="contact-form" style="max-width: 600px; margin: 0 auto; background-color: #1e1e1e; padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);">
             <h1 style="text-align: center; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Contact Us</h1>
-            <p style="text-align: center; color: #b0b0b0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">If you have any questions or feedback, feel free to reach out to us.</p>
+            <p style="text-align: center; color: #b0b0b0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 20px;">If you have any questions or feedback, feel free to reach out to us.</p>
             <form onsubmit="event.preventDefault(); sendToDiscord();">
                 <label for="email" style="display: block; font-weight: bold; margin-bottom: 5px; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Email/Discord:</label>
                 <input type="text" id="email" name="email" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #444; border-radius: 5px; background-color: #2e2e2e; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">

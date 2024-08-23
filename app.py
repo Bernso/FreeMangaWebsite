@@ -633,16 +633,23 @@ def manga_reader_home():
     manga_list = []
     for manga in manga_folders:
         mangaLink = manga
-        manga_id_path = os.path.join(MANGA_DIR, manga, 'type.txt')
-        if os.path.isfile(manga_id_path):
-            with open(manga_id_path, 'r', encoding='utf-8') as f:
-                manga_id = f.read().strip()
-                if manga_id == "Manga":
-                    if len(manga) > 80:
-                        manga = manga[:77] + '...'
-                    manga_list.append((manga, manga_id, mangaLink))
-
-    return render_template('manga_reader_home.html', manga_list=manga_list)
+        manga_type_path = os.path.join(MANGA_DIR, manga, 'type.txt')
+        manga_description_path = os.path.join(MANGA_DIR, manga, 'description.txt')
+        if os.path.isfile(manga_type_path):
+            with open(manga_type_path, 'r', encoding='utf-8') as f:
+                manga_type = f.read().strip()
+                if manga_type == "Manga":
+                    
+                    if os.path.isfile(manga_description_path):
+                        with open(manga_description_path, 'r', encoding='utf-8') as f:
+                            manga_description = f.read().strip()
+                            if len(manga_description) > 424:
+                                manga_description = manga_description[:397]
+                                manga_description += "..."
+                    
+                    manga_list.append((manga, manga_type, mangaLink, manga_description))
+                    total_manga = len(manga_list)
+    return render_template('manga_reader_home.html', manga_list=manga_list, numOfManga=total_manga)
 
 def berserk_sort_key(chapter_name):
     # Define your custom sorting logic here
