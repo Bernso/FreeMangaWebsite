@@ -27,14 +27,7 @@
     --side-menu-transition: transform 0.3s ease;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background: var(--card-bg);
-    color: var(--text-color);
-    overflow-x: hidden;
-    height: 100%;
-    margin: 0;
-}
+
 .manga-reader-background {
     background: var(--card-bg);
 }
@@ -211,9 +204,7 @@ body {
     }
 }
 
-body {
-    overflow: -webkit-scrollbar;
-}
+
 
 input[type="range"] {
     width: 100%;
@@ -477,7 +468,8 @@ html, body {
 
 /* Base Styles */
 body {
-    /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
     background-color: var(--background-dark);
     color: var(--text-color);
     margin: 0;
@@ -714,15 +706,7 @@ h2 {
     background-color: var(--background-dark);
     border-radius: 5px;
 }
-/* Base Styles */
-body {
-    background-color: var(--background-dark);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-}
+
 
 /* Content Wrapper */
 .content-wrapper {
