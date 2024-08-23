@@ -38,6 +38,9 @@ body {
 .manga-reader-background {
     background: var(--card-bg);
 }
+.manga-title-side-bar {
+    font-size: 1.3em;
+}
 
 .side-menu {
     position: fixed;
