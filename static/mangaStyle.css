@@ -763,6 +763,16 @@ h2 {
     font-size: 2rem;
     color: #a0cfff;
     margin-bottom: 15px;
+    animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+      text-shadow: 0 0 20px var(--header-bg), 0 0 25px var(--link-color), 0 0 30px var(--hover-color);
+    }
+    100% {
+      text-shadow: 0 0 20px var(--header-bg), 0 0 30px var(--link-color), 0 0 50px var(--hover-color);
+    }
 }
 
 .summary {
@@ -800,6 +810,10 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.chapters-list a {
+    background: var(--background-dark);
 }
 
 .chapter-link {
