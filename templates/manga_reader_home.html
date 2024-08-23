@@ -21,7 +21,7 @@
                         <img src="{{ url_for('serve_image', manga_title=mangaLink) }}" alt="{{ manga }} cover image" class="preview-image">
                         <div class='manga-info'>
                             <h2 class='manga-title'>{{ manga }}</h2>
-                            <div class="manga-type">Type: {{ manga_id }}</div>
+                            <div class="manga-type">Type: <strong>{{ manga_id }}</strong></div>
                             <p style='text-align: left;'>{{ manga_description }}</p>
                             <a href="{{ url_for('manga_details', manga_name=mangaLink) }}" aria-label="{{ manga }}">Read More</a>
                         </div>
