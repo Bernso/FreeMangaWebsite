@@ -9,34 +9,38 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <main class="main-content">
-        <div class="container-info">
-            <div class="manga-header">
-                <div class="manga-header-content">
+    <main class="content-wrapper">
+        <div class="info-section">
+            <div class="header-wrapper">
+                <div class="header-content">
                     {% if cover_image %}
-                        <div class="manga-cover">
-                            <img src="{{ url_for('serve_image', manga_title=manga_name) }}" alt="{{ manga_name }} Cover Image" class="cover-image">
+                        <div class="cover-container">
+                            <img src="{{ url_for('serve_image', manga_title=manga_name) }}" alt="{{ manga_name }} Cover Image" class="image-cover">
                         </div>
                     {% endif %}
-                    <div class="manga-info">
-                        <h1 class="manga-title">{{ manga_name }}</h1>
-                        <p class="description">{{ description }}</p>
+                    <div class="details-wrapper">
+                        <h1 class="title">{{ manga_name }}</h1>
+                        <p class="summary">{{ description }}</p>
                     </div>
                 </div>
             </div>
 
-            <h2>Chapters</h2>
-            <ul class="chapter-list">
-                {% for chapter in chapters %}
-                    <li><a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}">{{ chapter }}</a></li>
-                {% endfor %}
-            </ul>
+            <div class="chapters-container">
+                <h2 class="chapters-heading">Chapters</h2>
+                <div class="chapters-list-wrapper">
+                    <ul class="chapters-list">
+                        {% for chapter in chapters %}
+                            <li><a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}" class="chapter-link">{{ chapter }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <section class="community">
+        <section class="community-section">
             <h1>Join Our Community</h1>
-            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank">Discord Server</a></p>
-            <p>Created by <a href="https://www.github.com/Bernso" target="_blank">Bernso</a></p>
+            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" class="discord-link">Discord Server</a></p>
+            <p>Created by <a href="https://www.github.com/Bernso" target="_blank" class="creator-link">Bernso</a></p>
         </section>
     </main>
 </body>
