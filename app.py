@@ -608,21 +608,28 @@ def manga_detail(manga_id):
 
 
 
-@app.route('/hello', methods=['POST'])
-def hello_world():
-    return "Hello, World!", 200
+
 
 
 def buildURLFromID(search_id):
+    """
+    This function constructs a URL for a manga based on its ID.
+
+    Parameters:
+    search_id (str): The ID of the manga to search for.
+
+    Returns:
+    str: The constructed URL for the manga. If the file with the correct ID is not found, it returns None.
+    """
     base_directory = 'manga/'
-    
+
     # Walk through the directory tree
     for root, dirs, files in os.walk(base_directory):
         # Check if 'id.txt' file is in the current directory
         if 'id.txt' in files:
             # Construct the path to the 'id.txt' file
             file_path = os.path.join(root, 'id.txt')
-            
+
             # Read the contents of the file
             with open(file_path, 'r') as file:
                 file_id = file.read().strip()  # Read and strip any extra whitespace
@@ -634,10 +641,11 @@ def buildURLFromID(search_id):
                     print(manga_name)
                     # Construct the URL (you can adjust this format as needed)
                     url = f'https://www.mangaread.org/{manga_name}'
-                    
+
                     return url
     # Return None if the file with the correct ID is not found
     return None
+
 
 
 
