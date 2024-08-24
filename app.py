@@ -11,10 +11,14 @@ try:
     #print("imported json")
     import urllib.parse
     #print("imported urllib.parse")
+    
+    
     from WebScrapers.Required.replaceCode import replace_special_characters
     #print("imported replace_special_characters")
-    import WebScrapers.mangaReaderDotOrg
-    #print("imported WebScrapers.mangaReaderDotOrg")
+    import WebScrapers.OnSite.mangaReaderDotOrg
+    #print("imported WebScrapers.OnSite.mangaReaderDotOrg")
+    
+    
     from dotenv import load_dotenv
     #print("imported load_dotenv")
     import urllib
@@ -656,7 +660,7 @@ def updateManhwaFunction():
     print(f"Manga ID recieved: {mangaID}")
     url = buildURLFromID(search_id=str(mangaID))
     input(f"URL created: {url}")
-    WebScrapers.mangaReaderDotOrg.main(url=url)
+    WebScrapers.OnSite.mangaReaderDotOrg.main(url=url)
     
     return f"Updated {url}", 200
 

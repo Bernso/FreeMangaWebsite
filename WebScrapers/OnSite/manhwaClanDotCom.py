@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
 import re
-from Required.replaceCode import replace_special_characters
+from WebScrapers.Required.replaceCode import replace_special_characters
 
 # Constants
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'
@@ -74,14 +74,15 @@ def print_links_in_reverse_order(url):
         
         content_div = soup.find('div', class_='description-summary')
         if content_div:
-            paragraphs = content_div.find_all('p')
-            content = '\n\n'.join(p.get_text(strip=True) for p in paragraphs)
+            # Extract all text from the description-summary div
+            content = content_div.get_text(separator='\n\n', strip=True)
             desc_path = os.path.join(directory_path, 'description.txt')
             print(f"Description Path: {desc_path}")
             with open(desc_path, 'w', encoding='utf-8') as descFile:
-                descFile.write(content)
+                descFile.write(content[:-10])
         else:
             print("The specified div was not found in the HTML.")
+
         
         post_content_div = soup.find('div', class_='post-content')
         type_value = None
