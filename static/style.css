@@ -823,3 +823,13 @@ input[type="range"] {
 
 
 
+.uncopyable {
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.unselectable {
+    user-select: none;
+    pointer-events: none;
+}

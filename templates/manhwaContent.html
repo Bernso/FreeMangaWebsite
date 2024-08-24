@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class='uncopyable'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
     <main></main>
     <main>
         <h1>{{ manga_title }}: {{ chapterName }}</h1>
-        <div class="tower">
+        <div class="tower unselectable">
             {% for image in images %}
                 <img src="{{ url_for('get_image', manga_title=manga_title, chapterName=chapterName, filename=image) }}" alt="{{ image }}" class='unselectable uncopyable'>
             {% endfor %}
