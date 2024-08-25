@@ -767,10 +767,10 @@ h2 {
 
 @keyframes glow {
     0% {
-      text-shadow: 0 0 20px var(--header-bg), 0 0 25px var(--link-color), 0 0 30px var(--hover-color);
+      text-shadow: 0 0 2px var(--header-bg), 0 0 3px var(--link-color), 0 0 4px var(--hover-color);
     }
     100% {
-      text-shadow: 0 0 20px var(--header-bg), 0 0 30px var(--link-color), 0 0 50px var(--hover-color);
+      text-shadow: 0 0 3px var(--header-bg), 0 0 4px var(--link-color), 0 0 5px var(--hover-color);
     }
 }
 
@@ -866,4 +866,9 @@ h2 {
 ::-webkit-scrollbar-track {
     background-color: var(--background-dark);
     border-radius: 5px;
+}
+
+.manga-informaion a {
+    color: var(--link-color);
+    text-decoration: none;
 }
