@@ -30,6 +30,9 @@ except ImportError as e:
     input(f"Error importing: {e}")
 
 
+# Just realised I hadn't added this when I launched this on my laptop for the first time (fatal error)
+if not os.path.exists(os.path.join(os.getcwd(), 'manga')):
+    os.chdir(os.path.join(os.getcwd(),'manga'))
 
 
 port = '1111'       # any number you want (4 digits)
