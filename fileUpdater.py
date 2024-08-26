@@ -1,1 +1,2 @@
-import os; os.system("git clone https://github.com/Bernso/FreeMangaWebsite");  os.chdir("FreeMangaWebsite"); print(os.getcwd());  os.system("python app.py") # W code
+try:    import os; os.system("git clone https://github.com/Bernso/FreeMangaWebsite"); os.system('cls'); print("Starting program..."); from time import sleep; sleep(2); os.chdir("FreeMangaWebsite"); print(os.getcwd());  os.system("python app.py") # W code
+except Exception as e:    input(f"Error: {e}")
