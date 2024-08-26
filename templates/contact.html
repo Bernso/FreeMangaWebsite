@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class='uncopyable'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,31 +9,31 @@
 </head>
 <body>
     {% include 'manhwaHeader.html' %}
-    <main></main>
-    <main>
-        <!-- I love this code frfr -->
-        <section id="contact-form" style="max-width: 600px; margin: 0 auto; background-color: #1e1e1e; padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);">
-            <h1 style="text-align: center; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Contact Us</h1>
-            <p style="text-align: center; color: #b0b0b0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding-bottom: 20px;">If you have any questions or feedback, feel free to reach out to us.</p>
-            <form onsubmit="event.preventDefault(); sendToDiscord();">
-                <label for="email" style="display: block; font-weight: bold; margin-bottom: 5px; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Email/Discord:</label>
-                <input type="text" id="email" name="email" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #444; border-radius: 5px; background-color: #2e2e2e; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    
+    <main class='hover' style='padding-top: 80px;'>
+        <section class="contact-section">
+            <h1>Contact Us</h1>
+            <p>If you have any questions or feedback, feel free to reach out to us.</p>
+            
+            <form class="contact-form" onsubmit="event.preventDefault(); sendToDiscord();">
+                <label for="email">Email/Discord:</label>
+                <input type="text" id="email" name="email" required>
                 
-                <label for="subject" style="display: block; font-weight: bold; margin-bottom: 5px; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Subject:</label>
-                <input type="text" id="subject" name="subject" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #444; border-radius: 5px; background-color: #2e2e2e; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
                 
-                <label for="body" style="display: block; font-weight: bold; margin-bottom: 5px; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Body:</label>
-                <textarea id="body" name="body" rows="10" cols="30" required style="width: 100%; padding: 10px; border: 1px solid #444; border-radius: 5px; margin-bottom: 20px; background-color: #2e2e2e; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"></textarea>
+                <label for="body">Body:</label>
+                <textarea id="body" name="body" rows="10" required></textarea>
                 
-                <button type="submit" style="width: 100%; padding: 12px; background-color: #007acc; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Send Message</button>
+                <button type="submit">Send Message</button>
             </form>
         </section>
 
         <br><br><br><br><br><br>
 
         <h1>Join Our Community</h1>
-        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
-        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none; color: var(--link-color);'>Discord Server</a></p>
+        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none; color: var(--link-color);'>Bernso</a></p>
     </main>
 
     <script>
@@ -42,14 +42,12 @@
             const subject = document.getElementById('subject').value;
             const body = document.getElementById('body').value;
     
-            // Create a JSON object to send to the Python backend
             const data = {
                 "email": email,
                 "subject": subject,
                 "body": body
             };
     
-            // Send the data using fetch to the Python endpoint
             fetch('/send_to_discord', {
                 method: 'POST',
                 headers: {
