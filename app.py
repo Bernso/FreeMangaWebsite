@@ -13,6 +13,9 @@ try:
     #print("imported urllib.parse")
     
     
+    import WebScrapers.UPDATE
+    #print("import webscrapers.update")
+    
     from WebScrapers.Required.replaceCode import replace_special_characters
     #print("imported replace_special_characters")
     import WebScrapers.OnSite.mangaReaderDotOrg
@@ -805,6 +808,25 @@ def manga_reader(manga_name, chapter_name):
 
     return render_template('manga_reader.html', images=images, chapter_name=chapter_name, manga_name=manga_name,
                            next_chapter=next_chapter, previous_chapter=previous_chapter, saved_height=saved_height)
+
+
+
+
+
+@app.route('/update')
+def update():
+    return render_template('update.html')
+
+
+
+
+@app.route('/update/<id>', methods=['POST'])
+def update_id(id):
+    print(f"Received ID from URL: {id}")
+    WebScrapers.UPDATE.main(str(id))
+    return jsonify({"id": id})
+
+
 
 
 

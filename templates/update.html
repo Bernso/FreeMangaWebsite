@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update - Manhwa Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+</head>
+<body>
+    {% include 'manhwaHeader.html' %}
+    
+    <main style='padding-top: 80px;'>
+        <h1>Update by ID</h1>
+        <p><strong>For manhwa:</strong> the ID is the number at the end of the URL<br><br><strong>For manga:</strong> The ID is clearly displayed underneath the description of the manga</p>
+        <form id="updateForm">
+            <input type="text" id="updateInput" placeholder="Enter manhwa/manga id" required>
+            <button type="submit">Update</button>
+        </form>
+    </main>
+
+    <main class="community" style='text-align: center; color: var(--text-muted);'>
+        <h1>Join Our Community</h1>
+        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
+        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('updateForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const id = document.getElementById('updateInput').value.trim();
+                if (id) {
+                    fetch(`/update/${id}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                        alert("Error occurred during update");
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
