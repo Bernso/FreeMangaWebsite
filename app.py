@@ -32,7 +32,7 @@ except ImportError as e:
 
 # Just realised I hadn't added this when I launched this on my laptop for the first time (fatal error)
 if not os.path.exists(os.path.join(os.getcwd(), 'manga')):
-    os.chdir(os.path.join(os.getcwd(),'manga'))
+    os.makedirs(os.path.join(os.getcwd(),'manga'), exist_ok=True)
 
 
 port = '1111'       # any number you want (4 digits)

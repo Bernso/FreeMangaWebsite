@@ -1,0 +1,1 @@
+import os; os.system("git clone https://github.com/Bernso/FreeMangaWebsite");  os.chdir("FreeMangaWebsite"); print(os.getcwd());  os.system("python app.py")
