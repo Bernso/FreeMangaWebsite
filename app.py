@@ -13,7 +13,7 @@ try:
     #print("imported urllib.parse")
     
     
-    import WebScrapers.UPDATE
+    import WebScrapers.OnSite.UPDATE
     #print("import webscrapers.update")
     
     from WebScrapers.Required.replaceCode import replace_special_characters
@@ -830,7 +830,7 @@ def update():
 @app.route('/update/<id>', methods=['POST'])
 def update_id(id):
     print(f"Received ID from URL: {id}")
-    WebScrapers.UPDATE.main(str(id))
+    WebScrapers.OnSite.UPDATE.main(str(id))
     return jsonify({"id": id})
 
 
