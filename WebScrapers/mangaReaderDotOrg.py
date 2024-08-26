@@ -96,10 +96,18 @@ def print_links_in_reverse_order(url):
                 typeFile.write(type_value if type_value else '')
         
         id_path = os.path.join(directory_path, 'id.txt')
-        print(f"ID Path: {id_path}")
         if not os.path.exists(id_path):
+            print(f"ID Path: {id_path}")
             with open(id_path, 'w') as id_file:
                 id_file.write(count_directories(DIRECTORY_PATH))
+                id_file.close()
+        
+        websiteFrom = os.path.join(directory_path, 'website.txt')
+        print(f"Website Path: {websiteFrom}")
+        if not os.path.exists(websiteFrom):
+            with open(websiteFrom, 'w', encoding='utf-8') as website_file:
+                website_file.write('mangaReaderDotOrg')
+                website_file.close()
         
         return links, title
     else:
