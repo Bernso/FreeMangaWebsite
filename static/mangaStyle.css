@@ -872,3 +872,9 @@ h2 {
     color: var(--link-color);
     text-decoration: none;
 }
+
+
+.manga-id {
+    color: var(--text-muted);
+    padding-top: 15px;
+}

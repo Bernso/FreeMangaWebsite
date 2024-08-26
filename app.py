@@ -459,7 +459,7 @@ def findAllManga():
         manga_path = os.path.join(MANGA_DIR, manga_folder)
         
         if os.path.isdir(manga_path):
-            manga_count += 1  # Increment the manga count
+            
 
             try:
                 # Read the id, description, and cover image
@@ -473,7 +473,7 @@ def findAllManga():
                     manga_type = f.read().strip()
                     if manga_type.lower() == 'manga':
                         continue
-
+                    manga_count += 1  # Increment the manga count
                 if len(description) > 50:
                     description = description[:47] + '...'
 
@@ -748,6 +748,13 @@ def manga_details(manga_name):
     else:
         description = "No description available."
 
+    id_path = os.path.join(manga_path, 'id.txt')
+    if os.path.isfile(id_path):
+        with open(id_path, 'r', encoding='utf-8') as f:
+            manga_id = f.read().strip()
+    else:
+        manga_id = "ID not found."
+    
     # List chapters
     chapters_dir = os.path.join(manga_path, "Chapters")
     chapters = [folder for folder in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, folder))]
@@ -757,7 +764,7 @@ def manga_details(manga_name):
         chapters.sort(key=natural_sort_key)
     chapters = chapters[::-1]
 
-    return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters)
+    return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters, manga_id=manga_id)
 
 
 
