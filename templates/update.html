@@ -10,7 +10,7 @@
 <body>
     {% include 'manhwaHeader.html' %}
     
-    <main style='padding-top: 80px;'>
+    <main class='hover-box'>
         <h1>Update by ID</h1>
         <p><strong>For manhwa:</strong> the ID is the number at the end of the URL<br><br><strong>For manga:</strong> The ID is clearly displayed underneath the description of the manga</p>
         <form id="updateForm">
@@ -19,11 +19,7 @@
         </form>
     </main>
 
-    <main class="community" style='text-align: center; color: var(--text-muted);'>
-        <h1>Join Our Community</h1>
-        <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
-        <p>Created by <a href="https://www.github.com/Bernso" target="_blank" style='text-decoration: none;'>Bernso</a></p>
-    </main>
+   
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

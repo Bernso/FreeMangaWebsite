@@ -96,7 +96,6 @@ h1 {
     font-size: 2.5em;
     margin-bottom: 30px;
     position: relative;
-    animation: slideIn 1.5s ease-in-out;
     color: var(--link-color); /* Ensure the text color is set */
     text-shadow: 0 0 15px var(--link-color); /* Add glow effect */
 }
@@ -656,7 +655,7 @@ body {
 
 
 /* Search Form Styling */
-form#searchForm {
+form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -664,7 +663,7 @@ form#searchForm {
     margin-top: 30px;
 }
 
-form#searchForm input[type="text"] {
+form input[type="text"] {
     width: 300px;
     padding: 10px;
     border-radius: var(--border-radius);
@@ -676,13 +675,13 @@ form#searchForm input[type="text"] {
     transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-form#searchForm input[type="text"]:focus {
+form input[type="text"]:focus {
     outline: none;
     border-color: var(--hover-color);
     box-shadow: 0 0 10px var(--hover-color);
 }
 
-form#searchForm button[type="submit"] {
+form button[type="submit"] {
     padding: 10px 20px;
     border-radius: var(--border-radius);
     border: none;
@@ -694,13 +693,13 @@ form#searchForm button[type="submit"] {
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-form#searchForm button[type="submit"]:hover {
+form button[type="submit"]:hover {
     background-color: var(--hover-color);
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
 }
 
-form#searchForm button[type="submit"]:active {
+form button[type="submit"]:active {
     background-color: var(--link-hover-color);
     transform: translateY(0);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -833,3 +832,30 @@ input[type="range"] {
     user-select: none;
     pointer-events: none;
 }
+
+.hover-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, var(--background-dark), var(--card-bg));
+    color: var(--text-color);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: auto;
+    width: 50%; /* Adjust width as needed */
+    min-height: 200px; /* Adjust height as needed */
+    border-radius: 25px;
+    padding-bottom: 80px;
+    padding-top: 80px;
+
+
+    /* Centering the element within the viewport */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
