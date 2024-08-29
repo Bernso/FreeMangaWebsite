@@ -6,6 +6,11 @@
     <title>{{ chapter_name }} - {{ manga_name }} - MR</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+    <style>
+        .hidden2 {
+            top: -60px;
+        }
+    </style>
 </head>
 <body class='manga-reader-background'>
     {% include 'header.html' %}
@@ -72,7 +77,7 @@
             const sideMenu = document.querySelector('.side-menu');
             const container = document.querySelector('.container');
             const progressContainer = document.querySelector('.progress-container');
-            header.classList.add('header-hidden');
+            //header.classList.add('header-hidden');
             // Image Cache
             const imageCache = {};
         
@@ -154,7 +159,7 @@
                 } else if (event.key === 'ArrowRight') {
                     goToNextPanel();
                 } else if (event.key.toLowerCase() === 'h') {
-                    header.classList.toggle('header-hidden');
+                    header.classList.toggle('hidden2');
                 } else if (event.key === 'm' || event.key === 'M') {
                     toggleSideMenu();
                 }
