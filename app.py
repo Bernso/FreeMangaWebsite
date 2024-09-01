@@ -35,7 +35,7 @@ if not os.path.exists(os.path.join(os.getcwd(), 'manga')):
     os.makedirs(os.path.join(os.getcwd(),'manga'), exist_ok=True)
 
 
-port = '1111'       # any number you want (4 digits)
+port = '2222'       # any number you want (4 digits)
 debug = True        # could be True or False
 host = '127.0.0.1'  # could be 127.0.0.1 or 0.0.0.0 or your ip
 
