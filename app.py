@@ -665,7 +665,7 @@ def updateManhwaFunction():
     mangaID = request.json.get('mangaId')
     print(f"Manga ID recieved: {mangaID}")
     url = buildURLFromID(search_id=str(mangaID))
-    input(f"URL created: {url}")
+    print(f"URL created: {url}")
     WebScrapers.OnSite.mangaReaderDotOrg.main(url=url)
     
     return f"Updated {url}", 200
