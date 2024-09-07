@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class='uncopyable'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update - Manhwa Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+</head>
+<style>
+</style>
+<body>
+    {% include 'manhwaHeader.html' %}
+    
+    <main class='hover-box'>
+        <h1>Webscraper ManhwaClan.com</h1>
+        <p>Enter your link below</p>
+        <form id="updateForm">
+            <input type="text" id="updateInput" placeholder="Link" required>
+            <button type="submit">Scrape</button>
+            
+        </form>
+        <a class='scraper' href='/scrape' style='margin-top: 15px;'>Return</a>
+    </main>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('updateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const link = document.getElementById('updateInput').value.trim();
+            if (link) {
+                fetch(`/real/scrape/manhwaClanDotCom`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Set the correct header for JSON
+                    },
+                    body: JSON.stringify({ link: link }) // Send data as JSON
+                })
+                .then(response => response.json()) // Handle the JSON response
+                .then(data => {
+                    console.log('Success:', data); // Log success response
+                    alert("Scraping successful!"); // Optional alert on success
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Error occurred during update");
+                });
+            }
+        });
+    });
+    
+</script>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" class='uncopyable'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update - Manhwa Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+</head>
+<style>
+</style>
+<body>
+    {% include 'manhwaHeader.html' %}
+    
+    <main class='hover-box'>
+        <h1>All Webscrapers</h1>
+        <ul class='scrapers'>
+            <li><a class='scraper' href='scrape/Berserk'>Berserk</a></li>
+            <li><a class='scraper' href='scrape/mangaReaderOrg'>mangareader.org</a></li>
+            <li><a class='scraper' href='scrape/manhwaClanCom'>manhwaclan.com</a></li>
+        </ul>
+    </main>
+</body>
+</html>

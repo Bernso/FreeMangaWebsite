@@ -944,3 +944,42 @@ input[type="range"] {
 }
 
 
+
+
+/* List Styling */
+ul.scrapers {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    display: flex;
+    gap: 20px; /* Space between list items */
+    justify-content: center; /* Center items horizontally */
+}
+
+li {
+    margin: 0; /* Remove extra margin to avoid stacking issues */
+}
+
+.scraper {
+    color: var(--link-color);
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--link-color);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    display: block;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adds a slight shadow */
+    min-width: 120px; /* Ensures consistent button sizes */
+}
+
+.scraper:hover {
+    color: var(--link-hover-color);
+    transform: translateY(-5px); /* Lifts the link on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Enhances the shadow on hover */
+}
+
+.scraper:active {
+    transform: translateY(0); /* Neutralize hover effect on click */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on click */
+}

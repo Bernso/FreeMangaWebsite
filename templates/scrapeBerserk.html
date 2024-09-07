@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class='uncopyable'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update - Manhwa Reader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+</head>
+<style>
+</style>
+<body>
+    {% include 'manhwaHeader.html' %}
+    
+    <main class='hover-box'>
+        <h1 style='margin-bottom: 15px;'>Berserk</h1>
+        <p style='margin-bottom: 16px;'>The page for scraping berserk<br><br>There is no link needed to scrape berserk, just press the button.</p>
+        <ul class='scrapers'>
+            <li><a class='scraper' id='submit'>Get Berserk</a></li>
+            <li><a class='scraper' href='/scrape'>Return</a></li>
+        </ul>
+    </main>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('submit').addEventListener('click', function(e) {
+            e.preventDefault(); 
+            fetch(`/real/scrape/berserk`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert("Berserk scrape initiated successfully!");
+                } else {
+                    alert("Error occurred during update");
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert("Error occurred during update");
+            });
+        });
+    });
+</script>
+</html>

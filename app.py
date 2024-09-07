@@ -1,3 +1,7 @@
+import WebScrapers.OnSite.manhwaClanDotCom
+import WebScrapers.OnSite.readBerserkDotCom
+
+
 try:
     from flask import Flask, render_template, request, jsonify, session, send_file, send_from_directory, abort, redirect, url_for
     #print("imported flask")
@@ -837,8 +841,76 @@ def update_id(id):
     return jsonify({"id": id})
 
 
+@app.route('/scrape')
+def scrapers():
+    return render_template('scrapers.html')
 
 
+@app.route('/scrape/mangaReaderOrg')
+def scrapemangaReaderOrg():
+    return render_template('scrapemangaReaderOrg.html')
+
+
+@app.route('/scrape/manhwaClanCom')
+def scrapemanhwaClanCom():
+    return render_template('scrapemanhwaClanCom.html')
+
+
+@app.route('/scrape/Berserk')
+def scrapeBerserkPage():
+    return render_template('scrapeBerserk.html')
+
+
+@app.route('/real/scrape/berserk', methods=['POST'])
+def scrape_berserk():
+    try:
+        print(f"Scraping Berserk")
+        WebScrapers.OnSite.readBerserkDotCom.main()
+        return jsonify({"status": "success"})
+    except Exception as e:
+        print(f"Error scraping mangaReaderOrg: {e}")
+        return jsonify({"status": "error", "error": str(e)})
+
+
+@app.route('/real/scrape/mangaReaderOrg', methods=['POST'])
+def scrape_mangaReaderOrg():
+    data = request.get_json()
+    if data and 'link' in data:
+        
+        try:
+            link = data['link']
+            print(f"Starting Scraping mangaReaderOrg")
+            WebScrapers.OnSite.mangaReaderDotOrg.main(link)
+            return jsonify({"status": "success"})
+        
+        except Exception as e:
+            print(f"Error scraping mangaReaderOrg: {e}")
+            return jsonify({"status": "error", "error": str(e)})
+        
+    else:
+        print("data not recieved /real/scrape/mangaReaderOrg")
+        return jsonify({"status": "did not recieve link"})
+    
+
+
+@app.route('/real/scrape/manhwaClanDotCom', methods=['POST'])
+def scrape_manhwaClanDotCom():
+    data = request.get_json()
+    if data and 'link' in data:
+        
+        try:
+            link = data['link']
+            print(f"Starting Scraping manhwaClanDotCom")
+            WebScrapers.OnSite.manhwaClanDotCom.main(link)
+            return jsonify({"status": "success"})
+        
+        except Exception as e:
+            print(f"Error scraping manhwaClanDotCom: {e}")
+            return jsonify({"status": "error", "error": str(e)})
+        
+    else:
+        print("data not recieved /real/scrape/manhwaClanDotCom")
+        return jsonify({"status": "did not recieve link"})
 
 
 @app.route('/save_height', methods=['POST'])
