@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ manga_name }} - Read {{ manga_name }} chapters online. Join our community for discussions and updates.">
+    <meta name="keywords" content="manga, {{ manga_name }}, manga reader, online manga, read manga">
     <title>{{ manga_name }} - MR</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='mangaStyle.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     {% include 'header.html' %}
@@ -17,11 +20,15 @@
                         <div class="cover-container">
                             <img src="{{ url_for('serve_image', manga_title=manga_name) }}" alt="{{ manga_name }} Cover Image" class="image-cover">
                         </div>
+                    {% else %}
+                        <p class="no-cover-message">Cover image not available</p>
                     {% endif %}
                     <div class="details-wrapper">
                         <h1 class="title">{{ manga_name }}</h1>
                         <p class="summary">{{ description }}</p>
-                        <p class='manga-id'>Manga ID: {{ manga_id }}
+                        <p class='manga-id'>Manga ID: {{ manga_id }}</p>
+                        <button class="read-latest-btn" onclick="window.location.href='{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapters[0]) }}'">Read Latest Chapter</button>
+                        <button class="read-latest-btn" onclick="window.location.href='{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapters[-1]) }}'">Read First Chapter</button>
                     </div>
                 </div>
             </div>
@@ -29,20 +36,52 @@
             <div class="chapters-container">
                 <h2 class="chapters-heading">Chapters</h2>
                 <div class="chapters-list-wrapper">
-                    <ul class="chapters-list">
-                        {% for chapter in chapters %}
-                            <li><a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}" class="chapter-link">{{ chapter }}</a></li>
-                        {% endfor %}
-                    </ul>
+                    {% if chapters %}
+                        <ul class="chapters-list">
+                            {% for chapter in chapters %}
+                                <li class="chapter-item">
+                                    <img src="{{ images[loop.index0] }}" alt="Thumbnail for {{ chapter }}" class="chapter-thumbnail">
+                                    <a href="{{ url_for('manga_reader', manga_name=manga_name, chapter_name=chapter) }}" class="chapter-link">
+                                        {{ chapter }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="no-chapters-message">No chapters available at the moment. Please check back later.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
 
         <section class="community-section">
             <h1>Join Our Community</h1>
-            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" class="discord-link">Discord Server</a></p>
-            <p>Created by <a href="https://www.github.com/Bernso" target="_blank" class="creator-link">Bernso</a></p>
+            <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" class="discord-link" aria-label="Join our Discord Server" title="Join our Discord Server">Discord Server</a></p>
+            <p>Created by <a href="https://www.github.com/Bernso" target="_blank" class="creator-link" aria-label="Visit Bernso on GitHub" title="Visit Bernso on GitHub">Bernso</a></p>
         </section>
     </main>
+
+    <script>
+        const imageCache = {};
+        const images = {{ images|default([])|tojson }};
+        
+        function preloadImages(imageArray) {
+            imageArray.forEach((imageSrc) => {
+                if (!imageCache[imageSrc]) {
+                    const img = new Image();
+                    img.onload = () => {
+                        imageCache[imageSrc] = img;
+                        console.log(`Preloaded image: ${imageSrc}`);
+                    };
+                    img.onerror = () => {
+                        console.error(`Failed to preload image: ${imageSrc}`);
+                    };
+                    img.src = imageSrc;
+                }
+            });
+        }
+
+        preloadImages(images);
+    </script>
 </body>
 </html>

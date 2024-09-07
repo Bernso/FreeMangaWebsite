@@ -726,13 +726,6 @@ def manga_details(manga_name):
     """
     This function retrieves the details of a specific manga based on its name.
     It retrieves the cover image, description, and a list of chapters for the manga.
-
-    Parameters:
-    manga_name (str): The name of the manga to retrieve details for.
-
-    Returns:
-    render_template: If the manga is found, it renders the 'manga_details.html' template with the manga details, cover image, description, and chapters.
-                     If the manga is not found, it returns a 404 status code with the message "Manga not found".
     """
     manga_name = urllib.parse.unquote(manga_name)
     manga_path = os.path.join(MANGA_DIR, manga_name)
@@ -740,7 +733,7 @@ def manga_details(manga_name):
     if not os.path.isdir(manga_path):
         return "Manga not found", 404
 
-    # Read manga details
+    # Read manga cover image
     cover_image = None
     for ext in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
         potential_cover = os.path.join(manga_path, f'cover_image.{ext}')
@@ -748,6 +741,7 @@ def manga_details(manga_name):
             cover_image = url_for('static', filename=os.path.relpath(potential_cover, 'static'))
             break
 
+    # Read description
     description_path = os.path.join(manga_path, 'description.txt')
     if os.path.isfile(description_path):
         with open(description_path, 'r', encoding='utf-8') as f:
@@ -755,23 +749,31 @@ def manga_details(manga_name):
     else:
         description = "No description available."
 
+    # Read manga ID
     id_path = os.path.join(manga_path, 'id.txt')
     if os.path.isfile(id_path):
         with open(id_path, 'r', encoding='utf-8') as f:
             manga_id = f.read().strip()
     else:
         manga_id = "ID not found."
-    
+
     # List chapters
     chapters_dir = os.path.join(manga_path, "Chapters")
     chapters = [folder for folder in os.listdir(chapters_dir) if os.path.isdir(os.path.join(chapters_dir, folder))]
     if manga_name == "Berserk":
-        chapters.sort(key=berserk_sort_key)# sorting algo
+        chapters.sort(key=berserk_sort_key)  # Custom sort function
     else:
         chapters.sort(key=natural_sort_key)
     chapters = chapters[::-1]
 
-    return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters, manga_id=manga_id)
+    # Generate URLs for chapter thumbnails
+    images = [
+        url_for('serve_thumbnail_chapter', manga_title=manga_name, chapterName=chapter)
+        for chapter in chapters
+    ]
+
+    return render_template('manga_details.html', manga_name=manga_name, cover_image=cover_image, description=description, chapters=chapters, manga_id=manga_id, images=images)
+
 
 
 
@@ -1031,6 +1033,24 @@ def get_image(manga_title, filename, chapterName):
     image_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
     return send_from_directory(image_dir, filename)
 
+@app.route("/thumbnail/<manga_title>/<chapterName>")
+def serve_thumbnail_chapter(manga_title, chapterName):
+    possible_extensions = ['jpg', 'jpeg', 'gif', 'webp', 'png']
+    chapter_dir = os.path.join(MANGA_DIR, manga_title, 'Chapters', chapterName)
+    
+    #print(f"Looking in directory: {chapter_dir}")
+    
+    for ext in possible_extensions:
+        image_filename = f'image_1.{ext}'
+        full_path = os.path.join(chapter_dir, image_filename)
+        #print(f"Checking: {full_path}")
+        
+        if os.path.exists(full_path):
+            #print("Sending image:", full_path)
+            return send_from_directory(chapter_dir, image_filename)
+    
+    print("Image not found, failed")
+    return abort(404)
 
 
 

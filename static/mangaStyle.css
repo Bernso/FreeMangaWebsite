@@ -819,6 +819,7 @@ h2 {
     color: var(--link-color);
     text-decoration: none;
     font-weight: bold;
+    background-color: var(--button-hover-bg);
     font-size: 1.1rem;
     padding: 10px;
     border-radius: var(--border-radius);
@@ -877,4 +878,58 @@ h2 {
 .manga-id {
     color: var(--text-muted);
     padding-top: 15px;
+}
+
+
+.chapter-item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.chapter-item:hover {
+    background-color: #1a1a1a;
+}
+
+.chapter-thumbnail {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    transition: transform 0.3s;
+    border-radius: 3px;
+}
+
+.chapter-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+.chapter-link {
+    flex: 1;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.chapter-link:hover {
+    color: #ffa500;
+}
+
+.read-latest-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #a0cfff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    color: #000;
+    max-width: 33.3%;
+}
+
+.read-latest-btn:hover {
+    background-color: var(--hover-color);
 }
