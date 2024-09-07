@@ -889,7 +889,7 @@ def scrape_mangaReaderOrg():
         
     else:
         print("data not recieved /real/scrape/mangaReaderOrg")
-        return jsonify({"status": "did not recieve link"})
+        return jsonify({"status": "error", "error": str(e)})
     
 
 
@@ -910,7 +910,7 @@ def scrape_manhwaClanDotCom():
         
     else:
         print("data not recieved /real/scrape/manhwaClanDotCom")
-        return jsonify({"status": "did not recieve link"})
+        return jsonify({"status": "error", "error": str(e)})
 
 
 @app.route('/save_height', methods=['POST'])
