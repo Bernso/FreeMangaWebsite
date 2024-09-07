@@ -1,5 +1,5 @@
 # Setup
-- Install requirements
+- Install requirements by running this command in the terminal/console:
 ```powershell
 pip install -r requirements.txt -U
 ```
