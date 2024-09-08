@@ -3,9 +3,9 @@ def replace_special_characters(text):
     # Define a dictionary for the characters and their replacements
     char_to_html = {
         '"': "'",  # Replace double quotes with single quotes
-        '&': "&amp;",  # Replace ampersand with HTML entity
-        '<': "&lt;",   # Replace less than with HTML entity
-        '>': "&gt;",   # Replace greater than with HTML entity
+        #'&': "&amp;",  # Replace ampersand with HTML entity
+        '<': "",   # Replace less than with HTML entity
+        '>': "",   # Replace greater than with HTML entity
         ':': "",       # Remove colon
         '|': "!",       # Replace pipe with exclamation mark
         "’": "'",      # Replace right single quotation mark with single quote

@@ -357,7 +357,7 @@ def getTBATEid():
     """
     file_path = 'manga/The Beginning After The End/id.txt'
 
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         # Read the contents of the file
         content = file.read()
         # Print the contents
@@ -645,7 +645,7 @@ def buildURLFromID(search_id):
             file_path = os.path.join(root, 'id.txt')
 
             # Read the contents of the file
-            with open(file_path, 'r') as file:
+            with open(file_path, 'r', encoding='utf-8') as file:
                 file_id = file.read().strip()  # Read and strip any extra whitespace
                 file_path = file_path[:-7]
                 # Check if the ID in the file matches the search_id

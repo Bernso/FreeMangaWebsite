@@ -98,7 +98,7 @@ def print_links_in_reverse_order(url):
         id_path = os.path.join(directory_path, 'id.txt')
         if not os.path.exists(id_path):
             print(f"ID Path: {id_path}")
-            with open(id_path, 'w') as id_file:
+            with open(id_path, 'w', encoding='utf-8') as id_file:
                 id_file.write(count_directories(DIRECTORY_PATH))
                 id_file.close()
         
