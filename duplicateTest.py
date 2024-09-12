@@ -3,7 +3,9 @@ currentPath = os.getcwd()
 
 MANGA_DIR = os.path.join(currentPath, 'manga')
 
-#################### RUN THIS FILE TO CHECK IF YOUR MANGA IDS ARE CORRECTLY MANAGED ####################
+#################### RUN THIS FILE TO CHECK IF YOUR MANGA IDS ARE CORRECTLY MANAGED ############################
+#################### THIS IS ONLY NEEDED IF YOU HAVE DELETED MANGA FROM YOUR "MANGA" DIRECTORY #################
+
 
 def getAllIds():
     allDirs = os.listdir(MANGA_DIR)
