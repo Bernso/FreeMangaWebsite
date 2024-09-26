@@ -320,20 +320,21 @@ html, body {
     transform-origin: bottom left;
 }
 
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .main-header {
-        padding: 0 20px;
+    .menu-toggle {
+        display: flex;
     }
 
     .main-header nav ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
+        display: none; /* Hide desktop menu */
     }
 
-    .main-header nav ul li a {
-        padding: 8px 12px;
+    .main-header {
+        justify-content: space-between;
     }
 }
 
@@ -520,26 +521,28 @@ main {
 /* Container for Information Cards */
 .container-info {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column; /* Stack cards vertically */
     gap: 20px;
-    width: 80%;
+    width: 100%; /* Ensure the container takes the full width */
     max-width: 1200px;
-    margin: 0 auto 40px; /* Centering horizontally with margin: 0 auto */
+    margin: 0 auto 40px; /* Center the container */
 }
 
 
 /* Manga Card Styles */
 .manga-card-full {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: 15px;
-    padding: 15px;
+    padding: 20px;
     border: 1px solid var(--background-dark);
     border-radius: var(--border-radius);
     background-color: var(--card-bg);
     box-shadow: var(--box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
+    width: 100%; /* Ensure each card takes up the full width of the container */
+    box-sizing: border-box; /* Include padding in the width calculation */
 }
 
 .manga-card-full:hover {
@@ -547,6 +550,7 @@ main {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
 
+/* Ensure images stay contained */
 .preview-image {
     height: 280px;
     width: 200px;
@@ -554,14 +558,14 @@ main {
     object-fit: cover;
 }
 
-/* Manga Info Section (Shared between Cards and Details Page) */
+/* Manga Info Section */
 .manga-info {
     display: flex;
     flex-direction: column;
     padding: 10px 0;
-    max-width: 600px;
-    width: calc(100% - 180px);
+    max-width: calc(100% - 200px); /* Ensure info section doesn't overlap with image */
     color: var(--text-color);
+    word-wrap: break-word; /* Prevent overflow of long words */
 }
 
 .manga-info h2,
@@ -569,6 +573,14 @@ main {
     font-size: 1.5rem;
     color: #a0cfff;
     margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow: hidden; /* Ensures text stays inside the container */
+    word-wrap: break-word; /* Ensure long words wrap */
+    white-space: normal; /* Allow text to wrap to the next line */
+    text-overflow: ellipsis; /* Truncate long text with ellipsis */
+    max-height: 4.5em; /* Limit height to prevent too much text from showing */
+    line-height: 1.5em;
+    width: 100%;
 }
 
 
@@ -580,15 +592,21 @@ main {
     text-transform: uppercase;
 }
 
+/* Handle Long Descriptions with Wrapping */
 .manga-info p,
 .description {
     color: var(--text-muted);
     margin-bottom: 15px;
     font-size: 1rem;
-    overflow: hidden;
-    width: calc(100vw - 250px - 315px - 50px - 350px);
+    overflow: hidden; /* Ensures text stays inside the container */
+    word-wrap: break-word; /* Ensure long words wrap */
+    white-space: normal; /* Allow text to wrap to the next line */
+    text-overflow: ellipsis; /* Truncate long text with ellipsis */
+    max-height: 4.5em; /* Limit height to prevent too much text from showing */
+    line-height: 1.5em;
 }
 
+/* Read More Button */
 .manga-info a {
     color: #333;
     background-color: #a0cfff;
@@ -784,8 +802,10 @@ h2 {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 800px;
+    max-width: 100vw;
 }
+
+
 
 .chapters-heading {
     font-size: 1.75rem;

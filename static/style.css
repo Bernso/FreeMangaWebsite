@@ -472,7 +472,7 @@ body {
 
 
 
-/* Recommended Manga Section */
+
 /* Recommended Manga Section */
 .recommended-scroll {
     display: flex;
@@ -838,30 +838,6 @@ input[type="range"] {
 
 
 
-.welcome-link {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    font-size: 1.2em;
-    font-weight: 600;
-    text-decoration: none;
-    color: #fff; /* White text color */
-    background: linear-gradient(to right, var(--link-color), var(--primary-color)); /* Gradient background */
-    border-radius: 25px;
-    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.welcome-link:hover {
-    background: linear-gradient(to right, var(--primary-color), var(--link-color)); /* Reverse gradient on hover */
-    transform: scale(1.05); /* Slight zoom on hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
-}
-
-.welcome-link:active {
-    transform: scale(0.95); /* Slightly shrink when clicked */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Less shadow when clicked */
-}
 
 .link-container {
     align-self: center;
@@ -982,4 +958,73 @@ li {
 .scraper:active {
     transform: translateY(0); /* Neutralize hover effect on click */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on click */
+}
+
+/* Button Styles */
+.link-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+.manga-img {
+    height: 150px;
+    width: 100px;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.manga-img:hover {
+    transform: scale(1.1);
+}
+
+.welcome-link {
+    display: inline-block;
+    padding: 35px 60px;
+    font-size: 3.2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    
+    background: linear-gradient(to right, #007bff, #6610f2);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.welcome-link:hover {
+    background: linear-gradient(to right, #6610f2, #007bff);
+
+    transform: translateY(-5px);
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #featured h1 {
+        font-size: 2rem;
+    }
+
+    .manga-scroll {
+        gap: 10px;
+    }
+
+    .manga-img {
+        max-height: 120px;
+        max-width: 80px;
+    }
+
+    .welcome-link {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    .link-container {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
