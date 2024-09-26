@@ -1,7 +1,3 @@
-import WebScrapers.OnSite.manhwaClanDotCom
-import WebScrapers.OnSite.readBerserkDotCom
-
-
 try:
     from flask import Flask, render_template, request, jsonify, session, send_file, send_from_directory, abort, redirect, url_for
     #print("imported flask")
@@ -15,21 +11,25 @@ try:
     #print("imported json")
     import urllib.parse
     #print("imported urllib.parse")
-    
-    
-    import WebScrapers.OnSite.UPDATE
-    #print("import webscrapers.update")
-    
-    from WebScrapers.Required.replaceCode import replace_special_characters
-    #print("imported replace_special_characters")
-    import WebScrapers.OnSite.mangaReaderDotOrg
-    #print("imported WebScrapers.OnSite.mangaReaderDotOrg")
-    
-    
     from dotenv import load_dotenv
     #print("imported load_dotenv")
     import urllib
     #print("imported urllib")
+    
+    
+    
+    import WebScrapers.OnSite.UPDATE
+    #print("imported webscrapers.update")
+    from WebScrapers.Required.replaceCode import replace_special_characters
+    #print("imported replace_special_characters")
+    
+    
+    import WebScrapers.OnSite.mangaReaderDotOrg
+    #print("imported WebScrapers.OnSite.mangaReaderDotOrg")
+    import WebScrapers.OnSite.manhwaClanDotCom
+    #print('imported WebScrapers.OnSite.manhwaClan')
+    import WebScrapers.OnSite.readBerserkDotCom
+    #print('imported WebScrapers.OnSite.readBerserkDotCom')
 except ImportError as e:
     input(f"Error importing: {e}")
 
