@@ -38,7 +38,7 @@
                     {% for recommended in reccomended_manga %}  <!-- Ensure this matches the Flask route variable -->
                     <div class="recommended-card">
                         <img src="{{ url_for('serve_image', manga_title=recommended.image_title) }}" alt="{{ recommended.title }}" class="recommended-cover">
-                        <h3>{{ recommended.title }}</h3>
+                        <h3 title = "{{ recommended.image_title }}">{{ recommended.title }}</h3>
                         <a href="{{ url_for('manga_detail', manga_id=recommended.id) }}">View Details</a>
                     </div>
                     {% endfor %}
