@@ -19,7 +19,7 @@
                     <p style='text-align: left;'>{{ manga.description }}<br><br></p><p style='text-align: left;'>Type: {{ manga.type }}</p>
                     <div class='manhwa-options'>
                         <a href="{{ url_for('chapter_detail', manga_title=manga.title, chapterName=chapters[-1].title) }}" class='manhwa-details-options'>Start Reading</a>
-                        <a onclick=updateManhwa() class='manhwa-details-options'>Update Manhwa</a>
+                        <a onclick=updateManhwa() style='cursor: pointer;' class='manhwa-details-options'>Update Manhwa</a>
                     </div>
                 </div>
             </div>
