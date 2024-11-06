@@ -33,11 +33,11 @@ for num in range(len(allid)):
     if allid[num]!= num + 1:
         print(f"There are a total of {len(allid)} manga, although the highest value is {highestValue}")
         print(allid)
-        input(f"Missing manga with ID: {num+1}")
+        input(f"Missing manga with ID: {num} or {num+1}")
         quit()
 
 
         
-    
 
+print(len(allid))
 input("No Invalid ID's found")

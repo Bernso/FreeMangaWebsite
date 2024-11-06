@@ -329,14 +329,13 @@ def getAllIds():
     for dir in allDirs:
         print(dir)
     print(MANGA_DIR)
-    pass
+    
 
 
 
 
 def natural_sort_key(s):
     """Sort key that splits strings into numeric and non-numeric parts for natural sorting."""
-    import re
     return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
 
 
