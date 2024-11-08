@@ -147,12 +147,62 @@ def webScrape(url, title):
     else:
         print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
 
+def print_chapters(url):
+    response = requests.get(url, headers={'User-Agent': USER_AGENT})
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        chapters_div = soup.find('div', class_='card-body table-responsive p-0')
+        
+        if chapters_div:
+            chapters = []
+            for a in chapters_div.find_all('td'):
+                if a.text.strip().startswith('Berserk'):
+                    chapters.append(a.text.strip().replace('Berserk ', '')) 
+                
+            chapters.reverse()
+            for chapter in chapters:
+                print(f"Chapter Name: {chapter}")
+            return chapters  # Return a list of chapter names
+        else:
+            print("The specified div was not found in the HTML.")
+            return []
+    else:
+        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+        return []
+
+def checkExistence(chapters, title):
+    safe_title = replace_special_characters(validDirName(title))
+    skips = 0
+    
+    chapters_dir = os.path.join(DIRECTORY_PATH, safe_title, 'Chapters')
+    
+    for chapter in chapters:
+        chapter_dir = os.path.join(chapters_dir, replace_special_characters(validDirName(chapter)))
+        
+        if os.path.exists(chapter_dir):
+            print(f"Chapter {chapter} already exists.")
+            skips += 1
+    
+    if skips == 0:
+        return False, 0
+    else:
+        return True, skips
 
 def main():
     url = "https://readberserk.com/"
+    iteration = 0
+    
     links, title = print_links_in_reverse_order(url)
-    for link in links:
-        webScrape(link, title)
+    chapters = print_chapters(url)
+    result, skips = checkExistence(chapters, title)
+    
+    if result:
+        iteration += skips
+        
+    while iteration < len(links):
+        webScrape(links[iteration], title)
+        iteration += 1
 
 if __name__ == '__main__':
     main()

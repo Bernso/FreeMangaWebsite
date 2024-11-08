@@ -55,8 +55,8 @@ def main(id):
         print(f"Manga with ID {id} from {origin} found: {folder}")
         if origin.lower() == "readberserkdotcom":
             try:
-                import WebScrapers.OnSite.readBerserkDotCom
-                WebScrapers.OnSite.readBerserkDotCom.main()
+                import readBerserkDotCom
+                readBerserkDotCom.main()
                 print(f"Successfully updated {folder}")
             except Exception as e:
                 print(f"Error while scraping readBerserkDotCom: {e}")
@@ -64,8 +64,8 @@ def main(id):
         elif origin.lower() == "manhwaclandotcom":
             try:
                 url = manhwaClanDotCom_UrlBuilder(folder=folder)
-                import WebScrapers.OnSite.manhwaClanDotCom
-                WebScrapers.OnSite.manhwaClanDotCom.main(url=url)
+                import manhwaClanDotCom
+                manhwaClanDotCom.main(url=url)
                 print(f"Successfully updated {folder}")
             except Exception as e:
                 print(f"Error while scraping manhwaClanDotCom: {e}")
@@ -73,8 +73,8 @@ def main(id):
         elif origin.lower() == "mangareaderdotorg":
             try:
                 url = mangaDotCom_UrlBuilder(folder=folder)
-                import WebScrapers.OnSite.mangaReaderDotOrg
-                WebScrapers.OnSite.mangaReaderDotOrg.main(url=url)
+                import mangaReaderDotOrg
+                mangaReaderDotOrg.main(url=url)
                 print(f"Successfully updated {folder}")
             except Exception as e:
                 print(f"Error while scraping mangaReaderDotOrg: {e}")
