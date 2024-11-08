@@ -17,7 +17,6 @@ try:
     #print("imported urllib")
     
     
-    
     import WebScrapers.OnSite.UPDATE
     #print("imported webscrapers.update")
     from WebScrapers.Required.replaceCode import replace_special_characters
@@ -981,6 +980,20 @@ def chapter_detail(manga_title, chapterName):
         # Get all images in the chapter directory
         images = [f for f in os.listdir(chapter_dir) if os.path.isfile(os.path.join(chapter_dir, f)) and re.match(r'.*\.(jpg|jpeg|gif|webp|png)$', f, re.IGNORECASE)]
         
+        # Get the manhwa id for the link in the page
+        manhwaID = None
+        manhwaPath = os.path.join(MANGA_DIR, manga_title)
+        print(manhwaPath)
+        if os.path.isdir(manhwaPath):
+            id_path = os.path.join(manhwaPath, 'id.txt')
+            print(id_path)
+            try:
+                with open(id_path, 'r') as f:
+                    manhwaID = f.read()
+                    f.close()
+            except FileNotFoundError as e:
+                input(e)
+        
         # Sort images naturally
         images.sort(key=natural_sort_key)  # Using natsorted for natural sorting
         
@@ -1002,6 +1015,7 @@ def chapter_detail(manga_title, chapterName):
         
         return render_template(
             'manhwaContent.html',
+            id=manhwaID,
             images=images,
             manga_title=manga_title,
             chapterName=chapterName,
