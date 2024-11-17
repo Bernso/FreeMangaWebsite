@@ -38,6 +38,32 @@ document.addEventListener("DOMContentLoaded", function() {
     // Setup auto-scrolling for both containers
     setupAutoScroll('.manga-scroll');
     setupAutoScroll('.recommended-scroll');
+
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.main-header nav ul');
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+
+        // Close menu when clicking a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+    }
 });
 
 

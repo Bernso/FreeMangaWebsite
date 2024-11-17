@@ -247,24 +247,21 @@ input[type="range"]::-moz-range-thumb {
 
 
 html, body {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
+    overflow: initial !important;
+    height: auto !important;
+    min-height: 100vh;
 }
 
 .main-header {
-    background: var(--background-light);
-    height: var(--header-height);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
+    height: var(--header-height);
+    background: linear-gradient(140deg, #1a1a1a, #111111);
+    box-shadow: var(--box-shadow);
     z-index: 1000;
-    transition: top 0.3s ease, background 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-    padding: 0 30px;
+    transition: transform 0.3s ease;
 }
 
 .main-header nav {
@@ -280,6 +277,7 @@ html, body {
     align-items: center;
     margin: 0;
     padding: 0;
+    height: var(--header-height);
 }
 
 .main-header nav ul li {
@@ -298,7 +296,6 @@ html, body {
 
 .main-header nav ul li a:hover {
     color: var(--link-hover-color);
-    border-radius: 8px;
     transform: scale(1.1);
 }
 
@@ -320,8 +317,26 @@ html, body {
     transform-origin: bottom left;
 }
 
+/* Mobile menu button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 20px;
+}
 
-
+.menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: var(--link-color);
+    transition: all 0.3s ease;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -331,11 +346,57 @@ html, body {
 
     .main-header nav ul {
         display: none; /* Hide desktop menu */
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: linear-gradient(140deg, #1a1a1a, #111111);
+        padding: 20px 0;
+        gap: 0;
+        height: auto;
+    }
+
+    .main-header nav ul.active {
+        display: flex;
+    }
+
+    .main-header nav ul li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .main-header nav ul li a {
+        display: block;
+        padding: 15px;
+        width: 100%;
     }
 
     .main-header {
         justify-content: space-between;
+        padding: 0 20px;
     }
+
+    /* Adjust main content padding for mobile */
+    main {
+        padding-top: calc(var(--header-height) + 10px);
+    }
+}
+
+/* Animation for mobile menu */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.main-header nav ul.active {
+    animation: slideDown 0.3s ease forwards;
 }
 
 .container {
@@ -479,12 +540,11 @@ body {
 
 /* Main Content Styles */
 main {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: calc(100vh - 80px);
+    position: relative;
+    padding-top: calc(var(--header-height) + 20px);
+    min-height: calc(100vh - var(--header-height));
     overflow-y: auto;
+    width: 100%;
 }
 
 .main-content {
@@ -499,9 +559,8 @@ main {
 
 /* Featured Section Styles */
 #featured {
-    padding: 20px;
-    margin: 20px;
-    color: #a0cfff;
+    height: auto;
+    overflow: visible;
 }
 
 #featured h1 {
@@ -520,29 +579,25 @@ main {
 
 /* Container for Information Cards */
 .container-info {
-    display: flex;
-    flex-direction: column; /* Stack cards vertically */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
     gap: 20px;
-    width: 100%; /* Ensure the container takes the full width */
+    width: 100%;
     max-width: 1200px;
-    margin: 0 auto 40px; /* Center the container */
+    margin: 0 auto;
+    padding: 20px;
 }
 
 
 /* Manga Card Styles */
 .manga-card-full {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 20px;
-    border: 1px solid var(--background-dark);
-    border-radius: var(--border-radius);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
     background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%; /* Ensure each card takes up the full width of the container */
-    box-sizing: border-box; /* Include padding in the width calculation */
 }
 
 .manga-card-full:hover {
@@ -552,38 +607,26 @@ main {
 
 /* Ensure images stay contained */
 .preview-image {
-    height: 280px;
     width: 200px;
-    border-radius: var(--border-radius);
+    height: 280px;
     object-fit: cover;
+    border-radius: var(--border-radius);
 }
 
 /* Manga Info Section */
 .manga-info {
     display: flex;
     flex-direction: column;
-    padding: 10px 0;
-    max-width: calc(100% - 200px); /* Ensure info section doesn't overlap with image */
-    color: var(--text-color);
-    word-wrap: break-word; /* Prevent overflow of long words */
-}
-
-.manga-info h2,
-.manga-title {
-    font-size: 1.5rem;
-    color: #a0cfff;
-    margin-bottom: 10px;
-    word-wrap: break-word;
-    overflow: hidden; /* Ensures text stays inside the container */
-    word-wrap: break-word; /* Ensure long words wrap */
-    white-space: normal; /* Allow text to wrap to the next line */
-    text-overflow: ellipsis; /* Truncate long text with ellipsis */
-    max-height: 4.5em; /* Limit height to prevent too much text from showing */
-    line-height: 1.5em;
+    gap: 15px;
     width: 100%;
 }
 
-
+.manga-title {
+    width: 100%;
+    font-size: 1.5rem;
+    color: #a0cfff;
+    margin-bottom: 10px;
+}
 
 .manga-type {
     font-size: 0.9rem;
@@ -729,7 +772,9 @@ h2 {
 .content-wrapper {
     padding: 20px;
     padding-top: var(--header-height);
-    min-height: calc(100vh - var(--header-height));
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -952,4 +997,167 @@ h2 {
 
 .read-latest-btn:hover {
     background-color: var(--hover-color);
+}
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Base Layout Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Main Content Layout */
+.content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 20px 20px;
+}
+
+/* Manga Grid Layout */
+.container-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+/* Manga Card Styling */
+.manga-card-full {
+    background: linear-gradient(145deg, var(--background-light), var(--card-bg));
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.manga-card-full:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.preview-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-bottom: 2px solid var(--link-color);
+}
+
+.manga-info {
+    padding: 20px;
+}
+
+.manga-title {
+    font-size: 1.4rem;
+    color: var(--link-color);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.manga-type {
+    display: inline-block;
+    background: var(--header-bg);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.manga-info p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.manga-info a {
+    display: inline-block;
+    background: var(--link-color);
+    color: var(--background-dark);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.manga-info a:hover {
+    background: var(--link-hover-color);
+    transform: translateY(-2px);
+}
+
+/* Featured Section */
+#featured {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#featured h1 {
+    font-size: 2.5rem;
+    color: var(--link-color);
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(127, 188, 255, 0.3);
+}
+
+#featured p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-info {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .preview-image {
+        height: 250px;
+    }
+
+    .manga-title {
+        font-size: 1.2rem;
+    }
+
+    #featured h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Community Section */
+.community {
+    background: linear-gradient(145deg, var(--background-light), var(--card-bg));
+    margin-top: 50px;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.community h1 {
+    color: var(--link-color);
+    margin-bottom: 15px;
+}
+
+.community a {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.community a:hover {
+    color: var(--link-hover-color);
 }
