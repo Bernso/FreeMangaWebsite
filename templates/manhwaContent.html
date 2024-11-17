@@ -2,7 +2,7 @@
 <html lang="en" class='uncopyable'>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>{{ manga_title }} - {{ chapterName }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='fav.png') }}" type="image/png">
@@ -10,41 +10,67 @@
 <body>
     {% include 'manhwaHeader.html' %}
 
-    <main></main>
+     
     <main>
         <h1><a href='/manga/{{ id }}'>{{ manga_title }}</a>: {{ chapterName }}</h1>
         <div class="tower unselectable">
             {% for image in images %}
-                <img src="{{ url_for('get_image', manga_title=manga_title, chapterName=chapterName, filename=image) }}" alt="{{ image }}" class='unselectable uncopyable'>
+                <div class="image-container">
+                    <div class="image-spinner"></div>
+                    <img 
+                        src="{{ url_for('get_image', manga_title=manga_title, chapterName=chapterName, filename=image) }}" 
+                        alt="{{ image }}" 
+                        class='unselectable uncopyable'
+                        loading="lazy"
+                        onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';"
+                        onerror="this.classList.add('error'); this.previousElementSibling.style.display='none';"
+                    >
+                </div>
             {% endfor %}
         </div>
 
-        <!-- Chapter Navigation Buttons -->
+        <!-- Quick Navigation Button -->
+        <div class="quick-nav" id="quickNav">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--text-color)">
+                <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/>
+            </svg>
+        </div>
+
+        <div class="quick-nav-menu" id="quickNavMenu">
+            {% if previous_chapter %}
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=previous_chapter) }}" 
+                   class="prev-chapter-button">
+                    <span class="nav-label">Previous Chapter</span>
+                </a>
+            {% endif %}
+            {% if next_chapter %}
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" 
+                   class="next-chapter-button">
+                    <span class="nav-label">Next Chapter</span>
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Chapter Navigation at bottom -->
         <div class="chapter-navigation-container">
             {% if previous_chapter %}
-            <div class="prev-chapter-container">
-                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=previous_chapter) }}" class="prev-chapter-button">
-                    Previous Chapter: {{ previous_chapter }}
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=previous_chapter) }}" 
+                   class="prev-chapter-button">
+                    <span class="nav-label">Previous:</span>
+                    <span class="chapter-name">{{ previous_chapter }}</span>
                 </a>
-            </div>
             {% endif %}
             
             {% if next_chapter %}
-            <div class="next-chapter-container">
-                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" class="next-chapter-button">
-                    Next Chapter: {{ next_chapter }}
+                <a href="{{ url_for('chapter_detail', manga_title=manga_title, chapterName=next_chapter) }}" 
+                   class="next-chapter-button">
+                    <span class="nav-label">Next:</span>
+                    <span class="chapter-name">{{ next_chapter }}</span>
                 </a>
-            </div>
-            {% else %}
-            <div class="next-chapter-container">
-                <p>No more chapters available :&#40;</p>
-            </div>
             {% endif %}
-            
-            
         </div>
     </main>
-    <main></main>
+     
     <main class="community" style='text-align: center; color: var(--text-muted);'>
         <h1>Join Our Community</h1>
         <p>Connect with other readers on our <a href="https://www.discord.gg/k5HBFXqtCB" target="_blank" style='text-decoration: none;'>Discord Server</a></p>
@@ -54,14 +80,19 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         let isScrolling = false;
-        let scrollSpeed = 2; // Adjust the scroll speed here (higher number means faster scrolling)
+        let scrollSpeed = 2;
         let scrollInterval;
+        let touchStartY = 0;
+        let touchEndY = 0;
 
         // Function to start auto-scrolling
         function startScroll() {
             scrollInterval = setInterval(function () {
-                window.scrollBy(0, scrollSpeed);
-            }, 10); // Adjust the interval to control the smoothness of the scroll
+                window.scrollBy({
+                    top: scrollSpeed,
+                    behavior: 'auto'
+                });
+            }, 10);
         }
 
         // Function to stop auto-scrolling
@@ -69,36 +100,127 @@
             clearInterval(scrollInterval);
         }
 
-        // Toggle auto-scroll on Alt key press
+        // Handle touch events for mobile
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, false);
+
+        document.addEventListener('touchend', function(e) {
+            touchEndY = e.changedTouches[0].clientY;
+            handleSwipe();
+        }, false);
+
+        // Handle swipe gestures
+        function handleSwipe() {
+            const swipeDistance = touchStartY - touchEndY;
+            const minSwipeDistance = 50;
+
+            if (Math.abs(swipeDistance) > minSwipeDistance) {
+                if (swipeDistance > 0) {
+                    // Swipe up - toggle auto-scroll
+                    isScrolling = !isScrolling;
+                    if (isScrolling) {
+                        startScroll();
+                    } else {
+                        stopScroll();
+                    }
+                }
+            }
+        }
+
+        // Toggle auto-scroll on Ctrl key press or double tap
         document.addEventListener("keydown", function (event) {
             if (event.ctrlKey) {
-                isScrolling = !isScrolling;
-                if (isScrolling) {
-                    startScroll();
-                } else {
-                    stopScroll();
-                }
+                toggleAutoScroll();
             }
         });
 
-        // Navigate chapters with arrow keys
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "ArrowRight") {
-                // Navigate to the next chapter if it exists
-                const nextChapterButton = document.querySelector('.next-chapter-button');
-                if (nextChapterButton) {
-                    window.location.href = nextChapterButton.href;
-                }
-            } else if (event.key === "ArrowLeft") {
-                // Navigate to the previous chapter if it exists
-                const prevChapterButton = document.querySelector('.prev-chapter-button');
-                if (prevChapterButton) {
-                    window.location.href = prevChapterButton.href;
-                }
+        // Double tap detection
+        let lastTap = 0;
+        document.addEventListener('touchend', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 500 && tapLength > 0) {
+                toggleAutoScroll();
+                e.preventDefault();
+            }
+            lastTap = currentTime;
+        });
+
+        function toggleAutoScroll() {
+            isScrolling = !isScrolling;
+            if (isScrolling) {
+                startScroll();
+                showToast('Auto-scroll enabled');
+            } else {
+                stopScroll();
+                showToast('Auto-scroll disabled');
+            }
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        // Preload next chapter
+        if (document.querySelector('.next-chapter-button')) {
+            const nextChapterUrl = document.querySelector('.next-chapter-button').href;
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'prefetch';
+            preloadLink.href = nextChapterUrl;
+            document.head.appendChild(preloadLink);
+        }
+
+        // Quick Navigation Toggle
+        const quickNav = document.getElementById('quickNav');
+        const quickNavMenu = document.getElementById('quickNavMenu');
+        let quickNavTimeout;
+
+        quickNav.addEventListener('click', () => {
+            quickNavMenu.classList.toggle('visible');
+            clearTimeout(quickNavTimeout);
+            
+            if (quickNavMenu.classList.contains('visible')) {
+                quickNavTimeout = setTimeout(() => {
+                    quickNavMenu.classList.remove('visible');
+                }, 3000); // Hide after 3 seconds
             }
         });
 
-        
+        // Improved scroll performance
+        const images = document.querySelectorAll('.image-container img');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (!img.classList.contains('loaded')) {
+                        img.src = img.src; // Trigger load if not already loaded
+                    }
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px', // Start loading images 50px before they enter viewport
+            threshold: 0.1
+        });
+
+        images.forEach(img => imageObserver.observe(img));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                const direction = event.key === 'ArrowRight' ? 'next' : 'prev';
+                const button = document.querySelector(`.${direction}-chapter-button`);
+                if (button) {
+                    button.click();
+                }
+            }
+        });
     });
     document.addEventListener('DOMContentLoaded', function() {
         const header = document.querySelector('header');
@@ -120,4 +242,26 @@
     });
     
 </script>
+<style>
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    z-index: 1001;
+    animation: fadeInOut 2s ease;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    15% { opacity: 1; transform: translate(-50%, 0); }
+    85% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+</style>
 </html>

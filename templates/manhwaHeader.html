@@ -1,8 +1,21 @@
 <!-- This is just the template for the header so i do not have to change every file every time -->
 <header>
     <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
+        <div class="nav-brand">
+            <a href="/">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--primary-color)">
+                    <path d="M12 2L1 12h3v9h6v-6h4v6h6v-9h3L12 2z"/>
+                </svg>
+            </a>
+        </div>
+        
+        <button class="hamburger" id="hamburger">
+            <div class="hamburger-box">
+                <div class="hamburger-inner"></div>
+            </div>
+        </button>
+
+        <ul id="nav-menu">
             <li><a href="{{ url_for('manga_list') }}">Manhwa</a></li>
             <li><a href="{{ url_for('search') }}">Search</a></li>
             <li><a href="{{ url_for('update') }}">Update</a></li>
@@ -11,3 +24,48 @@
         </ul>
     </nav>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    let lastScrollTop = 0;
+
+    // Toggle menu
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Close menu when clicking a link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Hide header on scroll down, show on scroll up
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 60) {
+            // Scrolling down
+            document.querySelector('header').style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            document.querySelector('header').style.transform = 'translateY(0)';
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, { passive: true });
+});
+</script>
