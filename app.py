@@ -29,6 +29,8 @@ try:
     #print('imported WebScrapers.OnSite.manhwaClan')
     import WebScrapers.OnSite.readBerserkDotCom
     #print('imported WebScrapers.OnSite.readBerserkDotCom')
+    import WebScrapers.OnSite.mangaFireDotTo
+    #print('imported WebScrapers.OnSite.mangaFireDotTo')
 except ImportError as e:
     input(f"Error importing: {e}")
 
@@ -860,6 +862,10 @@ def scrapemanhwaClanCom():
 def scrapeBerserkPage():
     return render_template('scrapeBerserk.html')
 
+@app.route('/scrape/mangaFireDotTo')
+def scrapemangaFireDotTo():
+    return render_template('scrapemangaFireDotTo.html')
+
 
 @app.route('/real/scrape/berserk', methods=['POST'])
 def scrape_berserk():
@@ -910,6 +916,26 @@ def scrape_manhwaClanDotCom():
         
     else:
         print("data not recieved /real/scrape/manhwaClanDotCom")
+        return jsonify({"status": "error", "error": str(e)})
+
+@app.route('/real/scrape/mangaFireDotTo', methods=['POST'])
+def scrape_mangaFireDotTo():
+    data = request.get_json()
+    if data and 'link' in data:
+        
+        try:
+            link = data['link']
+            print(f"Starting Scraping mangaFireDotTo")
+            manga = WebScrapers.OnSite.mangaFireDotTo.MangaFire(link)
+            manga.scrape()
+            return jsonify({"status": "success"})
+        
+        except Exception as e:
+            print(f"Error scraping mangaFireDotTo: {e}")
+            return jsonify({"status": "error", "error": str(e)})
+        
+    else:
+        print("data not recieved /real/scrape/mangaFireDotTo")
         return jsonify({"status": "error", "error": str(e)})
 
 

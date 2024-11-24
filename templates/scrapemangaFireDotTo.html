@@ -13,7 +13,7 @@
     {% include 'manhwaHeader.html' %}
     
     <main class='hover-box'>
-        <h1>Webscraper ManhwaClan.com</h1>
+        <h1>Webscraper mangafire.to</h1>
         <p>Enter your link below</p>
         <form id="updateForm">
             <input type="text" id="updateInput" placeholder="Link" required>
@@ -28,7 +28,7 @@
             e.preventDefault();
             const link = document.getElementById('updateInput').value.trim();
             if (link) {
-                fetch(`/real/scrape/manhwaClanDotCom`, {
+                fetch(`/real/scrape/mangaFireDotTo`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Set the correct header for JSON
