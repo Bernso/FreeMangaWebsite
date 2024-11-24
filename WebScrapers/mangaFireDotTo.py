@@ -142,7 +142,7 @@ class MangaFireScraper:
                 response = requests.get(link, stream=True)
                 response.raise_for_status()
                 
-                file_path = os.path.join(chapter_dir, f'{index:03d}.jpg')
+                file_path = os.path.join(chapter_dir, f'image_{index}.jpg')
                 with open(file_path, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=8192):
                         f.write(chunk)

@@ -1080,13 +1080,18 @@ def serve_thumbnail_chapter(manga_title, chapterName):
     #print(f"Looking in directory: {chapter_dir}")
     
     for ext in possible_extensions:
-        image_filename = f'image_1.{ext}'
-        full_path = os.path.join(chapter_dir, image_filename)
+        image_filename1 = f'image_1.{ext}'
+        image_filename2 = f'image_01.{ext}'
+        full_path1 = os.path.join(chapter_dir, image_filename1)
+        full_path2 = os.path.join(chapter_dir, image_filename2)
         #print(f"Checking: {full_path}")
         
-        if os.path.exists(full_path):
+        if os.path.exists(full_path1):
             #print("Sending image:", full_path)
-            return send_from_directory(chapter_dir, image_filename)
+            return send_from_directory(chapter_dir, image_filename1)
+        elif os.path.exists(full_path2):
+            #print("Sending image:", full_path)
+            return send_from_directory(chapter_dir, image_filename2)
     
     print("Image not found, failed")
     return abort(404)
